@@ -1,0 +1,34 @@
+"The matching between wiles_2005 and the gift database (10.5061/dryad.fv94v)  was done manually. When no certain match was found are Wiles et al refered to entire states constituted of several islands, Wikipedia was used to obtain area and coordinates."						
+local	match_island_GIFT_ID	match_archipelago_gift	area_km2	area_source	coordinates	coordinates_source
+Guam	74754	Mariana Islands				
+Palau	70671	Palau Islands				
+Palau	70713	Palau Islands				
+Palau	70717	Palau Islands				
+Palau	70872	Palau Islands				
+Palau	70944	Palau Islands				
+Palau	70964	Palau Islands				
+Palau	71006	Palau Islands				
+Palau	71024	Palau Islands				
+Palau	71034	Palau Islands				
+Palau	71218	Palau Islands				
+Palau	71351	Palau Islands				
+Yap	71947	NA	119.54	Wikipedia	9°32?N 138°07?E	Wikipedia
+Northern Mariana Islands	58827	Mariana Islands				
+Northern Mariana Islands	58844	Mariana Islands				
+Northern Mariana Islands	58865	Mariana Islands				
+Northern Mariana Islands	74908	Mariana Islands				
+Northern Mariana Islands	75004	Mariana Islands				
+Northern Mariana Islands	75038	Mariana Islands				
+Northern Mariana Islands	75050	Mariana Islands				
+Northern Mariana Islands	75095	Mariana Islands				
+Northern Mariana Islands	75166	Mariana Islands				
+Northern Mariana Islands	75221	Mariana Islands				
+Northern Mariana Islands	75268	Mariana Islands				
+Northern Mariana Islands	75277	Mariana Islands				
+Northern Mariana Islands	75290	Mariana Islands				
+Northern Mariana Islands	75323	Mariana Islands				
+Chuuk	NA	NA	121.5	Wikipedia	7°25?N 151°47?E	Wikipedia
+Pohnpei	NA	NA	371.6	Wikipedia	6°51?N 158°13?E	Wikipedia
+Kosrae	NA	NA	111.3	Wikipedia	5°19?N 162°59?E	Wikipedia
+Marshall islands	NA	NA	181.43	Wikipedia	7°7?N 171°4?E	Wikipedia
+Wake	75338	NA	13.86	Wikipedia	19°17?43?N 166°37?52?E	Wikipedia

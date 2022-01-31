@@ -1,0 +1,21 @@
+backup/
+.Rproj.user/
+.Rproj.user/E249E9EA/pcs/files-pane.pper
+.Rproj.user/E249E9EA/pcs/source-pane.pper
+.Rproj.user/E249E9EA/pcs/windowlayoutstate.pper
+.Rproj.user/E249E9EA/pcs/workbench-pane.pper
+data/long_table.csv
+.Rhistory
+data/communities.csv
+data/metadata.csv
+data/wrangled data
+.Rproj.user/shared/notebooks/paths
+
+R/data download/depauw_2020.r
+R/data wrangling/depauw_2020.r
+data/raw data/depauw_2020/tabula-Depauw et al. 2020.csv
+data/raw data/depauw_2020/table1_depauw_2020.csv
+data/raw data/depauw_2020/rdata.csv
+data/raw data/depauw_2020/forestReplotInfo.csv
+data/raw data/depauw_2020/Depauwetal_JECOL_Data.xlsx
+data/references/homogenisation_dropbox_folder_path.rds
