@@ -32,7 +32,7 @@ ddata_alien <- merge(ddata_alien, regions[, .(region_id, country, name)])
 ddata_alien <- ddata_alien[country == "United States of America (the)"]
 
 data.table::setnames(ddata_alien, c("name", "standardized_name"), c("local", "species")) #
-ddata_alien <- ddata_alien[local %in% state_dictionnary[c(1, 3:50), "long"]]
+ddata_alien <- ddata_alien[local %in% unlist(state_dictionnary[c(1, 3:50), "long"])]
 ddata_alien[, ":="(
   period = "present",
   species = gsub(" var. .*$| ssp. .*$| subsp. .*$", "", species),
