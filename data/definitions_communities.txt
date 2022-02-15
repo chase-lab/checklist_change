@@ -1,7 +1,7 @@
 variable name	definition
 dataset_id	"Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value."
 year	"Year of sampling. If sampling was pooled over several years, the last sampling year is used here. No missing value."
-regional	"Region name, countains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions. No missing value."
-local	"Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest. No missing value."
-species	"Species names. Whenever possible, complete (Genus + species epithet) names were included rather than codes. No missing value."
+regional	"Region name, countains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions. No missing value. UTF-8 encoding."
+local	"Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest. No missing value. UTF-8 encoding."
+species	"Species names. Whenever possible, complete (Genus + species epithet) names were included rather than codes. No missing value. UTF-8 encoding."
 value	Presence (1) of a species in a given location and a given year. No missing value.
