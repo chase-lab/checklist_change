@@ -1,0 +1,24 @@
+variable name	definition
+dataset_id	"Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end."
+year	"Year of sampling. If sampling was pooled over several years, the last sampling year is used here."
+regional	"Region name, countains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions."
+local	"Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest."
+latitude	"Latitude North in decimal degree, WGS84"
+longitude	"Longitude East in decimal degree, WGS84"
+effort	"Either the number of visits to a plot, the total area sampled in a given year, etc. See Comment column for a description."
+data_pooled_by_authors	TRUE if the data provided by the authors was already pooled covering several years: several samples made over several years pooled together.
+data_pooled_by_authors_comment	"If there was pooling by the original authors, countains free text describing how the authors pooled their data."
+sampling_years	"If there was pooling by the original authors, countains the years sampled for each period. ""1997, 1999"" means 1997 and 1999, ""1997-1999"" means 1997, 1998 and 1999."
+alpha_grain_m2	Area of the local unit or area of the sampling gear (alpha_grain_type = sample).
+alpha_grain_type	"Category of alpha_grain, one of: ""island"", ""plot"", ""administrative"", ""watershed"", ""sample"", ""lake_pond"", ""archipelago"", ""trap"", ""transect"", ""ecosystem"", ""functional"", ""box"" or ""quadrat""."
+alpha_grain_comment	Description of the alpha_grain measure
+gamma_bounding_box_km2	"Measure of the extent/regional scale area as the area covering all sites, computed as a convex-hull or a rectangle box or as the area of the administrative unit in which sites are found."
+gamma_bounding_box_type	"Category of gamma_bounding_box, one of: ""administrative"", ""island"", ""functional"", ""convex-hull"", ""watershed"", ""box"", ""buffer"", ""ecosystem"", ""shore"" or ""lake_pond""."
+gamma_bounding_box_comment	Description or source of the gamma_bounding_box value
+gamma_sum_grains_km2	Measure of the extent/regional scale area as the sum of the grains sampled each year.
+gamma_sum_grains_type	"Category of gamma_sum_grains, one of: ""archipelago"", ""administrative"", ""watershed"", ""sample"", ""lake_pond"", ""plot"", ""quadrat"", ""transect"", ""ecosystem"", ""functional"" or ""box"""
+gamma_sum_grains_comment	Description or source of the gamma_sum_grains value
+realm	"Realm in which the sampling was done, one of: Freshwater or Terrestrial"
+taxon	"Taxon group of the data set, one of: ""Plants"", ""Invertebrates"" or ""Fish"" "
+comment	"A description of the data set origin, goal and sampling method."
+comment_standardisation	"A short description of the modifications we made to the data set to ensure standard effort: excluded sites or years, excluded taxa, etc"

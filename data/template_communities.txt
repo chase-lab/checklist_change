@@ -1,7 +1,7 @@
-variable name	necessary	definition
-dataset_id	TRUE	Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end.
-year	TRUE	Year of sampling. If sampling was pooled over several years, the last sampling year is used here.
-regional	TRUE	Region name, countains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions.
-local	TRUE	Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest.
-species	TRUE	Species names. Whenever possible, complete (Genus + species epithet) names were included rather than codes.
-value	TRUE	Presence (1) or Abundance of a species in a given location and a given year.
+variable name	necessary
+dataset_id	TRUE
+year	TRUE
+regional	TRUE
+local	TRUE
+species	TRUE
+value	TRUE
