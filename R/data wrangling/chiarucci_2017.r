@@ -1,6 +1,4 @@
 ## chiarucci_2017
-
-
 dataset_id <- "chiarucci_2017"
 
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
@@ -10,10 +8,12 @@ ddata[, ":="(
   "Alien / Native" = NULL
 )]
 data.table::setnames(ddata, c("species", paste(colnames(ddata)[-1], unlist(ddata[1])[-1], sep = "+")))
+ddata <- ddata[-(1L:3L)]
+ddata <- ddata[-which(species == "Astragalus boeticus L.")[1L]]
 
 # melting sites and periods
 ddata <- data.table::melt(ddata,
-  id.vars = c("species"),
+  id.vars = "species",
   value.name = "value",
   variable.name = "local"
 )

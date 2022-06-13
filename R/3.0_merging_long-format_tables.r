@@ -59,7 +59,10 @@ data.table::setorder(dt, dataset_id, regional, local, year, species)
 # Standardisation of timepoints ----
 # dt[, timepoints := as.integer(gsub('T', '', timepoints))]
 
-# Checks
+# Checks ----
+## checking duplicated rows
+if (any(duplicated(dt))) warning("duplicated rows in dt")
+
 ## checking values ----
 if (dt[, any(value != 1L)]) warning(paste("Non integer values in", paste(dt[value != 1L, unique(dataset_id)], collapse = ", ")))
 
@@ -156,6 +159,9 @@ meta[, is_coordinate_local_scale := length(unique(latitude)) != 1L && length(uni
 
 # Checks ----
 
+## checking duplicated rows
+if (any(duplicated(dt))) warning("duplicated rows in dt")
+
 ## checking taxon ----
 if (any(meta[, length(unique(taxon)), by = dataset_id]$V1 != 1L)) warning(paste0("several taxa values in ", paste(meta[, length(unique(taxon)), by = dataset_id][V1 != 1L, dataset_id], collapse = ", ")))
 if (any(!unique(meta$taxon) %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"))) warning(paste0("Non standard taxon category in ", paste(unique(meta[!taxon %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"), .(dataset_id), by = dataset_id]$dataset_id), collapse = ", ")))
@@ -203,3 +209,4 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
+

@@ -1,6 +1,4 @@
 # chiba_2011
-
-
 dataset_id <- "chiba_2011"
 
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
@@ -39,28 +37,25 @@ mucojima_extent <- sum(island_areas[which(ogasawara_archipelago[[2]] %in% island
 chichijima_extent <- sum(island_areas[which(ogasawara_archipelago[[2]] %in% islands[4:9])])
 hahajima_extent <- sum(island_areas[which(ogasawara_archipelago[[2]] %in% islands[11:16])])
 
+# meling sites
+ddata[, species := paste(Genus, species, SpeciesNo)]
 ddata <- data.table::melt(ddata,
-  id.vars = c("Genus", "species", "period"),
-  measure.vars = 5:(ncol(ddata) - 1),
-  measure.name = "value",
-  variable.name = "local"
+  id.vars = c("species", "period"),
+  measure.vars = c("Muko", "Na", "Yo", "Chichijima", "Anijima", "Otojima", "Nishijima", "Higashijima", "Minamijima", "Hy", "Hahajima", "Hirashijima", "Mukoujima", "Anejima", "Meijima", "Imotojima"),
+  value.name = "value",
+  variable.name = "local",
+  na.rm = TRUE
 )
-ddata <- ddata[!is.na(value) & value > 0]
+ddata <- ddata[value != 0]
 ddata[value > 0, value := 1]
 
 
 ddata[, ":="(
   dataset_id = dataset_id,
-
-  year = c(1991L, 2009L)[match(period, c("historical", "modern"))],
-
-  species = paste(Genus, species),
   regional = archipelagos[match(local, islands)],
 
-
-
-  period = NULL,
-  Genus = NULL
+  year = c(1991L, 2009L)[match(period, c("historical", "modern"))],
+  period = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

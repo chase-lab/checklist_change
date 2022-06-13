@@ -886,14 +886,6 @@
         "nlme"
       ]
     },
-    "microbenchmark": {
-      "Package": "microbenchmark",
-      "Version": "1.4-7",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "9ffe05828082333ec03d1669e5ca47b9",
-      "Requirements": []
-    },
     "mime": {
       "Package": "mime",
       "Version": "0.11",
@@ -1235,10 +1227,10 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.15.2",
+      "Version": "0.15.5",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "206c4ef8b7ad6fb1060d69aa7b9dfe69",
+      "Hash": "6a38294e7d12f5d8e656b08c5bd8ae34",
       "Requirements": []
     },
     "reshape": {
@@ -1457,6 +1449,24 @@
         "glue",
         "magrittr",
         "stringi"
+      ]
+    },
+    "suppdata": {
+      "Package": "suppdata",
+      "Version": "1.1-8",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "ropensci",
+      "RemoteRepo": "suppdata",
+      "RemoteRef": "master",
+      "RemoteSha": "434cd919ad25303856cd29b52e22e8c52fff4a6b",
+      "Hash": "79661e121d71f6cbf357a8b86924eb04",
+      "Requirements": [
+        "httr",
+        "jsonlite",
+        "rcrossref",
+        "xml2"
       ]
     },
     "survival": {

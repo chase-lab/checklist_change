@@ -28,7 +28,7 @@ data.table::setDT(ddata_alien)
 
 regions <- data.table::fread("./data/cache/continental-us_2020/glonaf/glonaf/GLONAF/Region_GloNAF_vanKleunenetal2018Ecology.csv")
 
-ddata_alien <- merge(ddata_alien, regions[, .(region_id, country, name)])
+ddata_alien <- unique(merge(ddata_alien, regions[, .(region_id, country, name)]))
 ddata_alien <- ddata_alien[country == "United States of America (the)"]
 
 data.table::setnames(ddata_alien, c("name", "standardized_name"), c("local", "species")) #
@@ -50,6 +50,7 @@ ddata_alien[, ":="(
   country = NULL
 )]
 lstsp <- unique(ddata_alien$species)
+ddata_alien <- unique(ddata_alien)
 
 
 
@@ -57,7 +58,7 @@ lstsp <- unique(ddata_alien$species)
 
 
 # Loading extinctions from knapp et al ----
-ddata_extinction <- base::readRDS(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds"))
+ddata_extinction <- unique(base::readRDS(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds")))
 ddata_extinction[, local := trimws(gsub(" & ", ", ", local))]
 ddata_extinction[, paste("tmp", 1:7) := data.table::tstrsplit(local, ", ")]
 ddata_extinction <- data.table::melt(ddata_extinction,
@@ -72,9 +73,9 @@ ddata_extinction[, ":="(local = state_dictionnary$long[match(local, state_dictio
   species = unlist(stringi::stri_extract_all_regex(species, "^[A-Za-z]+ [a-z]+")), # 'Genus species' only
   matchl = species %in% lstsp,
   period = "historical",
-  variable = NULL
-)]
-ddata_extinction <- ddata_extinction[!is.na(local)] # exclusion of Mexico and Ontario
+  variable = NULL,
+  na.rm = TRUE
+)] # exclusion of Mexico and Ontario
 
 ## * check if extinct species were originally present in the glonaf data set: ----
 # ddata_extinction$species %in% ddata_alien$species
@@ -201,7 +202,7 @@ ddata_plants[, ":="(
 
 # Binding plants, invasions and extinctions datasets ----
 ddata <- rbind(ddata_plants, ddata_alien, ddata_extinction, fill = TRUE)
-
+ddata <- ddata[!is.na(local)]
 
 # Checking S values ----
 # ddata_plants[, S := length(unique(species)), by = .(local, period)]
@@ -227,13 +228,13 @@ ddata[, ":="(
 
   year = c(1565L, 2020L)[match(period, c("historical", "present"))],
 
-  value = 1,
+  value = 1L,
 
   period = NULL,
-
   "Accepted Symbol" = NULL,
   "Synonym Symbol" = NULL
 )]
+ddata <- unique(ddata)
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[, ":="(
