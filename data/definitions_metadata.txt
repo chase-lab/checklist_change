@@ -1,6 +1,6 @@
 variable name	definition
 dataset_id	"Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value."
-year	"Year of sampling. If sampling was pooled over several years, the last sampling year is used here. No missing value."
+year	"Year of sampling. If sampling was pooled over several years, the last sampling year is used here. Where year (i.e., date) for historical lists was not available, they were estimated based on human visitation/colonisation history. No missing value."
 regional	"Region name, countains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions. No missing value. UTF-8 encoding."
 local	"Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest. No missing value. UTF-8 encoding."
 latitude	"Latitude North in decimal degree, WGS84. Empty cells indicate that information could not be collected."
