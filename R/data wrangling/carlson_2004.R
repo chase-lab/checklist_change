@@ -56,7 +56,7 @@ meta[, ":="(
 
   data_pooled_by_authors = TRUE,
   data_pooled_by_authors_comment = "checklist",
-  sampling_years = c(".-1940","1941-1987","1988-2004")[match(year, c(1940L, 1987L, 2004L))],
+  sampling_years = c("pre-1940","1941-1987","1988-2004")[match(year, c(1940L, 1987L, 2004L))],
 
   effort = 1L,
 

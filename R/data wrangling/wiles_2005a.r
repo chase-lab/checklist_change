@@ -6,6 +6,7 @@ birds_raw <- base::readRDS(paste0("./data/raw data/wiles_2005/birds_raw.rds"))
 gift <- base::readRDS("./data/GIS data/giftdata.rds")
 env <- data.table::fread(paste0("./data/raw data/wiles_2005/wiles_2005_gift.csv"),
   na.strings = c("", "NA"),
+  encoding = "Latin-1",
   skip = 1
 )
 env[, c("latitude", "longitude") := data.table::tstrsplit(coordinates, " ")][, coordinates := NULL]
@@ -160,3 +161,4 @@ data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset
 data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
   row.names = FALSE
 )
+

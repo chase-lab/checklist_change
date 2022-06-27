@@ -32,7 +32,8 @@ ddata <- data.table::melt(ddata,
 ddata <- ddata[!value %in% c("", "*", "*q") & !is.na(year)]
 
 # environment data from Jones 2019 thesis
-env <- data.table::fread(paste0("data/raw data/", dataset_id, "/Jones_et_al_2019_Table1-1.csv"), skip = 1L, header = TRUE)
+env <- data.table::fread(paste0("data/raw data/", dataset_id, "/Jones_et_al_2019_Table1-1.csv"),
+                         skip = 1L, header = TRUE, encoding = "Latin-1")
 env <- unique(env[!grepl("T", block), .(coord = downstream[.N], latitude, longitude),
   by = local # coordinates of the most downstream site on the main tributary only
 ][, ":="(
@@ -127,3 +128,4 @@ data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset
 data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
   row.names = FALSE
 )
+

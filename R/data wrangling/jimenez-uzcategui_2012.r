@@ -48,7 +48,7 @@ meta[, ":="(
   latitude = latitudes[data.table::chmatch(local, island_names)],
   longitude = longitudes[data.table::chmatch(local, island_names)],
 
-  effort = "checklist",
+  effort = NA,
 
   alpha_grain = c(4640, 60, 1, 558, 642, 173, 14, 986, 60, 130, 585, 18, 24, 1.3)[data.table::chmatch(local, island_names)],
   alpha_grain_unit = "km2",
@@ -64,7 +64,7 @@ meta[, ":="(
   gamma_bounding_box_unit = "km2",
   gamma_bounding_box_type = "convex-hull",
 
-  comment = "extracted from jimenez-uzcategui et al CDF Checklist of Galapagos Birds. In the Jiménez-Uzcátegui et al checklists, year is not explicit but native species extinctions and exotic species arrival are expected to be more recent than human settlement in 1832. We considered an historical checklist with all native species and a current checklist with native and non-native species. ",
+  comment = "extracted from jimenez-uzcategui et al CDF Checklist of Galapagos Birds. In the Jiménez-Uzcátegui et al checklists, year is not explicit but native species extinctions and exotic species arrival are expected to be more recent than human settlement in 1832. We considered an historical checklist with all native species and a current checklist with native and non-native species. Effort is unknown and considered extensive and exhaustive.",
   comment_standardisation = "Species with an Unknown distribution were excluded"
 )]
 

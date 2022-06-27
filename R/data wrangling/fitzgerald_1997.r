@@ -35,7 +35,7 @@ meta[, ":="(
   latitude = c(43.645323, 43.578413, 43.480123)[match(regional, c("Carroll Creek", "Canagagigue Creek", "Laurel Creek"))],
   longitude = c(-80.459583, -80.502675, -80.586401)[match(regional, c("Carroll Creek", "Canagagigue Creek", "Laurel Creek"))],
 
-  effort = "checklist",
+  effort = NA,
 
   alpha_grain = 3L,
   alpha_grain_unit = "km2",
@@ -47,7 +47,7 @@ meta[, ":="(
   gamma_bounding_box_type = "box",
   gamma_bounding_box_comment = "roughly estimated area of boxes covering the 3 small watersheds (they belong to a larger watershed of roughly 18 552 km2)",
 
-  comment = "Extracted from Fitzgerald 1997 table 2 and 3 (species extracted by OCR with tesseract, pa entered by hand). The authors aggregated historical data from literature and recent data from their samples: 'Historical fish community descriptions were based on a variety of sources that included scientific papers, technical reports, university theses, and personal communications from recognized authorities. Recent fish community surveys are based on collections made during 1994 and 1995 within each of the three streams. Sampling stations were selected at a priori distances upstream and downstream of the various stream modifications'. Regional is the river and local are stream sections. Effort is unknown.",
+  comment = "Extracted from Fitzgerald 1997 table 2 and 3 (species extracted by OCR with tesseract, pa entered by hand). The authors aggregated historical data from literature and recent data from their samples: 'Historical fish community descriptions were based on a variety of sources that included scientific papers, technical reports, university theses, and personal communications from recognized authorities. Recent fish community surveys are based on collections made during 1994 and 1995 within each of the three streams. Sampling stations were selected at a priori distances upstream and downstream of the various stream modifications'. Regional is the river and local are stream sections. Exact effort is unknown and considered extensive and exhaustive.",
   comment_standardisation = "none needed"
 
 )]

@@ -66,7 +66,7 @@ meta[, ":="(
 
   gamma_sum_grains = sum(env$area),
   gamma_sum_grains_unit = "km2",
-  gamma_sum_grains_type = "functional",
+  gamma_sum_grains_type = "ecosystem",
 
   gamma_bounding_box = geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6,
   gamma_bounding_box_unit = "km2",

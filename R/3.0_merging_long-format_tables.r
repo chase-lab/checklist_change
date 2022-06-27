@@ -2,12 +2,12 @@
 
 # Merging ----
 listfiles <- list.files("data/wrangled data",
-  pattern = "[[:digit:]](a|b)?\\.csv",
-  full.names = TRUE, recursive = TRUE
+                        pattern = "[[:digit:]](a|b)?\\.csv",
+                        full.names = TRUE, recursive = TRUE
 )
 listfiles_metadata <- list.files("data/wrangled data",
-  pattern = "_metadata.csv",
-  full.names = TRUE, recursive = TRUE
+                                 pattern = "_metadata.csv",
+                                 full.names = TRUE, recursive = TRUE
 )
 
 template <- utils::read.csv("data/template_communities.txt", header = TRUE, sep = "\t")
@@ -24,14 +24,14 @@ meta <- data.table::rbindlist(lst_metadata, fill = TRUE)
 
 # Checking data ----
 check_indispensable_variables <- function(dt, indispensable_variables) {
-  na_variables <- apply(dt[, ..indispensable_variables], 2, function(variable) any(is.na(variable)))
-  if (any(na_variables)) {
-    na_variables_names <- indispensable_variables[na_variables]
+   na_variables <- apply(dt[, ..indispensable_variables], 2, function(variable) any(is.na(variable)))
+   if (any(na_variables)) {
+      na_variables_names <- indispensable_variables[na_variables]
 
-    for (na_variable in na_variables_names) {
-      warning(paste0("The variable -", na_variable, "- has missing values in the following datasets: ", paste(unique(dt[c(is.na(dt[, ..na_variable])), "dataset_id"]), collapse = ", ")))
-    }
-  }
+      for (na_variable in na_variables_names) {
+         warning(paste0("The variable -", na_variable, "- has missing values in the following datasets: ", paste(unique(dt[c(is.na(dt[, ..na_variable])), "dataset_id"]), collapse = ", ")))
+      }
+   }
 }
 
 # check_indispensable_variables(dt, column_names_template[as.logical(template[, 2])])
@@ -60,6 +60,7 @@ data.table::setorder(dt, dataset_id, regional, local, year, species)
 # dt[, timepoints := as.integer(gsub('T', '', timepoints))]
 
 # Checks ----
+
 ## checking duplicated rows
 if (any(duplicated(dt))) warning("duplicated rows in dt")
 
@@ -77,13 +78,22 @@ data.table::setDT(bh_species)
 
 dt <- merge(dt, bh_species[, .(dataset_id, species, species.new, gbif_specieskey)], by = c("dataset_id", "species"), all.x = TRUE)
 data.table::setnames(dt, c("species", "species.new"), c("species_original", "species"))
+dt[is.na(species), species := species_original]
 # unique(dt[grepl("[^a-zA-Z\\._ ]", species) & nchar(species) < 10L, .(dataset_id)])
 # unique(dt[grepl("[^a-zA-Z\\._ \\(\\)0-9\\-\\&]", species), .(dataset_id, species)])[sample(1:1299, 50)]
 # unique(dt[grepl("Â", species), .(dataset_id, species)])
 
+## checking NA character strings ----
+if (any(
+   dt[, any(grepl(x = regional, pattern =  "^NA$", perl = TRUE))],
+   dt[, any(grepl(x = local, pattern =  "^NA$", perl = TRUE))],
+   dt[, any(grepl(x = species, pattern =  "^NA$", perl = TRUE))]
+)) warning("There are 'NA' strings in dt that can be confused with missing values")
+
+
 # Saving dt ----
 data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "gbif_specieskey", "value"))
-data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
+data.table::fwrite(dt, "data/communities.csv", row.names = FALSE, na = "NA")
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
    path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
    data.table::fwrite(dt, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"), row.names = FALSE)
@@ -107,34 +117,34 @@ unique(meta$realm)
 
 # Converting alpha grain and gamma extent units ----
 meta[, alpha_grain := as.numeric(alpha_grain)][,
-   alpha_grain := data.table::fcase(
-      alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
-      alpha_grain_unit == "km2", alpha_grain * 1000000,
-      alpha_grain_unit == "acres", alpha_grain * 4046.856422,
-      alpha_grain_unit == "ha", alpha_grain * 10000,
-      alpha_grain_unit == "cm2", alpha_grain / 10000,
-      alpha_grain_unit == "m2", alpha_grain
-   )
+                                               alpha_grain := data.table::fcase(
+                                                  alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
+                                                  alpha_grain_unit == "km2", alpha_grain * 1000000,
+                                                  alpha_grain_unit == "acres", alpha_grain * 4046.856422,
+                                                  alpha_grain_unit == "ha", alpha_grain * 10000,
+                                                  alpha_grain_unit == "cm2", alpha_grain / 10000,
+                                                  alpha_grain_unit == "m2", alpha_grain
+                                               )
 ][, alpha_grain_unit := NULL]
 
 meta[, gamma_sum_grains := as.numeric(gamma_sum_grains)][,
-  gamma_sum_grains := data.table::fcase(
-    gamma_sum_grains_unit == "m2", gamma_sum_grains / 10^6,
-    gamma_sum_grains_unit == "mile2", gamma_sum_grains * 2.589988,
-    gamma_sum_grains_unit == "ha", gamma_sum_grains / 100,
-    gamma_sum_grains_unit == "acres", gamma_sum_grains * 0.004046856422,
-    gamma_sum_grains_unit == "km2", gamma_sum_grains
-  )
+                                                         gamma_sum_grains := data.table::fcase(
+                                                            gamma_sum_grains_unit == "m2", gamma_sum_grains / 10^6,
+                                                            gamma_sum_grains_unit == "mile2", gamma_sum_grains * 2.589988,
+                                                            gamma_sum_grains_unit == "ha", gamma_sum_grains / 100,
+                                                            gamma_sum_grains_unit == "acres", gamma_sum_grains * 0.004046856422,
+                                                            gamma_sum_grains_unit == "km2", gamma_sum_grains
+                                                         )
 ][, gamma_sum_grains_unit := NULL]
 
 meta[, gamma_bounding_box := as.numeric(gamma_bounding_box)][,
-  gamma_bounding_box := data.table::fcase(
-    gamma_bounding_box_unit == "m2", gamma_bounding_box / 1000000,
-    gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
-    gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
-    gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,
-    gamma_bounding_box_unit == "km2", gamma_bounding_box
-        )
+                                                             gamma_bounding_box := data.table::fcase(
+                                                                gamma_bounding_box_unit == "m2", gamma_bounding_box / 1000000,
+                                                                gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
+                                                                gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
+                                                                gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,
+                                                                gamma_bounding_box_unit == "km2", gamma_bounding_box
+                                                             )
 ][, gamma_bounding_box_unit := NULL]
 
 data.table::setnames(meta, c("alpha_grain", "gamma_bounding_box", "gamma_sum_grains"), c("alpha_grain_m2", "gamma_bounding_box_km2", "gamma_sum_grains_km2"))
@@ -145,8 +155,8 @@ meta[is.na(gamma_sum_grains_km2) & is.na(gamma_bounding_box_km2), unique(dataset
 # Converting coordinates into a common format with parzer ----
 unique_coordinates <- unique(meta[, .(latitude, longitude)])
 unique_coordinates[, ":="(
-  lat = parzer::parse_lat(latitude),
-  lon = parzer::parse_lon(longitude)
+   lat = parzer::parse_lat(latitude),
+   lon = parzer::parse_lon(longitude)
 )]
 unique_coordinates[is.na(lat) | is.na(lon)]
 meta <- merge(meta, unique_coordinates, by = c("latitude", "longitude"))
@@ -169,11 +179,17 @@ if (any(!unique(meta$taxon) %in% c("Fish", "Invertebrates", "Plants", "Multiple 
 ## checking encoding ----
 for (i in seq_along(lst_metadata)) if (any(!unlist(unique(apply(lst_metadata[[i]][, c("local", "regional", "comment")], 2L, Encoding))) %in% c("UTF-8", "unknown"))) warning(paste0("Encoding issue in ", listfiles[i]))
 
+## checking NA character strings ----
+if (any(
+   meta[, any(grepl(x = regional, pattern =  "^NA$", perl = TRUE))],
+   meta[, any(grepl(x = local, pattern =  "^NA$", perl = TRUE))]
+)) warning("There are 'NA' strings in dt that can be confusedd with missing values")
+
 ## checking year range homogeneity among regions ----
 if (any(meta[, length(unique(paste(range(year), collapse = "-"))), by = .(dataset_id, regional)]$V1 != 1L)) warning("all local scale sites were not sampled for the same years and timepoints has to be consistent with years")
 
 ## checking effort ----
-unique(meta[effort == "unknown" | is.na(effort), .(dataset_id, effort)])
+unique(meta[effort == "unknown" | effort == "checklist" | is.na(effort), .(dataset_id, effort)])
 # all(meta[(checklist), effort] == 1)
 
 ## checking data_pooled_by_authors ----
@@ -186,12 +202,12 @@ if (anyNA(meta$comment_standardisation)) warning("Missing comment_standardisatio
 
 ## checking alpha_grain_type ----
 # meta[(!checklist), .(lterm = diff(range(year)), taxon = taxon, realm = realm, alpha_grain_type = alpha_grain_type), by = .(dataset_id, regional)][lterm >= 10L][taxon == "Fish" & realm == "Freshwater" & grep("lake",alpha_grain_type), unique(dataset_id)]
-if (any(!unique(meta$alpha_grain_type) %in% c("island", "plot", "administrative", "watershed", "sample", "lake_pond", "archipelago", "trap", "transect", "ecosystem", "functional", "box", "quadrat"))) warning(paste("Invalid alpha_grain_type value in", paste(unique(meta[!alpha_grain_type %in% c("island", "plot", "administrative", "watershed", "sample", "lake_pond", "archipelago", "trap", "transect", "ecosystem", "functional", "box", "quadrat"), dataset_id]), collapse = ", ")))
+if (any(!unique(meta$alpha_grain_type) %in% c("island", "plot", "administrative", "watershed", "sample", "lake_pond", "archipelago", "trap", "transect", "ecosystem", "box", "quadrat"))) warning(paste("Invalid alpha_grain_type value in", paste(unique(meta[!alpha_grain_type %in% c("island", "plot", "administrative", "watershed", "sample", "lake_pond", "archipelago", "trap", "transect", "ecosystem", "box", "quadrat"), dataset_id]), collapse = ", ")))
 
 ## checking gamma_sum_grains_type & gamma_bounding_box_type ----
-if (any(!na.omit(unique(meta$gamma_sum_grains_type)) %in% c("archipelago", "administrative", "watershed", "sample", "lake_pond", "plot", "quadrat", "transect", "ecosystem", "functional", "box"))) warning(paste("Invalid gamma_sum_grains_type value in", paste(unique(meta[!is.na(gamma_sum_grains_type) & !gamma_sum_grains_type %in% c("archipelago", "administrative", "watershed", "sample", "lake_pond", "plot", "quadrat", "transect", "ecosystem", "functional", "box"), dataset_id]), collapse = ", ")))
+if (any(!na.omit(unique(meta$gamma_sum_grains_type)) %in% c("archipelago", "administrative", "watershed", "sample", "lake_pond", "plot", "quadrat", "transect", "ecosystem", "box"))) warning(paste("Invalid gamma_sum_grains_type value in", paste(unique(meta[!is.na(gamma_sum_grains_type) & !gamma_sum_grains_type %in% c("archipelago", "administrative", "watershed", "sample", "lake_pond", "plot", "quadrat", "transect", "ecosystem", "box"), dataset_id]), collapse = ", ")))
 
-if (any(!na.omit(unique(meta$gamma_bounding_box_type)) %in% c("administrative", "island", "functional", "convex-hull", "watershed", "box", "buffer", "ecosystem", "shore", "lake_pond"))) warning(paste("Invalid gamma_bounding_box_type value in", paste(unique(meta[!is.na(gamma_bounding_box_type) & !gamma_bounding_box_type %in% c("administrative", "island", "functional", "convex-hull", "watershed", "box", "buffer", "ecosystem", "shore", "lake_pond"), dataset_id]), collapse = ", ")))
+if (any(!na.omit(unique(meta$gamma_bounding_box_type)) %in% c("administrative", "island", "convex-hull", "watershed", "box", "buffer", "ecosystem", "shore", "lake_pond"))) warning(paste("Invalid gamma_bounding_box_type value in", paste(unique(meta[!is.na(gamma_bounding_box_type) & !gamma_bounding_box_type %in% c("administrative", "island", "convex-hull", "watershed", "box", "buffer", "ecosystem", "shore", "lake_pond"), dataset_id]), collapse = ", ")))
 
 # Ordering metadata ----
 data.table::setorder(meta, dataset_id, regional, local, year)
@@ -206,7 +222,7 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 
 
 # Saving meta ----
-data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
+data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE, na = "NA")
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
 

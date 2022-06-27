@@ -52,7 +52,7 @@ meta[, ":="(
 
   gamma_bounding_box = data.table::fifelse(local %in% c("Toronto Bay", "Burlington Bay"), 19000L, 25667L),
   gamma_bounding_box_unit = "km2",
-  gamma_bounding_box_type = "functional",
+  gamma_bounding_box_type = "ecosystem",
   gamma_bounding_box_comment = "area of the Ontario and Erie lakes",
 
   comment = "Extracted from Whillans et al 1979 table 2, 3 & 4 (table extraction with [tabulizer]). The authors compiled the fish species compositional changes over time. We reconstructed historical and recent communities by considering that extinct species were only present in historical time and alien species only appeared in recent time. Regional is the lake in which the bay is located: Ontario for Toronto and Burlington bays, and Lake Erie for Inner Bay.",

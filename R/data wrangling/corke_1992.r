@@ -48,7 +48,7 @@ ddata[, species := gsub(" {2,}", "_", species)][, species := gsub(" {1}", "", sp
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 
-env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/env.csv"), skip = 0, header = TRUE)
+env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/env.csv"), skip = 0, header = TRUE, encoding = "Latin-1")
 env[, c("latitude", "longitude") := data.table::tstrsplit(coordinates, " ")]
 # env[, ':='(
 #    latitude = parzer::parse_lat(env$latitude),
