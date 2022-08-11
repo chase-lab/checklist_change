@@ -2,7 +2,7 @@
 dataset_id <- "continental-us_2020"
 
 # Loading the list of US states ----
-state_dictionnary <- data.table::fread("./data/raw data/continental-us_2020/state dictionnary.csv", skip = 1, header = TRUE)
+state_dictionnary <- data.table::fread("./data/raw data/continental-us_2020/state dictionnary.csv", skip = 1, header = TRUE, encoding = "Latin-1")
 data.table::setnames(state_dictionnary, c("Name of region", "ANSI"), c("long", "short")) # warning is OK
 state_dictionnary[long == "District of Columbia", long := "Washington DC"]
 state_dictionnary[, Location := gsub("^.*/ \\?", "", Location)][, c("latitude", "longitude") := data.table::tstrsplit(Location, " ")]
