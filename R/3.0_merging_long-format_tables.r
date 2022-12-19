@@ -9,7 +9,7 @@ listfiles_metadata <- list.files("data/wrangled data",
   pattern = "_metadata.csv",
   full.names = TRUE, recursive = TRUE
 )
-
+if (length(listfiles) != length(listfiles_metadata)) warning()
 template <- utils::read.csv("data/template_communities.txt", header = TRUE, sep = "\t")
 column_names_template <- template[, 1]
 
@@ -78,13 +78,6 @@ data.table::setnames(dt, c("species", "species.new"), c("species_original", "spe
 # unique(dt[grepl("[^a-zA-Z\\._ \\(\\)0-9\\-\\&]", species), .(dataset_id, species)])[sample(1:1299, 50)]
 # unique(dt[grepl("Â", species), .(dataset_id, species)])
 
-# Saving dt ----
-data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "gbif_specieskey", "value"))
-data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
-if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
-   path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
-   data.table::fwrite(dt, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"), row.names = FALSE)
-}
 
 
 
@@ -156,6 +149,9 @@ meta[, is_coordinate_local_scale := length(unique(latitude)) != 1L && length(uni
 
 # Checks ----
 
+## checking duplicated rows ----
+if (anyDuplicated(meta)) warning("Duplicated rows in metadata")
+
 ## checking taxon ----
 if (any(meta[, length(unique(taxon)), by = dataset_id]$V1 != 1L)) warning(paste0("several taxa values in ", paste(meta[, length(unique(taxon)), by = dataset_id][V1 != 1L, dataset_id], collapse = ", ")))
 if (any(!unique(meta$taxon) %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"))) warning(paste0("Non standard taxon category in ", paste(unique(meta[!taxon %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"), .(dataset_id), by = dataset_id]$dataset_id), collapse = ", ")))
@@ -174,6 +170,11 @@ unique(meta[effort == "unknown" | is.na(effort), .(dataset_id, effort)])
 meta[is.na(data_pooled_by_authors), data_pooled_by_authors := FALSE]
 if (any(meta[(data_pooled_by_authors), is.na(sampling_years)])) warning("Missing sampling_years values")
 if (any(meta[(data_pooled_by_authors), is.na(data_pooled_by_authors_comment)])) warning(paste("Missing data_pooled_by_authors_comment values in", meta[(data_pooled_by_authors) & is.na(data_pooled_by_authors_comment), paste(unique(dataset_id), collapse = ", ")]))
+
+
+## checking comment ----
+if (anyNA(meta$comment)) warning("Missing comment value")
+if (length(unique(meta$comment)) != length(unique(meta$dataset_id))) warning("Redundant comment values")
 
 ## checking comment_standardisation ----
 if (anyNA(meta$comment_standardisation)) warning("Missing comment_standardisation value")
@@ -198,8 +199,16 @@ if (length(base::setdiff(unique(dt$dataset_id), unique(meta$dataset_id))) > 0L) 
 if (nrow(meta) != nrow(unique(meta[, .(dataset_id, regional, local, year)]))) warning("Redundant rows in meta")
 if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warning("Discrepancies between dt and meta")
 
+# Saving data products ----
+## Saving dt ----
+data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "gbif_specieskey", "value"))
+data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
+if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
+   path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
+   data.table::fwrite(dt, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"), row.names = FALSE)
+}
 
-# Saving meta ----
+## Saving meta ----
 data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
