@@ -68,16 +68,16 @@ if (dt[, any(value != 1L)]) warning(paste("Non integer values in", paste(dt[valu
 
 ## checking species names ----
 for (i in seq_along(lst)) if (is.character(lst[[i]]$species)) if (any(!unique(Encoding(lst[[i]]$species)) %in% c("UTF-8", "unknown"))) warning(paste0("Encoding issue in ", listfiles[i]))
+
 ### adding GBIF matched names by Dr. Wubing Xu ----
-load("./data/requests to taxonomy databases/bhsplist_gbif.RDATA")
-data.table::setDT(bh_species)
+corrected_species_names <- data.table::fread(
+   file = "data/requests to taxonomy databases/manual_community_species_filled_20221003.csv",
+   select = c("dataset_id","species","species.new")
+)
 
-dt <- merge(dt, bh_species[, .(dataset_id, species, species.new, gbif_specieskey)], by = c("dataset_id", "species"), all.x = TRUE)
+dt <- merge(dt, corrected_species_names, by = c("dataset_id", "species"), all.x = TRUE)
 data.table::setnames(dt, c("species", "species.new"), c("species_original", "species"))
-# unique(dt[grepl("[^a-zA-Z\\._ ]", species) & nchar(species) < 10L, .(dataset_id)])
-# unique(dt[grepl("[^a-zA-Z\\._ \\(\\)0-9\\-\\&]", species), .(dataset_id, species)])[sample(1:1299, 50)]
-# unique(dt[grepl("Â", species), .(dataset_id, species)])
-
+dt[is.na(species), species := species_original]
 
 
 
@@ -201,7 +201,7 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 
 # Saving data products ----
 ## Saving dt ----
-data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "gbif_specieskey", "value"))
+data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "value"))
 data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
    path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
@@ -212,3 +212,4 @@ if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
 data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
+
