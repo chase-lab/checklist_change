@@ -24,7 +24,7 @@ ddata[, ":="(
    metric = "pa",
    unit = "pa",
 
-   deleteMe = NULL
+   deleteME = NULL
 )]
 
 # Metadata ----

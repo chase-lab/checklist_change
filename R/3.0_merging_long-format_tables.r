@@ -209,6 +209,9 @@ if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
 }
 
 ## Saving meta ----
+data.table::setcolorder(meta, "alpha_grain_m2", before = "alpha_grain_type")
+data.table::setcolorder(meta, "gamma_sum_grains_km2", before = "gamma_sum_grains_type")
+data.table::setcolorder(meta, "gamma_bounding_box_km2", before = "gamma_bounding_box_type")
 data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
