@@ -1,7 +1,6 @@
 ## lindholm_2019
 dataset_id <- "lindholm_2019"
 
-
 ddata <- base::readRDS("./data/raw data/lindholm_2019/ddata.rds")
 data.table::setnames(ddata, 1L, "localyear")
 
@@ -53,7 +52,6 @@ meta[, ":="(
   effort = 1L,
 
   data_pooled_by_authors = TRUE,
-  data_pooled_by_authors_comment = "lakes were sampled once per period",
   sampling_years = c("1947-1950", "1975-1978", "1991-1993","2005-2008", "2017")[match(year, c(1950L, 1978L, 1993L, 2008L, 2017L))],
 
   alpha_grain_unit = "ha",
@@ -72,7 +70,6 @@ meta[, ":="(
 
   comment = "Extracted from Dryad (https://doi.org/10.5061/dryad.t1g1jwsxv). The authors sampled macrophytes from 27 boreal lakes from a Finnish watershed during the 1940s, 1970s, 1990s, 2000s and 2010s. Effort depends on the lake size: the whole lakes have been sampled at each survey and size varies from 2 10E-1 to 2 10E2. Coordinates provided by the authors",
   comment_standardisation = "none needed"
-
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

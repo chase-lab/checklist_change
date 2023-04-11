@@ -10,7 +10,7 @@ ddata <- data.table::melt(ddata,
   value.name = "value",
   variable.name = "year"
 )
-ddata <- ddata[value > 0]
+ddata <- ddata[value != 0]
 
 ddata[, ":="(
   dataset_id = dataset_id,
@@ -31,7 +31,7 @@ meta[, ":="(
   effort = c(196L, 259L)[match(local, c("Acid", "Calcareous"))],
 
   data_pooled_by_authors = TRUE,
-  data_pooled_by_authors_comment = "one sampling per site per sampling period",
+  data_pooled_by_authors_comment = "many sites per habitat type, one sampling per site per sampling period",
   sampling_years = c("1965-1968", "2012-2013")[match(year, c(1968, 2013))],
 
   alpha_grain_unit = "m2",
