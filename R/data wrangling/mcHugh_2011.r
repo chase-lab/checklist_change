@@ -73,7 +73,8 @@ meta[, ":="(
    gamma_bounding_box_comment = "area of a box roughly covering the three sampling zones",
 
    comment = "Extracted from mcHugh et al 2011 table 3 (table extraction). Authors compiled fish community composition and trawling effort from historical records and resurveyed the same areas with methodological and effort consistency in mind. Regional is the Western English Channel, near Plymouth, local are two bays, years correspond to the last year of two sampling periods (1913-1922, 2008-2009). Effort is the sum of trawling hours per site per campaign see table 1. CPUEs are given by the authors but only presence absence is used here.",
-   comment_standardisation = "none needed"
+   comment_standardisation = "none needed",
+   doi = 'https://doi.org/10.1016/j.seares.2010.09.006'
 )]
 
 ddata[, effort := NULL]

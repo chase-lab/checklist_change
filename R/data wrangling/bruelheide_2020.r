@@ -73,7 +73,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the areas of the sampled ecosystems",
 
   comment = "Extracted from Bruelheide et al 2020 dryad repository. We considered two time periods: an early one (1972-1980) and a late one (2017-2020). Anything that has 'first appearance' in early time period would be 'present initially'.  Anything that has first appearance only in the second time period would be 'new' (occupancy change column 1) and anything that has last appearance before 2017-220 (occupancy change column -1) as a local extinction.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.5061/dryad.mw6m905vj | https://doi.org/10.1111/ddi.13184'
 )]
 
 

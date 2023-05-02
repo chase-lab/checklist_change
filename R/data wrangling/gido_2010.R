@@ -67,7 +67,8 @@ meta[, ":="(
   gamma_bounding_box_comment = "area of the state of Kansas",
 
   comment = "Extracted from Gido et al 2010 appendix. Local is a whole river basin (within Kansas state borders). Effort is the number of fish collection per local per period. 'Fish collections between 1947 and 2003 included 1127 community samples (presence–absence) with 93 total species in Kansas (Table 1). Native fish were identified from historical accounts (Hay 1887, Cross 1967, Cross et al. 1986), and these data were supplemented with additional historical records (Eberle 2007). Most historical fish collection records (prior to 1991) were taken directly from field notes of Frank Cross, who began collecting in Kansas in 1951, but these data were supplemented by collection records provided by the University of Kansas Natural History Museum and Sternberg Museum of Natural History. Recent records were based primarily on surveys by the Kansas Department of Wildlife and Parks, supplemented by various collectors with other governmental agencies and universities.' ",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1899/09-116.1'
 )]
 
 ddata[, period := NULL]

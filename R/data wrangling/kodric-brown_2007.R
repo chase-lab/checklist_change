@@ -62,7 +62,8 @@ meta[, ":="(
    gamma_bounding_box_comment = "area covered by the Dalhousie Springs, given by the authors",
 
    comment = 'Extracted from kodric-brown_2007 table 1 (https://doi.org/10.1111/j.1472-4642.2007.00395.x) (table extraction from pdf). The authors sampled fish in 30 ponds of a nature park in 1991 and resurveyed in 2003. Regional is the Dalhousie Springs, Witjira National Park, Australia, local are springs. years correspond to a first survey and a resurvey. Effort to get these checklists varies a lot in time and in space. During the resurvey, no seine nets were used and special effort was made to found species that were originally present in 1991. BUT "We used essentially identical methods to sample intensively for the presence of each fish species.',
-   comment_standardisation = "none needed"
+   comment_standardisation = "none needed",
+   doi = 'https://doi.org/10.1111/j.1472-4642.2007.00395.x'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

@@ -49,7 +49,8 @@ meta[, ":="(
    gamma_bounding_box_comment = "coarse convex hull covering the summit ecostystems",
 
    comment = "Extracted from repository https://doi.org/10.6084/m9.figshare.12514172.v1 associated to article Staude, I.R., Pereira, H.M., Daskalova, G.N., Bernhardt-Römermann, M., Diekmann, M., Pauli, H., et al. (2022) Directional turnover towards larger-ranged plants over time and across habitats. Ecology Letters, 25, 466– 482. Available from: https://doi.org/10.1111/ele.13937  . METHODS: 'We synthesised data [...]. Mountain summits are represented by 52 sites from the Global Observation Research Initiative in Alpine environments (GLORIA, gloria.ac.at, Pauli et al., 2015) [...] Summits were always resurveyed in eight spatial sections that together covered the entire area from the highest summit point to the contour line 10 m in elevation below this point. The median summit area was 0.25 ha.'",
-   comment_standardisation = "only summit ecosystems included, duplicated rows in raw data were excluded"
+   comment_standardisation = "only summit ecosystems included, duplicated rows in raw data were excluded",
+   doi = 'https://doi.org/10.6084/m9.figshare.12514172.v1 |  https://onlinelibrary.wiley.com/doi/full/10.1111/ele.13937'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

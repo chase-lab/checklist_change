@@ -58,7 +58,7 @@ meta[, ":="(
   gamma_bounding_box_type = "functional",
   gamma_bounding_box_comment = "area of the Pelekane Bay according to the authors in Table 2.",
 
-  comment = "Extracted from Tissot et al 1999. Authors compiled previous data from 1976 sampled by Chaney and colleagues (one survey of a 1000 m2 plot) and resurveyed the same part of the bay in 1996 by identifying fish along three 50*4m transect in 9 occasions in 3 days. The authors consider the methods comparable.",
+  comment = "Extracted from Tissot 1999. Authors compiled previous data from 1976 sampled by Chaney and colleagues (one survey of a 1000 m2 plot) and resurveyed the same part of the bay in 1996 by identifying fish along three 50*4m transect in 9 occasions in 3 days. The authors consider the methods comparable. Full reference: BRIAN N. TISSOT, CHANGES IN THE MARINE HABITAT AND BIOTA OF PELEKANE BAY, HAWAI’I OVER A 20-YEAR PERIOD, 1999, U. S. FISH AND WILDLIFE SERVICE PACIFIC ISLANDS OFFICE HONOLULU, HAWAI’I",
   comment_standardisation = "unidentified species excluded"
 )]
 

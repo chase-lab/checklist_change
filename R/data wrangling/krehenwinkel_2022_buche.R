@@ -18,3 +18,4 @@
 # germ <- filter(world_map, name == "Germany")
 # plot(germ, max.plot = 1)
 # points(ddata$longitude, ddata$latitude)
+# doi = 'https://doi.org/10.7554/eLife.78521'

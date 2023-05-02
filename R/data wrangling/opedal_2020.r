@@ -66,7 +66,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the areas of the sampled islands",
 
   comment = "Extracted from the zenodo repository shared by the authors (https://doi.org/10.5281/zenodo.3712825). Authors compiled historical and recent plant inventories from 471 islands. Community data was extracted from the colext_nospace/Y.csv table. Regarding 'year' values, the authors state: 'The historical inventories were conducted between 1925 and 1946 (mainly in the 1930s) by Eklund (1958), and in the 1940s by Skult (1960), and the recent inventories were conducted between 1996 and 2017 by M. von Numers'",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1002/ecy.3067'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

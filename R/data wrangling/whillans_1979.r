@@ -56,7 +56,8 @@ meta[, ":="(
   gamma_bounding_box_comment = "area of the Ontario and Erie lakes",
 
   comment = "Extracted from Whillans et al 1979 table 2, 3 & 4 (table extraction with [tabulizer]). The authors compiled the fish species compositional changes over time. We reconstructed historical and recent communities by considering that extinct species were only present in historical time and alien species only appeared in recent time. Regional is the lake in which the bay is located: Ontario for Toronto and Burlington bays, and Lake Erie for Inner Bay.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1016/S0380-1330(79)72146-0'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

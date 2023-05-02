@@ -256,7 +256,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the area of the contiguous US states",
 
   comment = "Alien species (absent from historical times) were extracted from the GLONAF and PLANTS databases. GLONAF is an international alien plant species database (https://glonaf.org/). PLANTS is a plant database maintained by the USDA agency (https://plants.usda.gov/). Extinct species (only present in historical times) were extracted from Knapp et al 2020 10.1111/cobi.13621. The other species occurrences were extracted from the USDA PLANTS database. IMPORTANT: subspecies and varieties were pooled together. Year is difficult to infer from these different data sets but historical situation being pre 1950s and modern situation being post 1990s is a reasonable assumption.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1002/ecy.2542 | https://doi.org/10.1111/cobi.13621'
 )]
 
 

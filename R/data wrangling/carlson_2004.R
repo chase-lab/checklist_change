@@ -74,7 +74,8 @@ meta[, ":="(
 
 
   comment = "Extracted from Carlson et al 2004 Supplementary (table extraction, Mix of several Tabula extractions, some saved, some copy pasted because more complete than the whole document extraction). The authors aggregated these checklists from collections and state agencies. Regional is New-York state. local are lake watersheds or river basins (sometimes, basins are truncated by state border or several small river basins are merged into one large such as around Lake Ontario cf fig1). years correspond to the end of each period (before 1940, 1940-1987, after 1987). Scientific names of fishes follow Nelson et al. (2004)",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1674/0003-0031(2004)152[0104:SOFINY]2.0.CO;2'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

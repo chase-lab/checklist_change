@@ -71,7 +71,8 @@ meta[, ":="(
    gamma_bounding_box_comment = "coordinates provided by the authors",
 
    comment = "Extracted from Becker-Scarpitta et al 2018 Supplementary. Regional is Quebec, local are parks along a warming gradient (weak, medium and strong warming in Forillon, Mont-Megantic and Gatineau respectively. Effort = Numbers of plots which varies between parks but is the same in time within a park. Area of individual plots also varies between parks (90 to 800m2) but is the same within park and over time. The plots were never staked to make them permanent but different cues were used to resurvey the same area as accurately as possible making the plots semi-permanent. Only plots sufficiently accurately characterised were resurveyed. 'Taxonomical reference for vascular plants was the Taxonomic Name Resolution Service v4.0 (assessed in Feb 2017: http://tnrs.iplantcollaborative.org).'",
-   comment_standardisation = "none needed"
+   comment_standardisation = "none needed",
+   doi = 'https://doi.org/10.1111/gcb.14568'
 )]
 
 

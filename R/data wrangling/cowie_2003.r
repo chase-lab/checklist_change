@@ -62,7 +62,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the area of both sampled islands",
 
   comment = "Extracted from table 1 in Cowie et al 2003 - https://doi.org/10.1016/S0006-3207(02)00176-3. Pre-1965 data is ignored. 'Surveys were undertaken in 1992–1994 with the primary purpose of generating species inventories at each station as a means of evaluating overall species distributions. All sites identified as 'grade 1' by Park et al. (1992), that is, good quality, relatively undisturbed, low land rainforest, were sampled formally, as were a number of additional lowland and upland (above 450 m elevation) stations, resulting in 14 lowland and four upland stations on Savai‘i, eight lowland and four upland stations on ‘Upolu, and one station each on Nu‘utele and Nu‘ulua; a total of 32 formally sampled stations.' Here, only Savai‘i and Upolu were considered. Resurvey: 'At each formally sampled station, sampling took place at intervals along a transect line and was by hand collecting of specimens in the field, both from vegetation and from the litter.' Exact locations and gamma_bounding_box are unknown.",
-  comment_standardisation = "Unidentified taxa and 'Not recorded' sites excluded"
+  comment_standardisation = "Unidentified taxa and 'Not recorded' sites excluded",
+  doi = 'https://doi.org/10.1016/S0006-3207(02)00176-3'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

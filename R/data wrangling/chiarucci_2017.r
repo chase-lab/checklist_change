@@ -72,7 +72,8 @@ meta[, ":="(
 
 
   comment = "Extracted from the supplementary material from chiarucci et al 2017. Effort is unknown but extensive: checklist. 'All available published papers and some unpublished sources (such as masters’ theses and doctoral dissertations and technical reports) dealing with the plants of the Tuscan archipelago were searched and compiled by the botanical team of the University of Florence [...]. These references were checked to extract occurrence records for all those species reported as spontaneous on at least one of the studied islands. [...] Overall, we assembled the existing data on plant species occurrences on 16 islands (7 major islands, Monte Argentario fossil island, and 8 islets) in two main periods: from 1830 to 1950 and from 1951 to 2015.[...] We used 1950–1951 as a pivotal shift date because of the major changes in the human presence and activities on the islands from the 1950s, when most of the archipelago’s economy shifted from traditional agriculture to tourism.'",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1038/s41598-017-05114-5'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

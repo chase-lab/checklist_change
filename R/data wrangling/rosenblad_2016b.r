@@ -62,7 +62,8 @@ meta[, ":="(
   gamma_bounding_box_type = "convex-hull",
 
   comment = "Extracted from Rosenblad et al 2016 Supplementary (10.5061/dryad.c9s61). Effort is unknown. Sampling 'year'' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence. Gamma scale is global.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.5061/dryad.c9s61 | https://doi.org/10.1111/ecog.02652'
 
 )]
 

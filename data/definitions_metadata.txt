@@ -22,5 +22,6 @@ realm	"Realm in which the sampling was done, one of: Freshwater or Terrestrial. 
 taxon	"Taxon group of the data set, one of: ""Plants"", ""Invertebrates"" or ""Fish"". No missing value."
 comment	"A description of the data set origin, goal and sampling method. No missing value. UTF-8 encoding."
 comment_standardisation	"A short description of the modifications we made to the data set to ensure standard effort: excluded sites or years, excluded taxa, etc. No missing value."
+doi   "One or several DOIs separated by ""|""" that have to be cited for each data set."
 is_coordinate_local_scale	Logical. TRUE if coordinates re given at the scale of the site/locality. FALSE if the coordinates are at the regional scale or missing. No missing value.
 

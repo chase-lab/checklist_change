@@ -79,7 +79,8 @@ meta[, ":="(
 
 
   comment = "Extracted from the article with tabulizer and hand copy. Freshwater, Terrestrial and marine species sampled. The authors made a review of the literature to assess the historical compositions. 'The status summaries for St Lucia, St Vincent and some of the Grenadines are based on my own field observations carried out during 1989 with previous visits to St Lucia and satellites in 1983 and 1986.[...]The current checklist for the West Indian herpetofauna is Schwartz and Henderson (1988).' Species that were noted as extinct in the main island but still present in islets were considered extinct for this study.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1016/0006-3207(92)91151-H'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

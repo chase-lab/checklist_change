@@ -63,8 +63,8 @@ meta[, ":="(
   gamma_bounding_box_type = "convex-hull",
 
   comment = "Extracted from Dryad repository (doi:10.5061/dryad.2f7b2) associated to the paper ECONOMO  et al 2017 doi:10.1111/jbi.12884. The authors aggregated ant checklists for the islands of interest: 'Our main source of data was the Global Ant Biodiversity Informatics (GABI) database[...]. Of these, ~42,000 records were available from the Pacific islands using the database version from September 2015. We first summarized these data into a checklist for each archipelago. Subsequently, each author independently checked each record for quality and plausibility, making corrections when necessary. In some cases, we supplemented these records with our own unpublished collection records.'. Species could be either Endemic, Native, Exotic or Pacific tramp: TRAMP SPECIES CONSIDERED NATIVE. Exotic species (present only in the modern period) were defined by the authors as species 'introduced into the Pacific region through human commerce.' Year is hard to infer from the paper more accurately than this commerce development pivot.",
-  comment_standardisation = "none needed"
-
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.5061/dryad.2f7b2 | https://doi.org/10.1111/jbi.12884'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

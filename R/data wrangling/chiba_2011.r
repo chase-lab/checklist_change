@@ -95,7 +95,8 @@ meta[, ":="(
   gamma_bounding_box_type = "convex-hull",
 
   comment = "Extracted from Chiba et al excel table. Regional is the archipelago (one of the three archipelagos of the Ogasawara archipelago). local is an island. 'The Terrestrial gastropod fauna of the Ogasawara archipelago has been examined since early surveys during 1839–1907, followed by work in 1930-1940, 1973, 1977, and 1987-1991. We used these baseline data along with more recent surveys in 2004–2009 to identify local and global extinctions'. Effort varies and is unknown: 'number of sites (9-20 per area during 1987-1991 and 10-35 during 2004-2009)'. In each site a 10x10m plot was searched for large species and 20 .5x.5m subsamples were thoroughly searched for small species.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1073/pnas.1100085108 '
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

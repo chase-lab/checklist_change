@@ -71,7 +71,8 @@ Butterflies are recorded in a fixed width band (typically 5m wide) along the tra
 Spatial reference systems
 OSGB 1936 / British National Grid
 OSNI 1952 / Irish National Grid",
-comment_standardisation = "none needed"
+comment_standardisation = "none needed",
+doi = 'https://doi.org/10.5285/1286b858-34a7-4ff2-84a1-a55e48d63e86 | https://doi.org/10.5285/1cfdcd20-afb8-4b58-9ab2-604b90f5242d'
 )][, ':='(
    gamma_sum_grain = sum(alpha_grain, na.rm = TRUE),
    gamma_bounding_box = geosphere::areaPolygon(x = data.frame(longitude, latitude)[grDevices::chull(x = longitude, y = latitude), ]) / 10^6

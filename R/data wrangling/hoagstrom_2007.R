@@ -117,7 +117,8 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "Extracted from Hoagstrom et al 2007 (extraction with tabulizer and modification by hand in excel). checklist of 16 river catchments. Authors aggregated data through a literature review: 'We used literature to determine fish species presence in 14 river drainages and 2 sections of the Missouri River valley in South Dakota'. Regional is South Dakota state, local are major tributaries to the Missouri River. Coordinates (extracted from Jones 2019 thesis from Table 1-1) of the most downstream site on the main tributary only. Scale and time coverage differ between jones_2019 and hoagstrom_2007. Even sites and times that seem to overlap have different composition.",
-   comment_standardisation = "none needed"
+   comment_standardisation = "none needed",
+   doi = 'https://doi.org/10.3398/1527-0904(2007)67[161:ZPAFCO]2.0.CO;2'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

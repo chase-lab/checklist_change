@@ -71,7 +71,8 @@ meta[, ":="(
   gamma_bounding_box_comment = "area of the three watersheds given by the authors",
 
   comment = "Extracted from Pilarczyk et al 2006 table 1 (table extraction with [tabulizer]). Regional are 3 river basins, close to each other, ending up in the gulf of Mexico, local are river segments. Effort seems to vary a lot between the 90s and 2004 but the authors committed to be exhaustive in both cases. In the 90s, there were several samplings between 1991 and 1999. The authors sampled at least 400 meter long stream stretches and we assumed they were on average 5 meter wide. ",
-  comment_standardisation = "Provided abundances for recent samples were converted into presence-absence. Sites for which we have only historical or modern data were excluded."
+  comment_standardisation = "Provided abundances for recent samples were converted into presence-absence. Sites for which we have only historical or modern data were excluded.",
+  doi = 'https://doi.org/10.1656/1528-7092(2006)5[205:CARHFM]2.0.CO;2'
 )][, gamma_sum_grains := 2000L * length(unique(local)), by = .(regional, year)]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
