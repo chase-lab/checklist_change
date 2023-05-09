@@ -1,25 +1,18 @@
 # Preparing a reference list for all data sets ----
-## the citation for the data repository and the article are associated when available.
-path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
-if (!file.exists(paste0(path_to_homogenisation_dropbox_folder, "_data_extraction/list of papers.xlsx"))) {
-   references <- readxl::read_xlsx(path = paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/list of papers.xlsx"), col_names = TRUE, na = c("", "NA"))
-   data.table::setDT(references)
-   references <- references[!is.na(`follow up`) & `follow up` == "merge", .(dataset_id, reference, DOI)]
-   references[, paste0("doi", 1:3) := data.table::tstrsplit(x = DOI, " +\\| +", perl = TRUE)]
-   references <- data.table::melt(references, id.vars = c("dataset_id", "reference"), measure.vars = paste0("doi", 1:3), value.name = "DOI", na.rm = FALSE)[, variable := NULL]
-   base::saveRDS(object = references, file = "./data/references/references_vector.rds")
-} else {
-   references <- base::readRDS(file = "./data/references/references_vector.rds")
-}
-
+dois <- unique(data.table::fread(file = 'data/metadata.csv', select = c('dataset_id','doi'), na.strings = ''))
+dois[, c('doi','doi2') := data.table::tstrsplit(dois$doi, ' *\\| *')]
+dois <- data.table::melt(data = dois, id.vars = 'dataset_id', value.name = 'doi', na.rm = TRUE)[, variable := NULL]
 
 # Building the .bib reference file
-bib <- rcrossref::cr_cn(dois = na.omit(references$DOI), locale = "en-US")
-complete_bib <- c(unlist(stringi::stri_split_lines(bib)), "\n", base::readLines("./data/references/references_without_DOI.bib"), "\n", base::readLines("./data/references/fitzgerald_1997.bib"))
-complete_bib <- base::enc2utf8(complete_bib)
-base::writeLines(text = complete_bib, "./data/references/references.bib")
+bib <- rcrossref::cr_cn(dois = dois$doi, locale = "en-US")
+saveRDS(object = bib, file = 'data/references/raw_references.rds')
+bib <- unlist(stringi::stri_split_lines(bib))
+bib <- base::enc2utf8(bib)
+base::writeLines(text = bib, "./data/references/references.bib")
 
 # Building the formatted reference vector
+rcrossref::get_styles()
+rcrossref::cr_cn(dois = dois$doi, locale = "en-US", format = "text", style = 'nature')
 # vec <- RefManageR::ReadBib(file = "./data/references.bib", .Encoding = "UTF-8")
 
 # Building the reference data.frame ----
