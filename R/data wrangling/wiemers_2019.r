@@ -74,7 +74,8 @@ meta[, ":="(
   gamma_bounding_box_type = "convex-hull",
 
   comment = "Checklist of Butterflies species per European country: An updated checklist of the European Butterflies (Lepidoptera, Papilionoidea), Wiemers et al (https://doi.org/10.3897/zookeys.811.28712). Only the European part of Russia, Turkey, Georgia... is considered. Methodology and effort is considered comparable. ",
-  comment_standardisation = "Migrant and Uncertain species were treated as Absent"
+  comment_standardisation = "Migrant and Uncertain species were treated as Absent",
+  doi = 'https://doi.org/10.3897/zookeys.811.28712'
 )]
 
 meta[local == "Portugal: Azores", alpha_grain := 2351L][local == "Portugal: Madeira Islands", alpha_grain := 801L][local == "Spain: Canary Islands", alpha_grain := 7493L]

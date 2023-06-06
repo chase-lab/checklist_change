@@ -68,7 +68,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the area of the 3 national parks",
 
 
-  comment = "Extracted from Article Mallet-Rodrigues, F., Parrini, R. & Rennó, B. (2015). Bird species richness and composition along three elevational gradients in southeastern Brazil. Atualidades Ornitológicas, 188, 39–58. Data in table 1. Historical community was constructed by considering only native species from recent lists.",
+  comment = "Extracted from Article Mallet-Rodrigues, F., Parrini, R. & Rennó, B. (2015). Bird species richness and composition along three elevational gradients in southeastern Brazil. Atualidades Ornitológicas, 188, 39–58. Data in table 1. Historical community was constructed by considering only native species from recent lists.
+  Full reference: Mallet-Rodrigues, F., Parrini, R. & Rennó, B. (2015). Bird species richness and composition along three elevational gradients in southeastern Brazil. Atualidades Ornitológicas, 188, 39–58.",
   comment_standardisation = "none needed"
 )]
 

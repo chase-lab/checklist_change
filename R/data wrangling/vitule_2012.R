@@ -52,7 +52,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of both local watersheds",
 
   comment = "Extracted from Vitule et al 2012 Supplementary (https://doi.org/10.1111/j.1472-4642.2011.00821.x). Fish composition of the different regions and periods were compiled from various literature resources. Regional is the Parana River basin, local are large river stretches upper and lower a natural barrier (falls) that was flooded after a dam construction, and then not a barrier any more allowing fish fauna homogenization. The dam was finished in 1982 hence allowing homogenisation over the falls. For Upper Parana River basin community before introduction, data by Julio et al 2009 was used.",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1111/j.1472-4642.2011.00821.x'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

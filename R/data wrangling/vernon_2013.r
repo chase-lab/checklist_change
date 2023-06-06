@@ -79,7 +79,8 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "extracted from vernon_2013 checklist of ferns in Hawaii Islands (https://doi.org/10.1640/0002-8444-103.2.59). Vernon and Ranker compiled existing floras and inventories of ferns and lycophytes on 8 Haawaiian islands. Historical and recent composition provided here were reconstructed by considering that extinct species were only recent in historical times and exotic species only appeared in recent times.",
-   comment_standardisation = "none needed"
+   comment_standardisation = "none needed",
+   doi = 'https://doi.org/10.1640/0002-8444-103.2.59'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

@@ -61,6 +61,7 @@ meta[, ":="(
 
   comment = "Extracted from baiser et al 2011 Dryad repo. The authors 'extracted presence/absence data from a database of bird species on 152 oceanic islands compiled by Blackburn et al. (2004) and Cassey et al. (2007) from species lists, field guides, and literature'. Past is considered to be pre-colonisation times and recent checklists were made after the 1990s.",
   comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.5061/dryad.rs714',
 
   match_island_GIFT_ID = NULL,
   area_source = NULL,

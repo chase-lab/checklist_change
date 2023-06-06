@@ -71,7 +71,7 @@ meta[, ":="(
   gamma_bounding_box_unit = "km2",
   gamma_bounding_box_type = "convex-hull",
 
-  comment = "Checklist by RL Pyle and P Pyle, data aggregated by the authors of Chase et al 2019 (Species richness change across spatial scales). Pyle, R.L., and P. Pyle. 2017. The Birds of the Hawaiian Islands: Occurrence, History, Distribution, and Status. B.P. Bishop Museum, Honolulu, HI, U.S.A. Version 2 (1 January 2017) http://hbs.bishopmuseum.org/birds/rlp-monograph ",
+  comment = "Checklist by RL Pyle and P Pyle, data aggregated by the authors of Chase et al 2019 (Species richness change across spatial scales). Full reference: Pyle, R.L., and P. Pyle. 2017. The Birds of the Hawaiian Islands: Occurrence, History, Distribution, and Status. B.P. Bishop Museum, Honolulu, HI, U.S.A. Version 2 (1 January 2017) http://hbs.bishopmuseum.org/birds/rlp-monograph ",
   comment_standardisation = "none needed"
 )]
 

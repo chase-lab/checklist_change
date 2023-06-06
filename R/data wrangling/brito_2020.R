@@ -86,7 +86,8 @@ meta[, ":="(
 
 
   comment = "Data were extracted by hand from Supp 1 (https://doi.org/10.1007/s10750-020-04236-8) to a csv file. Areas and coordinates were retrieved from Wikipedia. Methods: 'We evaluated species records and fisheries through the technical reports compiled for 108 dams, spatially separated into four regions according to Brazilian states boundaries, following the DNOCS protocol, based on their location in the Brazilian states: Region I (Paui state), Region II (Ceara state), Region III (Rio Grande do Norte, Parai´ba, Pernambuco and Alagoas states), and Region IV (Bahia, Sergipe and Minas Gerais states)[...]Fish assemblages were sampled monthly at each dam, using gillnets, cast nets, and fish hooks. This represents a 64-year time period at the Inter-region scale (considering dams in all regions) (Table 1), and a 49-year time period at the Intra-region scale (considering dams within each region), except for Regions I and IV, which were only represented by 47-year and 31-year time periods, respectively (Table 1).",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1007/s10750-020-04236-8'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

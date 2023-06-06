@@ -49,7 +49,9 @@ meta[, ":="(
   latitude = latitudes[data.table::chmatch(local, island_names)],
   longitude = longitudes[data.table::chmatch(local, island_names)],
 
-  effort = NA,
+  effort = "checklist",
+
+
 
   alpha_grain = c(4640, 60, 1, 558, 642, 173, 14, 986, 60, 130, 585, 18, 24, 1.3)[data.table::chmatch(local, island_names)],
   alpha_grain_unit = "km2",
@@ -65,8 +67,10 @@ meta[, ":="(
   gamma_sum_grains_type = "archipelago",
   gamma_sum_grains_comment = "sum of the area of the islands",
 
-  comment = "extracted from jimenez-uzcategui et al CDF Checklist of Galapagos Reptiles. In the Jiménez-Uzcátegui et al checklists, year is not explicit but native species extinctions and exotic species arrival are expected to be more recent than human settlement in 1832. We considered an historical checklist with all native species and a current checklist with native and non-native species but without 5 extinct reptile species.Effort is unknown and considered extensive and exhaustive.",
-  comment_standardisation = "Species with an Unknown distribution were excluded."
+  comment = "extracted from jimenez-uzcategui et al CDF Checklist of Galapagos Reptiles. In the Jiménez-Uzcátegui et al checklists, year is not explicit but native species extinctions and exotic species arrival are expected to be more recent than human settlement in 1832. We considered an historical checklist with all native species and a current checklist with native and non-native species but without 5 extinct reptile species.
+  Full reference: Jiménez-Uzcátegui, G., Márquez, C., Snell, H. L. (2013). CDF Checklist of Galapagos Reptiles - FCD Lista de especies de Reptiles Galápagos. In: Bungartz, F., Herrera, H., Jaramillo, P., Tirado, N., Jiménez-Uzcátegui, G., Ruiz, D., Guézou, A. & Ziemmeck, F. (eds.). Charles Darwin Foundation Galapagos Species Checklist - Lista de Especies de Galápagos de la Fundación Charles Darwin. Charles Darwin Foundation / Fundación Charles Darwin, Puerto Ayora, Galapagos: http://checklists.datazone.darwinfoundation.org/vertebrates/reptilia/",
+  comment_standardisation = "Species with an Unknown distribution were excluded.",
+  doi = NA
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

@@ -69,7 +69,8 @@ meta[, ":="(
   gamma_bounding_box_comment = "area of Chile",
 
   comment = "Data extracted from the supplementary material associated with the article by castro et al in 2020 in plos one. The authors built checklists of fish species per watershed and considered pre-European (samples from early 20th century) and post-European (current) assemblages. 'Through a complete bibliographical review and authors’ personal records (Irma Vila and Evelyn Habit), we compiled a database with fish occurrence for each basin, distinguishing both native as exotic species. We labelled ‘native’ species as those that occur historically in a basin previous to the European colonization that started in mid-16th century, and whose distribution is a result of eco-evolutionary processes in Chilean basins. In turn, ‘exotic’ species were those non-native species introduced since 1535, which currently show naturalized populations (i.e., established species) in a given Chilean basin.'",
-  comment_standardisation = "none needed"
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1371/journal.pone.0238767'
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

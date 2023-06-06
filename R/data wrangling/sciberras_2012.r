@@ -1,6 +1,6 @@
-## scibarras_2012
+## sciberras_2012
 
-dataset_id <- "scibarras_2012"
+dataset_id <- "sciberras_2012"
 
 ddata <- data.table::fread(paste0("data/raw data/", dataset_id, "/rdata.csv"), skip = 2, drop = "check")
 
@@ -43,7 +43,7 @@ ddata[, ":="(
 
 # Metadata
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-env <- data.table::fread("./data/raw data/scibarras_2012/env.txt", sep = "\t", header = TRUE, skip = 1L, encoding = "UTF-8")
+env <- data.table::fread("./data/raw data/sciberras_2012/env.txt", sep = "\t", header = TRUE, skip = 1L, encoding = "UTF-8")
 env[, latitude := parzer::parse_lat(latitude)][, longitude := parzer::parse_lon(longitude)]
 env[, gamma_bounding_box := geosphere::areaPolygon(data.frame(longitude, latitude)[grDevices::chull(longitude, latitude), ]) / 10^6]
 env[, gamma_sum_grains := sum(area_m2), by = regional]
@@ -68,7 +68,7 @@ meta[, ":="(
   gamma_bounding_box_unit = "km2",
   gamma_bounding_box_type = "convex-hull",
 
-  comment = "Extracted from Scibarras et al 2012 table 1 (table extraction with tabula). The authors compile historical inventories of plant composition of Maltese archipelago and updated checklists with more recent surveys. Regional is the Maltese Archipelago, local are islets situated close to the shores of three main islands of the archipelago. Should regional be the whole archipelago or should the islets be grouped by island they are tied to? Effort unspecified but islets were entirely explored and vegetation thoroughly checked. Historical and recent periods cover the 1930s and, 1990s and 2000s respectively.",
+  comment = "Extracted from Sciberras et al 2012 table 1 (table extraction with tabula). The authors compile historical inventories of plant composition of Maltese archipelago and updated checklists with more recent surveys. Regional is the Maltese Archipelago, local are islets situated close to the shores of three main islands of the archipelago. Should regional be the whole archipelago or should the islets be grouped by island they are tied to? Effort unspecified but islets were entirely explored and vegetation thoroughly checked. Historical and recent periods cover the 1930s and, 1990s and 2000s respectively. Full reference: SCIBERRAS, J., SCIBERRAS, A. & PISANI, L. (2012) Updated Checklist of Flora of the Satellite islets surrounding the Maltese Archipelago. Biodiversity Journal, 3 (4): 385-396",
   comment_standardisation = "none needed",
 
   source = NULL

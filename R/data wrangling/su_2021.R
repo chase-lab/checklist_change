@@ -70,7 +70,8 @@ meta[, ":="(
   gamma_bounding_box_unit = "km2",
   gamma_bounding_box_type = "convex-hull",
 
-  comment = "Extracted from the authors figshare repository https://doi.org/10.6084/m9.figshare.13383170.v1. The authors gathered historical and recent fish composition in 2456 river basins worldwide. Gamma scale is the biogeographic realm provided by the authors. Alpha scale is the area of the watershed provided by the authors.",
+  comment = "Extracted from the authors figshare repository 'Scripts and files for Human Impacts on Global Freshwater Fish Biodiversity'. The authors gathered historical and recent fish composition in 2456 river basins worldwide. Gamma scale is the biogeographic realm provided by the authors. Alpha scale is the area of the watershed provided by the authors.",
+  doi = 'https://doi.org/10.6084/m9.figshare.13383170.v1',
   comment_standardisation = "none needed"
 
 )][, gamma_sum_grains := sum(alpha_grain) / 2, by = .(regional, year)]

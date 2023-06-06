@@ -1,27 +1,27 @@
 ## rosenblad_2016a
-dataset_id <- "rosenblad_2016a"
 
+
+dataset_id <- "rosenblad_2016a"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
+
 data.table::setnames(ddata, "Scientific name", "species")
 
-ddata <- unique(
-   data.table::melt(ddata,
-                    measure.vars = 2L:ncol(ddata),
-                    variable.name = "local",
-                    value.name = "value",
-                    na.rm = TRUE
-   )
+ddata <- data.table::melt(ddata,
+  variable.name = "local",
+  measure.vars = 2:ncol(ddata),
+  measure.name = "value",
+  na.rm = TRUE
 )
 
 ddata[, c("local", "period") := data.table::tstrsplit(local, ": ")]
 
 ddata[, ":="(
-   dataset_id = dataset_id,
-   regional = "global",
-   local = c("New Zealand", "Northern Line Islands", "Tristan da Cunha", "Nauru", "Pitcairn Island", "Norfolk Island", "Lord Howe Island", "Hawaiian Islands", "Christmas Island", "Cocos (Keeling) Islands", "Easter Island")[match(local, c("New Zealand", "Northern Line", "Tristan da Cunha", "Nauru", "Pitcairn", "Norfolk", "Lord Howe", "Hawaii", "Christmas", "Cocos", "Easter"))],
+  dataset_id = dataset_id,
+  regional = "global",
+  local = c("New Zealand", "Northern Line Islands", "Tristan da Cunha", "Nauru", "Pitcairn Island", "Norfolk Island", "Lord Howe Island", "Hawaiian Islands", "Christmas Island", "Cocos (Keeling) Islands", "Easter Island")[match(local, c("New Zealand", "Northern Line", "Tristan da Cunha", "Nauru", "Pitcairn", "Norfolk", "Lord Howe", "Hawaii", "Christmas", "Cocos", "Easter"))],
 
-   year = c(1500L, 2000L)[match(period, c("present initially", "present currently"))],
-   period = NULL
+  year = c(1500L, 2000L)[match(period, c("present initially", "present currently"))],
+  period = NULL
 )]
 
 
@@ -31,39 +31,39 @@ longitudes <- parzer::parse_lon(c("14°25`W", "176°26`W", '105°40`41"E', '96°
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[, ":="(
-   realm = "Terrestrial",
-   taxon = "Plants",
+  realm = "Terrestrial",
+  taxon = "Plants",
 
-   latitude = latitudes[match(local, local_names)],
-   longitude = longitudes[match(local, local_names)],
+  latitude = latitudes[match(local, local_names)],
+  longitude = longitudes[match(local, local_names)],
 
-   effort = 1L,
+  effort = 1L,
 
-   alpha_grain = c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636, 14.55, 1049.3, 2040, 21, 268021, 34.6, sum(4, 9.55, 33.73, 388.39), 4.6, 2511, 108, 121, 3030, 1590, 748, 207)[match(local, local_names)],
-   alpha_grain_unit = "km2",
-   alpha_grain_type = data.table::fifelse(local %in% c("Ascension Island", "Christmas Island", "Easter Island", "Guam", "Lord Howe Island", "Mauritius", "Nauru", "Norfolk Island", "Pitcairn Island", "Reunion", "Rodrigues", "Saint Helena"), "island", "archipelago"),
-   alpha_grain_comment = "area of the sampled islands and for archipelagos: sum of the areas of the islands",
+  alpha_grain = c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636, 14.55, 1049.3, 2040, 21, 268021, 34.6, sum(4, 9.55, 33.73, 388.39), 4.6, 2511, 108, 121, 3030, 1590, 748, 207)[match(local, local_names)],
+  alpha_grain_unit = "km2",
+  alpha_grain_type = data.table::fifelse(local %in% c("Ascension Island", "Christmas Island", "Easter Island", "Guam", "Lord Howe Island", "Mauritius", "Nauru", "Norfolk Island", "Pitcairn Island", "Reunion", "Rodrigues", "Saint Helena"), "island", "archipelago"),
+  alpha_grain_comment = "area of the sampled islands and for archipelagos: sum of the areas of the islands",
 
-   # gamma_bounding_box = sum(106460000L, 70560000L, 165250000L), # Atlantic, Indian, Pacific ocean areas
-   gamma_sum_grains = sum(c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636, 14.55, 1049.3, 2040, 21, 268021, 34.6, sum(4, 9.55, 33.73, 388.39), 4.6, 2511, 108, 121, 3030, 1590, 748, 207)),
-   gamma_sum_grains_unit = "km2",
-   gamma_sum_grains_type = "archipelago",
-   gamma_sum_grains_comment = "Sum of the areas of the islands",
+  # gamma_bounding_box = sum(106460000L, 70560000L, 165250000L), # Atlantic, Indian, Pacific ocean areas
+  gamma_sum_grains = sum(c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636, 14.55, 1049.3, 2040, 21, 268021, 34.6, sum(4, 9.55, 33.73, 388.39), 4.6, 2511, 108, 121, 3030, 1590, 748, 207)),
+  gamma_sum_grains_unit = "km2",
+  gamma_sum_grains_type = "archipelago",
+  gamma_sum_grains_comment = "Sum of the areas of the islands",
 
-   gamma_bounding_box = geosphere::areaPolygon(data.frame(longitudes, latitudes)[grDevices::chull(longitudes, latitudes), ]) / 10^6,
-   gamma_bounding_box_unit = "km2",
-   gamma_bounding_box_type = "convex-hull",
+  gamma_bounding_box = geosphere::areaPolygon(data.frame(longitudes, latitudes)[grDevices::chull(longitudes, latitudes), ]) / 10^6,
+  gamma_bounding_box_unit = "km2",
+  gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from Rosenblad et al 2016 Supplementary (10.5061/dryad.c9s61). Effort is unknown. Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence. Gamma scale is global.",
-   comment_standardisation = "none needed"
+  comment = "Extracted from Rosenblad et al 2016 Supplementary (10.5061/dryad.c9s61). Effort is unknown. Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence. Gamma scale is global.",
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.5061/dryad.c9s61 | https://doi.org/10.1111/ecog.02652'
 )]
 
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
 data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+  row.names = FALSE
 )
 data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+  row.names = FALSE
 )
-

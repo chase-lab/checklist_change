@@ -2,10 +2,7 @@
 dataset_id <- "continental-us_2020"
 
 # Loading the list of US states ----
-state_dictionnary <- data.table::fread(
-   file = "./data/raw data/continental-us_2020/state dictionnary.csv",
-   skip = 1, header = TRUE, encoding = "Latin-1"
-)
+state_dictionnary <- data.table::fread("./data/raw data/continental-us_2020/state dictionnary.csv", skip = 1, header = TRUE, encoding = "Latin-1")
 data.table::setnames(state_dictionnary, c("Name of region", "ANSI"), c("long", "short")) # warning is OK
 state_dictionnary[long == "District of Columbia", long := "Washington DC"]
 state_dictionnary[, Location := gsub("^.*/ \\?", "", Location)][, c("latitude", "longitude") := data.table::tstrsplit(Location, " ")]
@@ -17,46 +14,42 @@ state_area[, area := as.integer(gsub(",", "", area))]
 
 # Loading alien species from GLONAF ----
 ddata_alien <- read.csv(
-   text = paste0(
-      stringi::stri_read_lines(
-         "./data/cache/continental-us_2020/glonaf/glonaf/GLONAF/Taxon_x_List_GloNAF_vanKleunenetal2018Ecology.csv",
-         encoding = "UTF-16LE"
-      ),
-      collapse = "\n"
-   ),
-   sep = "\t",
-   stringsAsFactors = FALSE
+  text = paste0(
+    stringi::stri_read_lines(
+      "./data/cache/continental-us_2020/glonaf/glonaf/GLONAF/Taxon_x_List_GloNAF_vanKleunenetal2018Ecology.csv",
+      encoding = "UTF-16LE"
+    ),
+    collapse = "\n"
+  ),
+  sep = "\t",
+  stringsAsFactors = FALSE
 )
 data.table::setDT(ddata_alien)
 
-regions <- data.table::fread(
-   file = "./data/cache/continental-us_2020/glonaf/glonaf/GLONAF/Region_GloNAF_vanKleunenetal2018Ecology.csv",
-   encoding = "Latin-1"
-   )
+regions <- data.table::fread("./data/cache/continental-us_2020/glonaf/glonaf/GLONAF/Region_GloNAF_vanKleunenetal2018Ecology.csv")
 
-ddata_alien <- unique(merge(ddata_alien, regions[, .(region_id, country, name)]))
+ddata_alien <- merge(ddata_alien, regions[, .(region_id, country, name)])
 ddata_alien <- ddata_alien[country == "United States of America (the)"]
 
 data.table::setnames(ddata_alien, c("name", "standardized_name"), c("local", "species")) #
 ddata_alien <- ddata_alien[local %in% unlist(state_dictionnary[c(1, 3:50), "long"])]
 ddata_alien[, ":="(
-   period = "present",
-   species = gsub(" var. .*$| ssp. .*$| subsp. .*$", "", species),
+  period = "present",
+  species = gsub(" var. .*$| ssp. .*$| subsp. .*$", "", species),
 
-   region_id = NULL,
-   taxon_orig = NULL,
-   tpl_input = NULL,
-   TPL_Plant_Name_Index = NULL,
-   author = NULL,
-   hybrid = NULL,
-   family_tpl = NULL,
-   name_status = NULL,
-   list_id = NULL,
-   status = NULL,
-   country = NULL
+  region_id = NULL,
+  taxon_orig = NULL,
+  tpl_input = NULL,
+  TPL_Plant_Name_Index = NULL,
+  author = NULL,
+  hybrid = NULL,
+  family_tpl = NULL,
+  name_status = NULL,
+  list_id = NULL,
+  status = NULL,
+  country = NULL
 )]
 lstsp <- unique(ddata_alien$species)
-ddata_alien <- unique(ddata_alien)
 
 
 
@@ -64,52 +57,52 @@ ddata_alien <- unique(ddata_alien)
 
 
 # Loading extinctions from knapp et al ----
-ddata_extinction <- unique(base::readRDS(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds")))
+ddata_extinction <- base::readRDS(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds"))
 ddata_extinction[, local := trimws(gsub(" & ", ", ", local))]
 ddata_extinction[, paste("tmp", 1:7) := data.table::tstrsplit(local, ", ")]
 ddata_extinction <- data.table::melt(ddata_extinction,
-                                     id.vars = "species",
-                                     measure.vars = paste("tmp", 1:7),
-                                     value.name = "local",
-                                     na.rm = TRUE
+  id.vars = "species",
+  measure.vars = paste("tmp", 1:7),
+  value.name = "local",
+  na.rm = TRUE
 )
 
 
 ddata_extinction[, ":="(local = state_dictionnary$long[match(local, state_dictionnary$short)],
-                        species = unlist(stringi::stri_extract_all_regex(species, "^[A-Za-z]+ [a-z]+")), # 'Genus species' only
-                        matchl = species %in% lstsp,
-                        period = "historical",
-                        variable = NULL,
-                        na.rm = TRUE
-)] # exclusion of Mexico and Ontario
+  species = unlist(stringi::stri_extract_all_regex(species, "^[A-Za-z]+ [a-z]+")), # 'Genus species' only
+  matchl = species %in% lstsp,
+  period = "historical",
+  variable = NULL
+)]
+ddata_extinction <- ddata_extinction[!is.na(local)] # exclusion of Mexico and Ontario
 
 ## * check if extinct species were originally present in the glonaf data set: ----
 # ddata_extinction$species %in% ddata_alien$species
 
 if (file.exists("./data/requests to taxonomy databases/continental-us_2020 synonym pow request")) {
-   load("./data/requests to taxonomy databases/continental-us_2020 synonym pow request")
+  load("./data/requests to taxonomy databases/continental-us_2020 synonym pow request")
 } else {
-   # synitis <- taxize::synonyms(sci_id = y, db = 'itis')
-   synpow <- taxize::synonyms(sci_id = y, db = "pow")
-   # Astralagus robbinsii - 3 -  urn:lsid:ipni.org:names:30066006-2
-   # Prunus maritima - 1 - urn:lsid:ipni.org:names:30034170-2
-   # Tephrosia angustissima - 1 - urn:lsid:ipni.org:names:520382-1
-   synpow <- data.table::rbindlist(synpow, idcol = TRUE, use.names = TRUE)
+  # synitis <- taxize::synonyms(sci_id = y, db = 'itis')
+  synpow <- taxize::synonyms(sci_id = y, db = "pow")
+  # Astralagus robbinsii - 3 -  urn:lsid:ipni.org:names:30066006-2
+  # Prunus maritima - 1 - urn:lsid:ipni.org:names:30034170-2
+  # Tephrosia angustissima - 1 - urn:lsid:ipni.org:names:520382-1
+  synpow <- data.table::rbindlist(synpow, idcol = TRUE, use.names = TRUE)
 
-   # save(synitis, file = './data/requests to taxonomy databases/continental-us_2020 synonym itis request')
-   save(synpow, file = "./data/requests to taxonomy databases/continental-us_2020 synonym pow request")
+  # save(synitis, file = './data/requests to taxonomy databases/continental-us_2020 synonym itis request')
+  save(synpow, file = "./data/requests to taxonomy databases/continental-us_2020 synonym pow request")
 }
 
 synpow[, ":="(
-   species = .id,
-   synonyms = stringi::stri_extract_all_regex(name, "^[A-Za-z-?]+ [a-z-?]+", simplify = TRUE), # 'Genus species' only]
+  species = .id,
+  synonyms = stringi::stri_extract_all_regex(name, "^[A-Za-z-?]+ [a-z-?]+", simplify = TRUE), # 'Genus species' only]
 
-   ".id" = NULL,
-   id = NULL,
-   author = NULL,
-   rank = NULL,
-   taxonomicStatus = NULL,
-   name = NULL
+  ".id" = NULL,
+  id = NULL,
+  author = NULL,
+  rank = NULL,
+  taxonomicStatus = NULL,
+  name = NULL
 )]
 
 synpow <- unique(synpow[species != synonyms, ])
@@ -118,12 +111,12 @@ ddata_extinction <- merge(ddata_extinction, synpow)
 
 ## names in ddata_extinction are replaced with there synonym when the synonym matches with glonaf.
 ddata_extinction[, species := data.table::fifelse(
-   synonyms %in% lstsp,
-   synonyms,
-   species
+  synonyms %in% lstsp,
+  synonyms,
+  species
 )][
-   ,
-   matchl := species %in% lstsp
+  ,
+  matchl := species %in% lstsp
 ]
 ddata_extinction[species == "Crataegus lanuginosa", species := "Crataegus mollis"]
 ddata_extinction[species == "Arctostaphylos franciscana", species := "Arctostaphylos hookeri"]
@@ -149,33 +142,33 @@ ddata_plants <- ddata_plants[!is.na(local)]
 ## * splitting and melting local ----
 ddata_plants[, paste0("tmp", 1:53) := data.table::tstrsplit(local, ", ")]
 ddata_plants <- data.table::melt(ddata_plants,
-                                 measure.vars = paste0("tmp", 1:53),
-                                 na.rm = TRUE
+  measure.vars = paste0("tmp", 1:53),
+  na.rm = TRUE
 )
 ddata_plants <- ddata_plants[!value %in% c("AK", "PW", "NAV", "HI", "UM", "FM", "GU", "MH", "MP")]
 
 ## * splitting and melting periods ----
 
 ddata_plants[, `Native Status` := stringi::stri_extract_all_regex(`Native Status`, "(?<=L48\\()[A-Z]+(?=\\))", simplify = TRUE)][
-   , periodTemp := c("historical+present", "present")[match(`Native Status`, c("N", "I"))]
-   # ][, periodTemp := c('historical+present', 'present','unclear','unclear')[match(`Native Status`, c('N','I','NI','W'))]
+  , periodTemp := c("historical+present", "present")[match(`Native Status`, c("N", "I"))]
+  # ][, periodTemp := c('historical+present', 'present','unclear','unclear')[match(`Native Status`, c('N','I','NI','W'))]
 ][, paste0("tmp", 1:2) := data.table::tstrsplit(periodTemp, "\\+")]
 ddata_plants <- data.table::melt(ddata_plants,
-                                 measure.vars = paste0("tmp", 1:2),
-                                 value.name = "period",
-                                 na.rm = TRUE
+  measure.vars = paste0("tmp", 1:2),
+  value.name = "period",
+  na.rm = TRUE
 )
 
 ddata_plants[, ":="(
-   local = state_dictionnary$long[match(value, state_dictionnary$short)],
-   species = gsub("Ã—", "X ", x = gsub(" var. .*$| ssp. .*$", "", species)),
+  local = state_dictionnary$long[match(value, state_dictionnary$short)],
+  species = gsub("Ã—", "X ", x = gsub(" var. .*$| ssp. .*$", "", species)),
 
-   periodTemp = NULL,
-   Invasive = NULL,
-   "Native Status" = NULL,
-   variable = NULL,
-   variable.1 = NULL,
-   value = NULL
+  periodTemp = NULL,
+  Invasive = NULL,
+  "Native Status" = NULL,
+  variable = NULL,
+  variable.1 = NULL,
+  value = NULL
 )]
 
 # checks <- data.frame(species = ddata_extinction$species, original = ddata_extinction$species %in% ddata_plants$species, synonyms = ddata_extinction$synonyms, match_synonym = ddata_extinction$synonyms %in% ddata_plants$species)
@@ -208,7 +201,7 @@ ddata_plants[, ":="(
 
 # Binding plants, invasions and extinctions datasets ----
 ddata <- rbind(ddata_plants, ddata_alien, ddata_extinction, fill = TRUE)
-ddata <- ddata[!is.na(local)]
+
 
 # Checking S values ----
 # ddata_plants[, S := length(unique(species)), by = .(local, period)]
@@ -229,49 +222,50 @@ ddata <- ddata[!is.na(local)]
 # Ddata and metadata ----
 
 ddata[, ":="(
-   dataset_id = dataset_id,
-   regional = "USA",
+  dataset_id = dataset_id,
+  regional = "USA",
 
-   year = c(1565L, 2020L)[match(period, c("historical", "present"))],
+  year = c(1565L, 2020L)[match(period, c("historical", "present"))],
 
-   value = 1L,
+  value = 1,
 
-   period = NULL,
-   "Accepted Symbol" = NULL,
-   "Synonym Symbol" = NULL
+  period = NULL,
+
+  "Accepted Symbol" = NULL,
+  "Synonym Symbol" = NULL
 )]
-ddata <- unique(ddata)
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[, ":="(
-   taxon = "Plants",
-   realm = "Terrestrial",
+  taxon = "Plants",
+  realm = "Terrestrial",
 
-   latitude = state_dictionnary$latitude[match(local, state_dictionnary$long)],
-   longitude = state_dictionnary$longitude[match(local, state_dictionnary$long)],
+  latitude = state_dictionnary$latitude[match(local, state_dictionnary$long)],
+  longitude = state_dictionnary$longitude[match(local, state_dictionnary$long)],
 
-   effort = 1L,
+  effort = 1L,
 
-   alpha_grain = state_area$area[match(local, state_area$long)],
-   alpha_grain_unit = "km2",
-   alpha_grain_type = "administrative",
-   alpha_grain_comment = "USA state",
+  alpha_grain = state_area$area[match(local, state_area$long)],
+  alpha_grain_unit = "km2",
+  alpha_grain_type = "administrative",
+  alpha_grain_comment = "USA state",
 
-   gamma_sum_grains = sum(state_area$area[state_area$long %in% local]),
-   gamma_sum_grains_unit = "km2",
-   gamma_sum_grains_type = "administrative",
-   gamma_sum_grains_comment = "sum of the area of the contiguous US states",
+  gamma_sum_grains = sum(state_area$area[state_area$long %in% local]),
+  gamma_sum_grains_unit = "km2",
+  gamma_sum_grains_type = "administrative",
+  gamma_sum_grains_comment = "sum of the area of the contiguous US states",
 
-   comment = "Alien species (absent from historical times) were extracted from the GLONAF and PLANTS databases. GLONAF is an international alien plant species database (https://glonaf.org/). PLANTS is a plant database maintained by the USDA agency (https://plants.usda.gov/). Extinct species (only present in historical times) were extracted from Knapp et al 2020 10.1111/cobi.13621. The other species occurrences were extracted from the USDA PLANTS database. IMPORTANT: subspecies and varieties were pooled together. Year is difficult to infer from these different data sets but historical situation being pre 1950s and modern situation being post 1990s is a reasonable assumption.",
-   comment_standardisation = "none needed"
+  comment = "Alien species (absent from historical times) were extracted from the GLONAF and PLANTS databases. GLONAF is an international alien plant species database (https://glonaf.org/). PLANTS is a plant database maintained by the USDA agency (https://plants.usda.gov/). Extinct species (only present in historical times) were extracted from Knapp et al 2020 10.1111/cobi.13621. The other species occurrences were extracted from the USDA PLANTS database. IMPORTANT: subspecies and varieties were pooled together. Year is difficult to infer from these different data sets but historical situation being pre 1950s and modern situation being post 1990s is a reasonable assumption.",
+  comment_standardisation = "none needed",
+  doi = 'https://doi.org/10.1002/ecy.2542 | https://doi.org/10.1111/cobi.13621'
 )]
 
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
 data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+  row.names = FALSE
 )
 data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+  row.names = FALSE
 )
 
