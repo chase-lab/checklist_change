@@ -33,9 +33,9 @@ if (!file.exists("data/krehenwinkel_2022/rdata.rds")) {
    # melting species ----
    ddata <- data.table::melt(
       ddata,
-      id.vars = c("ID", "Site_ID", "Tree", "Year", "GK_E", "GK_N"),
+      id.vars = c("Site_ID", "Tree", "Year", "GK_E", "GK_N"),
       measure.vars = 13L:ncol(ddata))
-   data.table::setnames(ddata, c("local","regional","tree_species", "year", "longitude", "latitude", "species", "value"))
+   data.table::setnames(ddata, c("local", "tree_species", "year", "longitude", "latitude", "species", "value"))
 
    ddata <- ddata[value != "0"][, value := 1L]
 
