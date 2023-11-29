@@ -5,7 +5,9 @@ data.table::setnames(ddata, c('year', 'date', 'latitude', 'longitude', 'local', 
 
 # Data selection ----
 ## keeping only sites sampled at least 10 years appart ----
-ddata <- ddata[ddata[, diff(range(year)), by = local][V1 >= 10L][, .(local)], on = 'local']
+ddata <- ddata[
+   i = !ddata[j = diff(range(year)), by = local][V1 < 9L],
+   on = 'local']
 ## Pooling observations from one site from the same year ----
 ddata <- unique(ddata[, date := NULL])
 
@@ -50,10 +52,14 @@ ddata[, c('latitude','longitude') := NULL]
 
 # Saving ----
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
 
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

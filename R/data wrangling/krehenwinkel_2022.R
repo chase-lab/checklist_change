@@ -1,8 +1,9 @@
-# krehenwinkel_2022_buche
-dataset_id <- "krehenwinkel_2022_buche"
+# krehenwinkel_2022
+dataset_id <- "krehenwinkel_2022"
 
 ddata <- base::readRDS("data/raw data/krehenwinkel_2022/rdata.rds")
-ddata <- ddata[, local := paste(local, tree_species, sep = "_")][, c("tree_species", "value") := NULL]
+ddata <- ddata[j = local := paste(local, tree_species, sep = "_")][
+   j = c("tree_species", "value") := NULL]
 # coords <- sf::st_as_sf(ddata[, .(local, latitude, longitude)], coords = c( "longitude", "latitude"), crs = sf::st_crs("EPSG:23033"))
 # # 2583
 # # 5556
@@ -61,9 +62,10 @@ meta[, ":="(
    gamma_bounding_box_comment = "coordinates provided by authors",
 
    comment = "Data extracted from the Supplement material of Henrik Krehenwinkel, Sven Weber, Rieke Broekmann, Anja Melcher, Julian Hans, Rüdiger Wolf, Axel Hochkirch, Susan Rachel Kennedy, Jan Koschorreck, Sven Künzel, Christoph Müller, Rebecca Retzlaff, Diana Teubner, Sonja Schanzer, Roland Klein, Martin Paulus, Thomas Udelhoven, Michael Veith (2022) Environmental DNA from archived leaves reveals widespread temporal turnover and biotic homogenization in forest arthropod communities eLife 11:e78521.
-METHODS: 'We used a total of 312 leaf samples of four common German tree species: the European Beech Fagus sylvatica (98 samples), the Lombardy Poplar Populus nigra ‘italica’ (65 samples), the Norway Spruce Picea abies (123 samples), and the Scots Pine Pinus sylvestris (26 samples). The samples have been collected annually or biannually by the German Environmental Specimen Bank (ESB) since the 1980s[...]. A total of 24 sampling sites were included, covering sampling periods of up to 31 years and representing four land use types of varying degrees of anthropogenic disturbance [...]. ESB samples are collected and processed according to a highly standardized protocol at the same time every year. Sampling events between different years of the time series usually do not differ by more than 2 weeks.[...] A defined amount of leaf material (>1.100 g) is collected from a defined number of trees (15 at most sites) from each site and from 4 branches from each tree. The branches are distributed equally spaced in the outer crown area of the tree. The amount sampled translates to several thousand leaves from each site, which should suffice to saturate the recovered arthropod diversity.",
+METHODS: 'We used a total of 312 leaf samples of four common German tree species: the European Beech Fagus sylvatica (98 samples), the Lombardy Poplar Populus nigra ‘italica’ (65 samples), the Norway Spruce Picea abies (123 samples), and the Scots Pine Pinus sylvestris (26 samples). The samples have been collected annually or biannually by the German Environmental Specimen Bank (ESB) since the 1980s[...]. A total of 24 sampling sites were included, covering sampling periods of up to 31 years and representing four land use types of varying degrees of anthropogenic disturbance [...]. ESB samples are collected and processed according to a highly standardized protocol at the same time every year. Sampling events between different years of the time series usually do not differ by more than 2 weeks.[...] A defined amount of leaf material (>1.100 g) is collected from a defined number of trees (15 at most sites) from each site and from 4 branches from each tree. The branches are distributed equally spaced in the outer crown area of the tree. The amount sampled translates to several thousand leaves from each site, which should suffice to saturate the recovered arthropod diversity.'
+Regional is Germany, local are single trees from which many leaves were sampled",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.7554/eLife.78521'
+   doi = "https://doi.org/10.7554/eLife.78521"
 )]
 
 ddata[, c("latitude", "longitude") := NULL]

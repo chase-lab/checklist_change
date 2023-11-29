@@ -57,7 +57,8 @@ env <- data.table::data.table(
     sum(52796.791, 56584.6, 98311.616, 27767.7),
     sum(565733, 21910.4, 586528.29)
   )
-)
+)[, ":="(latitude = parzer::parse_lat(latitude),
+         longitude = parzer::parse_lon(longitude))]
 
 # metadata
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
@@ -75,7 +76,7 @@ meta[, ":="(
   alpha_grain_type = "administrative",
   alpha_grain_comment = "area of the administrative state",
 
-  gamma_bounding_box = geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 1000000,
+  gamma_bounding_box = geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6,
   gamma_bounding_box_unit = "km2",
   gamma_bounding_box_type = "convex-hull",
 
@@ -85,7 +86,8 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the area of the states",
 
 
-  comment = "Data were extracted by hand from Supp 1 (https://doi.org/10.1007/s10750-020-04236-8) to a csv file. Areas and coordinates were retrieved from Wikipedia. Methods: 'We evaluated species records and fisheries through the technical reports compiled for 108 dams, spatially separated into four regions according to Brazilian states boundaries, following the DNOCS protocol, based on their location in the Brazilian states: Region I (Paui state), Region II (Ceara state), Region III (Rio Grande do Norte, Parai´ba, Pernambuco and Alagoas states), and Region IV (Bahia, Sergipe and Minas Gerais states)[...]Fish assemblages were sampled monthly at each dam, using gillnets, cast nets, and fish hooks. This represents a 64-year time period at the Inter-region scale (considering dams in all regions) (Table 1), and a 49-year time period at the Intra-region scale (considering dams within each region), except for Regions I and IV, which were only represented by 47-year and 31-year time periods, respectively (Table 1).",
+  comment = "Data were extracted by hand from Supp 1 (Fisheries and biotic homogenization of freshwater fish in the Brazilian semiarid region) to a csv file. Areas and coordinates were retrieved from Wikipedia. METHODS: 'We evaluated species records and fisheries through the technical reports compiled for 108 dams, spatially separated into four regions according to Brazilian states boundaries, following the DNOCS protocol, based on their location in the Brazilian states: Region I (Paui state), Region II (Ceara state), Region III (Rio Grande do Norte, Parai´ba, Pernambuco and Alagoas states), and Region IV (Bahia, Sergipe and Minas Gerais states)[...]Fish assemblages were sampled monthly at each dam, using gillnets, cast nets, and fish hooks. This represents a 64-year time period at the Inter-region scale (considering dams in all regions) (Table 1), and a 49-year time period at the Intra-region scale (considering dams within each region), except for Regions I and IV, which were only represented by 47-year and 31-year time periods, respectively (Table 1).'
+Regional is 'Semiarid Brazil' and local are regions determined by the authors.",
   comment_standardisation = "none needed",
   doi = 'https://doi.org/10.1007/s10750-020-04236-8'
 )]

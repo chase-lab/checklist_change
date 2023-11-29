@@ -1,6 +1,5 @@
 ## baiser_2011
 
-
 dataset_id <- "baiser_2011"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
@@ -59,7 +58,10 @@ meta[, ":="(
   gamma_sum_grains_comment = "sum of the area of the islands from each archipelago.",
 
 
-  comment = "Extracted from baiser et al 2011 Dryad repo. The authors 'extracted presence/absence data from a database of bird species on 152 oceanic islands compiled by Blackburn et al. (2004) and Cassey et al. (2007) from species lists, field guides, and literature'. Past is considered to be pre-colonisation times and recent checklists were made after the 1990s.",
+  comment = "Extracted from Dryad repo Baiser, Benjamin; Valle, Dennis; Zelazny, Zoe; Burleigh, J. Gordon (2017). Data from: Non-random patterns of invasion and extinction reduce phylogenetic diversity in island bird assemblages [Dataset]. Dryad. https://doi.org/10.5061/dryad.rs714. The authors 'extracted presence/absence data from a database of bird species on 152 oceanic islands compiled by Blackburn et al. (2004) and Cassey et al. (2007) from species lists, field guides, and literature'.
+Where needed, coordinates were extracted from the gift database: Weigelt, P., König, C. & Kreft, H. (2020) GIFT – A Global Inventory of Floras and Traits for macroecology and biogeography. Journal of Biogeography, 47, 16-43. doi: 10.1111/jbi.13623
+Past is considered to be pre-colonisation times and recent checklists were made after the 1990s.
+regional is an archipelago, local is an island",
   comment_standardisation = "none needed",
   doi = 'https://doi.org/10.5061/dryad.rs714',
 

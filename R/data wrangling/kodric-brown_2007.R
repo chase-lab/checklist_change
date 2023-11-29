@@ -1,12 +1,12 @@
 ## kodric-brown_2007
-
-
 dataset_id <- "kodric-brown_2007"
 
-ddata <- data.table::fread(paste0("data/raw data/", dataset_id, "/rdata.csv"), skip = 1L)
+ddata <- data.table::fread(
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
+   skip = 1L)
 
 # melting sites
-ddata <- data.table::melt(ddata,
+ddata <- data.table::melt(data = ddata,
                           id.vars = c("species"),
                           value.name = "value",
                           variable.name = "local"
@@ -22,10 +22,9 @@ ddata[, c("1991", "2003") := data.table::tstrsplit(
          paste("1", ""),
          paste("", "1")
       )
-   ),
-   split = " "
+   ), split = " "
 )]
-ddata <- data.table::melt(ddata,
+ddata <- data.table::melt(data = ddata,
                           id.vars = c("local", "species"),
                           measure.vars = c("1991", "2003"),
                           value.name = "value",
@@ -36,12 +35,12 @@ ddata <- ddata[!is.na(value) & value != ""]
 
 ddata[, ":="(
    dataset_id = dataset_id,
-   local = gsub("\\*", "", local),
+   local = sub("\\*", "", local),
    regional = "Dalhousie Springs"
 )]
 
 
-meta <- unique((ddata[, .(dataset_id, regional, local, year)]))
+meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[, ":="(
    taxon = "Fish",
    realm = "Freshwater",
@@ -61,16 +60,21 @@ meta[, ":="(
    gamma_bounding_box_type = "ecosystem",
    gamma_bounding_box_comment = "area covered by the Dalhousie Springs, given by the authors",
 
-   comment = 'Extracted from kodric-brown_2007 table 1 (https://doi.org/10.1111/j.1472-4642.2007.00395.x) (table extraction from pdf). The authors sampled fish in 30 ponds of a nature park in 1991 and resurveyed in 2003. Regional is the Dalhousie Springs, Witjira National Park, Australia, local are springs. years correspond to a first survey and a resurvey. Effort to get these checklists varies a lot in time and in space. During the resurvey, no seine nets were used and special effort was made to found species that were originally present in 1991. BUT "We used essentially identical methods to sample intensively for the presence of each fish species.',
+   comment = "Extracted from kodric-brown_2007 table 1 (Kodric-Brown, A., Wilcox, C., Bragg, J.G. and Brown, J.H. (2007), Dynamics of fish in Australian desert springs: role of large-mammal disturbance. Diversity and Distributions, 13: 789-798. https://doi.org/10.1111/j.1472-4642.2007.00395.x) (table extraction from pdf). The authors sampled fish in 30 ponds of a nature park in 1991 and resurveyed in 2003. years correspond to a first survey and a resurvey. Effort to get these checklists varies a lot in time and in space. During the resurvey, no seine nets were used and special effort was made to found species that were originally present in 1991. BUT 'We used essentially identical methods to sample intensively for the presence of each fish species.'
+Regional is the Dalhousie Springs, Witjira National Park, Australia, local are springs. ",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.1111/j.1472-4642.2007.00395.x'
+   doi = "https://doi.org/10.1111/j.1472-4642.2007.00395.x"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
 
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

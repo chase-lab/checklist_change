@@ -1,22 +1,20 @@
 ## mcHugh_2011
-
-
 dataset_id <- "mcHugh_2011"
 
-ddata <- data.table::fread(paste0("data/raw data/", dataset_id, "/rdata.csv"), skip = 1L)
+ddata <- data.table::fread(
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
+   skip = 1L)
 
 ## melting sites and time periods
-ddata <- data.table::melt(ddata,
-                          id.vars = "species",
-                          measure.vars = c("historic BB", "historic WB", "modern BB", "modern WB"),
-                          variable.name = "temp"
+ddata <- data.table::melt(
+   data = ddata,
+   id.vars = "species",
+   measure.vars = c("historic BB", "historic WB", "modern BB", "modern WB"),
+   variable.name = "temp"
 )
 
 # splitting period and local
-ddata[, c("period", "local") := data.table::tstrsplit(temp, " ")][
-   ,
-   temp := NULL
-]
+ddata[, c("period", "local") := data.table::tstrsplit(temp, " ")][, temp := NULL]
 
 effort <- data.table::data.table(
    period = c("historic", "modern"),
@@ -29,7 +27,11 @@ effort <- data.table::data.table(
       7 * 20 + 5 * 20 + 6 * 20 + 6 * 20 + 6 * 20 + 6 * 20
    )
 )
-effort <- data.table::melt(effort, id.vars = "period", value.name = "effort", variable.name = "local")
+effort <- data.table::melt(
+   data = effort,
+   id.vars = "period",
+   value.name = "effort",
+   variable.name = "local")
 ddata <- merge(ddata, effort, by = c("local", "period"))
 
 ddata <- ddata[!is.na(value) & value > 0]
@@ -72,17 +74,22 @@ meta[, ":="(
    gamma_bounding_box_type = "box",
    gamma_bounding_box_comment = "area of a box roughly covering the three sampling zones",
 
-   comment = "Extracted from mcHugh et al 2011 table 3 (table extraction). Authors compiled fish community composition and trawling effort from historical records and resurveyed the same areas with methodological and effort consistency in mind. Regional is the Western English Channel, near Plymouth, local are two bays, years correspond to the last year of two sampling periods (1913-1922, 2008-2009). Effort is the sum of trawling hours per site per campaign see table 1. CPUEs are given by the authors but only presence absence is used here.",
+   comment = "Extracted from mcHugh et al 2011 table 3 (Matthew McHugh, David W. Sims, Julian C. Partridge, Martin J. Genner, A century later: Long-term change of an inshore temperate marine fish assemblage, Journal of Sea Research, 65, 2, 2011, 187-194, https://doi.org/10.1016/j.seares.2010.09.006.) (table extraction). Authors compiled fish community composition and trawling effort from historical records and resurveyed the same areas with methodological and effort consistency in mind. Regional is the Western English Channel, near Plymouth, local are two bays, years correspond to the last year of two sampling periods (1913-1922, 2008-2009). Effort is the sum of trawling hours per site per campaign see table 1. CPUEs are given by the authors but only presence absence is used here.
+Regional is the English Channel and local are bays",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.1016/j.seares.2010.09.006'
+   doi = "https://doi.org/10.1016/j.seares.2010.09.006"
 )]
 
 ddata[, effort := NULL]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

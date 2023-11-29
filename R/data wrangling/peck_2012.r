@@ -34,9 +34,15 @@ ddata[, ":="(
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-island_names <- c("Isabela", "Española", "Darwin", "San Cristóbal", "Fernandina", "Floreana", "Genovesa", "Santa Cruz", "Pinta", "Marchena", "Santiago", "Pinzón", "Santa Fé", "Wolf")
-latitudes <- parzer::parse_lat(c("00°30`S", "1.38°S", "1.678°N", "0.83°S", "0°22`S", "1°17`51``S", '0°19`00"N', "0.623017°S", "0.587252°N", "0.35°N", "0.252364°S", "0.610236°S", "0.818°S", "1.382506°N"))
-longitudes <- parzer::parse_lon(c("91°04`W", "89.68°W", "92.003°W", "89.43°W", "91°33`W", "90°26`03``W", '89°57`00"W', "90.368254°W", "90.762184°W", "90.5°W", "90.717952°W", "90.666234°W", "90.062°W", "91.815056°W"))
+island_names <- c("Isabela", "Española", "Darwin", "San Cristóbal", "Fernandina",
+                  "Floreana", "Genovesa", "Santa Cruz", "Pinta", "Marchena",
+                  "Santiago", "Pinzón", "Santa Fé", "Wolf")
+latitudes <- parzer::parse_lat(c("00°30`S", "1.38°S", "1.678°N", "0.83°S", "0°22`S",
+                                 "1°17`51``S", '0°19`00"N', "0.623017°S", "0.587252°N", "0.35°N",
+                                 "0.252364°S", "0.610236°S", "0.818°S", "1.382506°N"))
+longitudes <- parzer::parse_lon(c("91°04`W", "89.68°W", "92.003°W", "89.43°W", "91°33`W",
+                                  "90°26`03``W", '89°57`00"W', "90.368254°W", "90.762184°W", "90.5°W",
+                                  "90.717952°W", "90.666234°W", "90.062°W", "91.815056°W"))
 
 meta[, ":="(
    taxon = "Invertebrates",
@@ -65,14 +71,18 @@ meta[, ":="(
 Cucarachas, mantidos y termitas de Galápagos. In: Bungartz, F., Herrera, H., Jaramillo, P., Tirado, N., Jímenez-Uzcategui, G., Ruiz, D.,
 Guézou, A. Ziemmeck, F. (eds.). Charles Darwin Foundation Galapagos Species Checklist - Lista de Especies de Galápagos de la
 Fundación Charles Darwin. Charles Darwin Foundation / Fundación Charles Darwin, Puerto Ayora, Galapagos:
-http://www.darwinfoundation.org/datazone/checklists/terrestrial-invertebrates/dictyoptera/ ",
+http://www.darwinfoundation.org/datazone/checklists/terrestrial-invertebrates/dictyoptera/ Regional is the Galapagos archipelago, local are islands",
    comment_standardisation = "none needed"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

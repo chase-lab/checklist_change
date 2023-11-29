@@ -47,15 +47,21 @@ meta[, ":="(
    gamma_bounding_box_type = "box",
    gamma_bounding_box_comment = "roughly estimated area of boxes covering the 3 small watersheds (they belong to a larger watershed of roughly 18 552 km2)",
 
-   comment = "Extracted from Fitzgerald 1997 table 2 and 3 (species extracted by OCR with tesseract, pa entered by hand). The authors aggregated historical data from literature and recent data from their samples: 'Historical fish community descriptions were based on a variety of sources that included scientific papers, technical reports, university theses, and personal communications from recognized authorities. Recent fish community surveys are based on collections made during 1994 and 1995 within each of the three streams. Sampling stations were selected at a priori distances upstream and downstream of the various stream modifications'. Regional is the river and local are stream sections. Effort is unknown.",
+   comment = "Extracted from Fitzgerald 1997 table 2 and 3 (species extracted by OCR with tesseract, pa entered by hand). The authors aggregated historical data from literature and recent data from their samples.
+METHODS: 'Historical fish community descriptions were based on a variety of sources that included scientific papers, technical reports, university theses, and personal communications from recognized authorities. Recent fish community surveys are based on collections made during 1994 and 1995 within each of the three streams. Sampling stations were selected at a priori distances upstream and downstream of the various stream modifications'.
+Regional is the river and local are stream sections. Effort is unknown.",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.1023/A:1009976923490'
+   doi = "https://doi.org/10.1023/A:1009976923490"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

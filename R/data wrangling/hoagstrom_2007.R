@@ -32,8 +32,11 @@ ddata <- data.table::melt(data = ddata,
 ddata <- ddata[!value %in% c("", "*", "*q") & !is.na(year)]
 
 # environment data from Jones 2019 thesis
-env <- data.table::fread(paste0("data/raw data/", dataset_id, "/Jones_et_al_2019_Table1-1.csv"), skip = 1L, header = TRUE, encoding = "Latin-1")
-env <- unique(env[!grepl("T", block), .(coord = downstream[.N], latitude, longitude),
+env <- data.table::fread(
+   file = paste0("data/raw data/", dataset_id, "/Jones_et_al_2019_Table1-1.csv"),
+   skip = 1L, header = TRUE, encoding = "Latin-1", sep = ",")
+env <- unique(env[i = !grepl("T", block),
+                  j = .(coord = downstream[.N], latitude, longitude),
                   by = local # coordinates of the most downstream site on the main tributary only
 ][, ":="(
    local = data.table::fifelse(grepl("Creek|Valley", local), local, paste(local, "River")),
@@ -43,7 +46,7 @@ env <- unique(env[!grepl("T", block), .(coord = downstream[.N], latitude, longit
    latitude = parzer::parse_lat(latitude),
    longitude = parzer::parse_lon(longitude)
 )]
-env[, gamma_sum_grains := geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 1000000]
+env[, gamma_sum_grains := geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6]
 
 # community data
 ddata[, ":="(
@@ -97,8 +100,6 @@ meta[, ":="(
 
    effort = 1L,
 
-
-
    latitude = env$latitude[match(local, env$local)],
    longitude = env$longitude[match(local, env$local)],
 
@@ -116,15 +117,23 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from Hoagstrom et al 2007 (extraction with tabulizer and modification by hand in excel). checklist of 16 river catchments. Authors aggregated data through a literature review: 'We used literature to determine fish species presence in 14 river drainages and 2 sections of the Missouri River valley in South Dakota'. Regional is South Dakota state, local are major tributaries to the Missouri River. Coordinates (extracted from Jones 2019 thesis from Table 1-1) of the most downstream site on the main tributary only. Scale and time coverage differ between jones_2019 and hoagstrom_2007. Even sites and times that seem to overlap have different composition.",
+   comment = "Extracted from  Christopher W. Hoagstrom, Steven S. Wall, Jason G. Kral, Brian G. Blackwell, and Charles R. Berry 'ZOOGEOGRAPHIC PATTERNS AND FAUNAL CHANGE OF SOUTH DAKOTA FISHES,' Western North American Naturalist 67(2), 161-184, (1 April 2007). https://doi.org/10.3398/1527-0904(2007)67[161:ZPAFCO]2.0.CO;2
+Extraction with tabulizer and modification by hand in excel.
+Checklist of 16 river catchments. Authors aggregated data through a literature review:
+METHODS: 'We used literature to determine fish species presence in 14 river drainages and 2 sections of the Missouri River valley in South Dakota'. Coordinates (extracted from Jones 2019 thesis from Table 1-1) of the most downstream site on the main tributary only. Scale and time coverage differ between jones_2019 and hoagstrom_2007. Even sites and times that seem to overlap have different composition.
+Regional is South Dakota state, local are major tributaries to the Missouri River.",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.3398/1527-0904(2007)67[161:ZPAFCO]2.0.CO;2'
+   doi = "https://doi.org/10.3398/1527-0904(2007)67[161:ZPAFCO]2.0.CO;2"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )

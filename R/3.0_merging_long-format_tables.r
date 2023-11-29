@@ -19,7 +19,10 @@ dt <- data.table::rbindlist(lst, fill = TRUE)
 template_metadata <- utils::read.csv("data/template_metadata.txt", header = TRUE, sep = "\t")
 column_names_template_metadata <- template_metadata[, 1L]
 
-lst_metadata <- lapply(listfiles_metadata, data.table::fread, integer64 = "character", encoding = "UTF-8")
+lst_metadata <- lapply(listfiles_metadata,
+                       data.table::fread,
+                       integer64 = "character",
+                       encoding = "UTF-8", sep = ",")
 meta <- data.table::rbindlist(lst_metadata, fill = TRUE)
 
 # Checking data ----

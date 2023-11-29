@@ -3,7 +3,13 @@
 dataset_id <- "taylor_2010b"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
-data.table::setnames(ddata, c("local", paste(gsub("\\.+[0-9]+", "\\.", colnames(ddata)[-1]), unlist(ddata[1])[-1])))
+data.table::setnames(
+   x = ddata,
+   new = c("local", paste(
+      sub("\\.+[0-9]+", "\\.", colnames(ddata)[-1]),
+      unlist(ddata[1])[-1])
+   )
+)
 
 # cleaning the data set
 ddata <- ddata[-(1:2)]
@@ -83,7 +89,7 @@ ddatah[, year := 2000L]
 ddata <- rbind(ddata, ddatah, fill = TRUE)
 
 # melting species
-ddata <- data.table::melt(ddata,
+ddata <- data.table::melt(data = ddata,
                           id.vars = c("local", "year"),
                           variable.name = "species"
 )
@@ -107,26 +113,39 @@ meta[, ":="(
 
    effort = 1L,
 
-   alpha_grain = c(661848L, 944735L, 647797L, 72908L, 405212L, 55284L, 2093190L, 1346106L, 1076395L, 5660L, 1542056L, 651036L, 482443L)[match(local, c("Alta", "BC", "Manitoba", "NewB", "Newf/Lab", "Nova S", "NunT", "NWT", "Ontario", "PEI", "Quebec", "Sask", "YT"))],
+   alpha_grain = c(661848L, 944735L, 647797L, 72908L, 405212L, 55284L, 2093190L,
+                   1346106L, 1076395L, 5660L, 1542056L, 651036L, 482443L)[match(
+                      x = local,
+                      table = c("Alta", "BC", "Manitoba", "NewB", "Newf/Lab",
+                                "Nova S", "NunT", "NWT", "Ontario", "PEI",
+                                "Quebec", "Sask", "YT"))],
    alpha_grain_unit = "km2",
    alpha_grain_type = "administrative",
    alpha_grain_comment = "area of the province/territory",
 
-   gamma_sum_grains = sum(c(661848L, 944735L, 647797L, 72908L, 405212L, 55284L, 2093190L, 1346106L, 1076395L, 5660L, 1542056L, 651036L, 482443L)),
+   gamma_sum_grains = sum(c(661848L, 944735L, 647797L, 72908L, 405212L, 55284L,
+                            2093190L, 1346106L, 1076395L, 5660L, 1542056L,
+                            651036L, 482443L)),
    gamma_sum_grains_unit = "km2",
    gamma_sum_grains_type = "administrative",
    gamma_sum_grains_comment = "sum of alpha grains = area of Canada",
 
-   comment = "Extracted from supplementary 1, Taylor et al 2010 (10.1111/j.1472-4642.2010.00670.x). Data presented here are fish inventories that the authors compiled from literature at the province or territory scale in Canada. Compositional change between 2000 and 2005 is detailed in table 2.",
+   comment = "Extracted from supplementary 1, Taylor, E.B. (2010), Changes in taxonomy and species distributions and their influence on estimates of faunal homogenization and differentiation in freshwater fishes. Diversity and Distributions, 16: 676-689. https://doi.org/10.1111/j.1472-4642.2010.00670.x.
+Data presented here are fish inventories that the authors compiled from literature at the province or territory scale in Canada. Compositional change between 2000 and 2005 is detailed in table 2.
+Regional is Canada and local are provinces and territories",
    comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.1111/j.1472-4642.2010.00670.x'
+   doi = "https://doi.org/10.1111/j.1472-4642.2010.00670.x"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
-data.table::fwrite(ddata, paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = ddata,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, ".csv"),
+   row.names = FALSE
 )
 
-data.table::fwrite(meta, paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
-                   row.names = FALSE
+data.table::fwrite(
+   x = meta,
+   file = paste0("data/wrangled data/", dataset_id, "/", dataset_id, "_metadata.csv"),
+   row.names = FALSE
 )
