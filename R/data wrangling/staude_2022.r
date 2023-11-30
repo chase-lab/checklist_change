@@ -4,20 +4,21 @@ ddata <- base::readRDS(file = "data/raw data/staude_2022/rdata.rds")
 
 # recoding and splitting periods
 ddata[, trajectory := c("2001", "2001-2015", "2015")[data.table::chmatch(
-   trajectory,
-   c("lost","persisting", "gained"))]
+   x = trajectory,
+   table = c("lost","persisting", "gained"))]
 ]
 ddata[, c("tmp1","tmp2") := data.table::tstrsplit(x = trajectory,
                                                   split = "-", fixed = TRUE)]
 
-ddata <- data.table::melt(data = ddata,
+ddata <- data.table::melt(
+   data = ddata,
                           id.vars = c("habitat","site","speciesKey"),
                           measure.vars = c("tmp1","tmp2"),
                           value.name = "year",
                           na.rm = TRUE)
 data.table::setnames(x = ddata,
                      new = c("regional","local","species","deleteMe","year"))
-ddata <- unique(ddata[regional == "Summit"])
+ddata <- ddata[regional == "Summit"]
 
 # Community data ----
 ddata[, ":="(
@@ -30,6 +31,8 @@ ddata[, ":="(
 
    deleteMe = NULL
 )]
+
+ddata <- unique(ddata)
 
 # Metadata ----
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

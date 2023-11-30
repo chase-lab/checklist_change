@@ -39,7 +39,10 @@ check_indispensable_variables <- function(dt, indispensable_variables) {
 
 # check_indispensable_variables(dt, column_names_template[as.logical(template[, 2])])
 # check_indispensable_variables(meta, column_names_template_metadata[as.logical(template_metadata[, 2])])
-
+if (any(duplicated(dt))) warning(paste(
+   "duplicated rows in",
+   paste(dt[duplicated(dt),unique(dataset_id)],
+         collapse = ", ")))
 if (any(is.na(dt$year))) warning(paste("missing _year_ value in ", unique(dt[is.na(year), dataset_id]), collapse = ", "))
 if (any(is.na(meta$year))) warning(paste("missing _year_ value in ", unique(meta[is.na(year), dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(regional) | regional == "")])) warning(paste("missing _regional_ value in ", unique(dt[is.na(regional) | regional == "", dataset_id]), collapse = ", "))

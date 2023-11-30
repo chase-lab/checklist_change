@@ -2,15 +2,15 @@
 dataset_id <- "rosenblad_2016a"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
-data.table::setnames(ddata, "Scientific name", "species")
+data.table::setnames(x = ddata, old = "Scientific name", new = "species")
 
-ddata <- data.table::melt(
+ddata <-unique(data.table::melt(
    data = ddata,
    variable.name = "local",
    measure.vars = 2:ncol(ddata),
    measure.name = "value",
    na.rm = TRUE
-)
+))
 
 ddata[, c("local", "period") := data.table::tstrsplit(local, ": ")]
 
@@ -88,7 +88,8 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from Rosenblad et al 2016 Supplementary (10.5061/dryad.c9s61). Effort is unknown. Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence.
+   comment = "Extracted from Rosenblad, Kyle C.; Sax, Dov F. (2016). Data from: A new framework for investigating biotic homogenization and exploring future trajectories: oceanic island plant and bird assemblages as a case study [Dataset]. Dryad. https://doi.org/10.5061/dryad.c9s61.
+Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence.
 Regional is global, local are islands or archipelagos.",
    comment_standardisation = "none needed",
    doi = "https://doi.org/10.5061/dryad.c9s61 | https://doi.org/10.1111/ecog.02652"
