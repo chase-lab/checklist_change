@@ -17,8 +17,6 @@ ddata[, c("local", "period") := data.table::tstrsplit(local, ": ")]
 
 ddata[period == "present intially", period := "present initially"]
 
-# local_names <- c('Ascension Island','Chatham Islands','Cook Islands','Easter Island','Fiji','Galapagos Islands','Guam','Hawaiian Islands','Lord Howe Island','Marquesas Islands','Mauritius','New Zealand','Norfolk Island','Reunion','Rodrigues','Saint Helena','Samoa','Society Islands','Tonga','Tristan da Cunha')
-
 local_names <- c("Ascension Island", "Chatham Islands", "Christmas Island",
                  "Cocos (Keeling) Islands", "Cook Islands", "Easter Island",
                  "Fiji", "Galapagos Islands", "Guam", "Hawaiian Islands",
@@ -83,7 +81,6 @@ meta[, ":="(
       no = "archipelago"),
    alpha_grain_comment = "area of the sampled islands and for archipelagos: sum of the areas of the islands",
 
-   # gamma_bounding_box = sum(106460000L, 70560000L, 165250000L), # Atlantic, Indian, Pacific ocean areas
    gamma_sum_grains = sum(c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540,
                             16636, 14.55, 1049.3, 2040, 21, 268021, 34.6,
                             sum(4, 9.55, 33.73, 388.39), 4.6, 2511, 108, 121,

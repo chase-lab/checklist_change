@@ -81,6 +81,7 @@ Regional are 3 river basins, close to each other, ending up in the gulf of Mexic
    doi = "https://doi.org/10.1656/1528-7092(2006)5[205:CARHFM]2.0.CO;2"
 )][, gamma_sum_grains := sum(alpha_grain),
    keyby = .(regional, year)]
+ddata[, c("latitude", "longitude") := NULL]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
 data.table::fwrite(

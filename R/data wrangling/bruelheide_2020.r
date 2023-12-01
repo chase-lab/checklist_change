@@ -59,7 +59,7 @@ meta[, ":="(
 
   alpha_grain = env$Area..ha.[match(local, env$Site.ID)],
   alpha_grain_unit = "ha",
-  alpha_grain_type = "ecosystem",
+  alpha_grain_type = "functional",
   alpha_grain_comment = "checklist",
 
   gamma_bounding_box = 530L,
@@ -69,7 +69,7 @@ meta[, ":="(
 
   gamma_sum_grains = sum(as.numeric(env$Area..ha.)),
   gamma_sum_grains_unit = "ha",
-  gamma_sum_grains_type = "ecosystem",
+  gamma_sum_grains_type = "functional",
   gamma_sum_grains_comment = "sum of the areas of the sampled ecosystems",
 
   comment = "Extracted from Bruelheide et al 2020 dryad repository. We considered two time periods: an early one (1972-1980) and a late one (2017-2020). Any species that has 'first appearance' in early time period would be 'present initially'.  Any species that has first appearance only in the second time period would be 'new' (occupancy change column 1) and any species that has last appearance before 2017-220 (occupancy change column -1) as a local extinction.

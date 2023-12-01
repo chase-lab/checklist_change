@@ -26,8 +26,6 @@ ddata[, ":="(
    regional = "Mountain summits, Europe",
 
    value = 1L,
-   metric = "pa",
-   unit = "pa",
 
    deleteMe = NULL
 )]
@@ -47,7 +45,7 @@ meta[, ":="(
 
    alpha_grain = 0.25,
    alpha_grain_unit = "ha",
-   alpha_grain_type = "ecosystem",
+   alpha_grain_type = "functional",
    alpha_grain_comment = "median area of the summits given by the authors",
 
    gamma_bounding_box = 2.98 * 10^6,
