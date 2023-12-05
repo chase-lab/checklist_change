@@ -19,4 +19,6 @@ data/raw data/depauw_2020/rdata.csv
 data/raw data/depauw_2020/forestReplotInfo.csv
 data/raw data/depauw_2020/Depauwetal_JECOL_Data.xlsx
 data/references/homogenisation_dropbox_folder_path.rds
+
 .DS_Store
+*.html
