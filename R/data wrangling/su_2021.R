@@ -79,7 +79,7 @@ meta[, ":="(
 
    comment = "Extracted from the authors' figshare repository Su, Guohuan; Villeger, Sébastien; Sebastien, Brosse; Tao, Shengli; Xu, Jun; Logez, Maxime (2021). Scripts and files for 'Human Impacts on Global Freshwater Fish Biodiversity'. figshare. Online resource. https://doi.org/10.6084/m9.figshare.13383170.v1. The authors gathered historical and recent fish composition in 2456 river basins worldwide.
 Regional are Biomes and local are watersheds.",
-   doi = 'https://doi.org/10.6084/m9.figshare.13383170.v1',
+   doi = "https://doi.org/10.6084/m9.figshare.13383170.v1 | https://doi.org/10.1126/science.abd3369",
    comment_standardisation = "none needed"
 )][, gamma_sum_grains := sum(alpha_grain) / 2, by = .(regional, year)]
 

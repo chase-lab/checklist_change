@@ -4,7 +4,10 @@ dataset_id <- "thorn_2022"
 ddata <- base::readRDS(file = "./data/raw data/thorn_2022/rdata.rds")
 
 # Melting species ----
-ddata[, names(ddata) := lapply(.SD, function(column) replace(column, column == 0L, NA_integer_))] # replace all 0 values by NA
+## replace all 0 values by NA
+ddata[, names(ddata) := lapply(.SD, function(column) replace(column,
+                                                             column == 0L,
+                                                             NA_integer_))]
 ddata <- data.table::melt(
    data = ddata,
    id.vars = c("plot","year","grassland"),
@@ -25,7 +28,7 @@ ddata[, ":="(
 
    plot = NULL,
    grassland = NULL
-)]
+)][year == 1980L, year := 1988L]
 
 # Metadata ----
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

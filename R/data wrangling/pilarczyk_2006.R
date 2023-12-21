@@ -34,14 +34,16 @@ ddata[, c("local", "year") := data.table::tstrsplit(temp, " ")][, temp := NULL]
 ddata <- ddata[value > 0 & value != ""]
 
 ddata <- ddata[
-   i = !ddata[, .(nyear = data.table::uniqueN(year)), keyby = local][nyear < 2L],
+   i = !ddata[
+      j = .(nyear = data.table::uniqueN(year)),
+      keyby = local][nyear < 2L],
    on = "local"]
 
 ddata[i = env, j = regional := i.regional, on = .(local)]
 
 ddata[, ":="(
    dataset_id = dataset_id,
-   year = as.numeric(sub("s", "", year)),
+   year = c(1999L, 2004L)[data.table::chmatch(year, c("1990s", "2004"))],
 
    species = sub("\\*", "", species),
 

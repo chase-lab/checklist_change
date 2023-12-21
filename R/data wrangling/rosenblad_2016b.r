@@ -30,7 +30,7 @@ ddata[, ":="(
    regional = "global",
    local = local_names[match(local, sort(unique(local)))],
 
-   year = c(1500L, 2000L)[match(period, c("present initially", "present currently"))],
+   year = c(1500L, 2016L)[match(period, c("present initially", "present currently"))],
    period = NULL,
 
    species = sub(pattern = "\"Necropsittacus\"", replacement = "Necropsittacus",
@@ -93,7 +93,7 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from RRosenblad, Kyle C.; Sax, Dov F. (2016). Data from: A new framework for investigating biotic homogenization and exploring future trajectories: oceanic island plant and bird assemblages as a case study [Dataset]. Dryad. https://doi.org/10.5061/dryad.c9s61.
+   comment = "Extracted from Rosenblad, Kyle C.; Sax, Dov F. (2016). Data from: A new framework for investigating biotic homogenization and exploring future trajectories: oceanic island plant and bird assemblages as a case study [Dataset]. Dryad. https://doi.org/10.5061/dryad.c9s61.
 Sampling 'year is not provided by the authors and historical times are considered to be before human influence and recent period after human influence.
 Gamma scale is global and local are islands or archipelagos.",
    comment_standardisation = "none needed",

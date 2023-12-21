@@ -30,7 +30,7 @@ ddata[, ":="(
 
    value = 1L,
 
-   year = c(1800L, 2000L)[data.table::chmatch(period, c("historical", "modern"))],
+   year = c(1832L, 2012L)[data.table::chmatch(period, c("historical", "modern"))],
 
    period = NULL,
    variable = NULL

@@ -41,7 +41,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Rio de Janeiro, Brazil",
 
-   year = c(1700L, 2000L)[match(period, c("historical", "recent"))],
+   year = c(1700L, 2011L)[match(period, c("historical", "recent"))],
 
    species = gsub("A$|E$|E, A$|I$|VS$", "", species),
    value = 1L,

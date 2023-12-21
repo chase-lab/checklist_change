@@ -23,7 +23,7 @@ ddata[, ":="(
    regional = "Parana river basin",
 
    local = data.table::fifelse(grepl("L", local), "Lower Parana", "Upper Parana"),
-   year = data.table::fifelse(grepl("B", local), 1980L, 2000L),
+   year = data.table::fifelse(grepl("B", local), 1982L, 2009L),
 
    value = 1L
 )]

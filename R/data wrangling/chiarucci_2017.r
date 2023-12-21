@@ -7,15 +7,24 @@ ddata[, ":="(
    "Life Form" = NULL,
    "Alien / Native" = NULL
 )]
-data.table::setnames(ddata, c("species", paste(colnames(ddata)[-1], unlist(ddata[1])[-1], sep = "+")))
+data.table::setnames(
+   x = ddata,
+   new = c("species",
+           paste(
+              colnames(ddata)[-1],
+              unlist(ddata[1])[-1],
+              sep = "+")
+   )
+)
 ddata <- ddata[-(1L:3L)]
 ddata <- ddata[-which(species == "Astragalus boeticus L.")[1L]]
 
 # melting sites and periods
-ddata <- data.table::melt(ddata,
-                          id.vars = "species",
-                          value.name = "value",
-                          variable.name = "local"
+ddata <- data.table::melt(
+   data = ddata,
+   id.vars = "species",
+   value.name = "value",
+   variable.name = "local"
 )
 ddata <- ddata[value == 1]
 

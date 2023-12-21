@@ -9,7 +9,8 @@ ddata[, DistributionStatus := c("historical+recent", "recent",
                                    x = DistributionStatus,
                                    table = c("Native", "Alien", "Extinct"))]]
 
-ddata[, c("period1", "period2") := data.table::tstrsplit(DistributionStatus, "\\+")]
+ddata[, c("period1", "period2") := data.table::tstrsplit(
+   DistributionStatus, split = "\\+")]
 
 ddata <- data.table::melt(
    data = ddata,
@@ -24,7 +25,7 @@ ddata[, ":="(
 
    regional = "Europe",
 
-   year = c(1900L, 2019L)[match(period, c("historical", "recent"))],
+   year = c(1700L, 2013L)[match(period, c("historical", "recent"))],
 
    value = 1L,
 
@@ -49,9 +50,11 @@ areas[, ":="(
 ][, match_country := State %in% unique(ddata$local)]
 
 ## coordinates
-coordinates <- data.table::fread(file = "data/raw data/wiemers_2019/coordinates.csv",
+coordinates <- data.table::fread(
+   file = "data/raw data/wiemers_2019/coordinates.csv",
                                  skip = 1, sep = ",", header = TRUE)
-coordinates[, c("latitude", "longitude") := data.table::tstrsplit(coordinates, ", ")]
+coordinates[, c("latitude", "longitude") := data.table::tstrsplit(
+   coordinates, split = ", ")]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[, ":="(

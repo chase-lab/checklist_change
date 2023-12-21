@@ -14,10 +14,10 @@ ddata <- data.table::melt(data = ddata,
 
 # recoding, splitting and melting period
 ddata[, temp := data.table::fifelse(
-   grepl("e", value) & !grepl("1|2", value), "1800+1990",
+   grepl("e", value) & !grepl("1|2", value), "1850+1990",
    data.table::fifelse(
       grepl("e", value) & grepl("1|2", value), "1990",
-      data.table::fifelse(grepl("1|2", value), "1990+2005", "1800+1990+2005")
+      data.table::fifelse(grepl("1|2", value), "1990+2004", "1850+1990+2004")
    )
 )]
 

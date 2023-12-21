@@ -39,7 +39,7 @@ check_indispensable_variables <- function(dt, indispensable_variables) {
 
 # check_indispensable_variables(dt, column_names_template[as.logical(template[, 2])])
 # check_indispensable_variables(meta, column_names_template_metadata[as.logical(template_metadata[, 2])])
-if (any(duplicated(dt))) warning(paste(
+if (anyDuplicated(dt)) stop(paste(
    "duplicated rows in",
    paste(dt[duplicated(dt),unique(dataset_id)],
          collapse = ", ")))
@@ -51,7 +51,8 @@ if (any(dt[, .(is.na(species) | species == "")])) warning(paste("missing _specie
 if (any(dt[, .(is.na(value) | value == "" | value <= 0)])) warning(paste("missing _value_  value in ", unique(dt[is.na(value) | value == "" | value <= 0, dataset_id]), collapse = ", "))
 
 ## Counting the study cases ----
-dt[, .(nsites = length(unique(local))), by = dataset_id][order(nsites, decreasing = TRUE)]
+dt[j = .(nsites = data.table::uniqueN(local)),
+   keyby = dataset_id][order(nsites, decreasing = TRUE)]
 
 # Ordering ----
 # data.table::setcolorder(dt, intersect(column_names_template, colnames(dt)))
