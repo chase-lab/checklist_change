@@ -13,10 +13,11 @@ data.table::setnames(
    c("local")
 )
 
-ddata <- data.table::melt(ddata,
-                          measure.vars = grep("PA", colnames(ddata)),
-                          variable.name = "species",
-                          value.name = "value"
+ddata <- data.table::melt(
+   data = ddata,
+   measure.vars = grep("PA", colnames(ddata)),
+   variable.name = "species",
+   value.name = "value"
 )
 ddata <- ddata[value > 0, .(local, species, value)]
 
@@ -30,7 +31,9 @@ ddata[, ":="(
 
    species = gsub("PA_|_AHI", "", species)
 
-)][species %in% df_species_info$idOnt, species := df_species_info$rfbName[match(species, df_species_info$idOnt)]]
+)][
+   i = species %in% df_species_info$idOnt,
+   j = species := df_species_info$rfbName[match(species, df_species_info$idOnt)]]
 
 ddata <- unique(ddata)
 
@@ -64,8 +67,8 @@ meta[, ":="(
 
    comment = "Extracted from Kevin Cazelles. (2019). McCannLab/HomogenFishOntario: version 1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.3383237.
 METHODS: 'We constructed a dataset of 524 natural lakes that were each surveyed twice, once historically between 1965 and 1982 during the Aquatic Habitat Inventory (hereafter AHI [...]) and again between 2008 and 2012 by the Ontario Broad-scale Fish Community Monitoring Program (hereafter BsM [...]). Both AHI and BsM surveys assess the fish species composition across a wide range of habitats in lakes. For both surveys, we used the presence/absence data obtained based on gill nets that were set in the lakes for 12 hr and use a very similar range of mesh sizes (25–127 mm for both; see Dodge et al., 1987 for details about AHI, and Sandstrom et al., 2013 for more details about BsM).' Authors were not allowed to disclose lake coordinates. Each lake was sampled once per period but exact sampling year is unknown (1965-1982, 2008-2012)",
-   comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.5281/zenodo.3383237'
+comment_standardisation = "none needed",
+doi = "https://doi.org/10.5281/zenodo.3383237 | https://doi.org/10.1111/gcb.14829"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

@@ -45,18 +45,18 @@ meta[, ":="(
    alpha_grain = c(10.7, 29.1, 28)[match(local, c("Toronto Bay", "Burlington Bay",
                                                   "Inner Bay"))],
    alpha_grain_unit = "km2",
-   alpha_grain_type = "ecosystem",
+   alpha_grain_type = "functional",
    alpha_grain_comment = "area of the bay given by the authors",
 
    gamma_sum_grains = sum(10.7, 29.1, 28),
    gamma_sum_grains_unit = "km2",
-   gamma_sum_grains_type = "ecosystem",
+   gamma_sum_grains_type = "functional",
    gamma_sum_grains_comment = "sum of the areas of the 3 bays given by the authors",
 
    gamma_bounding_box = data.table::fifelse(
       local %in% c("Toronto Bay", "Burlington Bay"), 19000L, 25667L),
    gamma_bounding_box_unit = "km2",
-   gamma_bounding_box_type = "ecosystem",
+   gamma_bounding_box_type = "functional",
    gamma_bounding_box_comment = "area of the Ontario and Erie lakes",
 
    comment = "Extracted from Whillans et al 1979 table 2, 3 & 4 (table extraction with [tabulizer]). The authors compiled the fish species compositional changes over time. We reconstructed historical and recent communities by considering that extinct species were only present in historical time and alien species only appeared in recent time. Regional is the lake in which the bay is located: Ontario for Toronto and Burlington bays, and Lake Erie for Inner Bay.

@@ -36,7 +36,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Kansas",
 
-   year = substr(period, 1, 4),
+   year = substr(period, 6, 10),
 
    value = data.table::fifelse(
       test = as.numeric(gsub("[[:alpha:]]|\n|,", "", value)) > 0,

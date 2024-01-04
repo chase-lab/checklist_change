@@ -1,5 +1,5 @@
-## peck_2012
-dataset_id <- "peck_2012"
+## peck_2011
+dataset_id <- "peck_2011"
 
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
@@ -27,7 +27,7 @@ ddata[, ":="(
    regional = "Galapagos",
 
    value = 1L,
-   year = c(1500L, 2000L)[match(period, c("historical", "recent"))],
+   year = c(1535L, 2011L)[match(period, c("historical", "recent"))],
 
    period = NULL,
    variable = NULL
@@ -67,7 +67,7 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "extracted from peck & Herrera CDF Checklist of Galapagos Cockroaches, Mantids and Termites. Species inventories of 14 islands and islets of the Galapagos archipelago. No known extinctions. Missing data on origin so distribution might be wider for some species. The accidental cockroach introductions could date as far as 1535 which is why this date is used for historical composition. Full reference: Peck, S. B., Herrera, H. W. (2011). CDF Checklist of Galapagos Cockroaches, Mantids and Termites - FCD Lista de especies de
+   comment = "Extracted from Peck & Herrera CDF Checklist of Galapagos Cockroaches, Mantids and Termites. Species inventories of 14 islands and islets of the Galapagos archipelago. No known extinctions. Missing data on origin so distribution might be wider for some species. The accidental cockroach introductions could date as far as 1535 which is why this date is used for historical composition. Full reference: Peck, S. B., Herrera, H. W. (2011). CDF Checklist of Galapagos Cockroaches, Mantids and Termites - FCD Lista de especies de
 Cucarachas, mantidos y termitas de Galápagos. In: Bungartz, F., Herrera, H., Jaramillo, P., Tirado, N., Jímenez-Uzcategui, G., Ruiz, D.,
 Guézou, A. Ziemmeck, F. (eds.). Charles Darwin Foundation Galapagos Species Checklist - Lista de Especies de Galápagos de la
 Fundación Charles Darwin. Charles Darwin Foundation / Fundación Charles Darwin, Puerto Ayora, Galapagos:

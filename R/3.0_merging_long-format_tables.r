@@ -39,7 +39,10 @@ check_indispensable_variables <- function(dt, indispensable_variables) {
 
 # check_indispensable_variables(dt, column_names_template[as.logical(template[, 2])])
 # check_indispensable_variables(meta, column_names_template_metadata[as.logical(template_metadata[, 2])])
-
+if (anyDuplicated(dt)) stop(paste(
+   "duplicated rows in",
+   paste(dt[duplicated(dt),unique(dataset_id)],
+         collapse = ", ")))
 if (any(is.na(dt$year))) warning(paste("missing _year_ value in ", unique(dt[is.na(year), dataset_id]), collapse = ", "))
 if (any(is.na(meta$year))) warning(paste("missing _year_ value in ", unique(meta[is.na(year), dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(regional) | regional == "")])) warning(paste("missing _regional_ value in ", unique(dt[is.na(regional) | regional == "", dataset_id]), collapse = ", "))
@@ -48,7 +51,8 @@ if (any(dt[, .(is.na(species) | species == "")])) warning(paste("missing _specie
 if (any(dt[, .(is.na(value) | value == "" | value <= 0)])) warning(paste("missing _value_  value in ", unique(dt[is.na(value) | value == "" | value <= 0, dataset_id]), collapse = ", "))
 
 ## Counting the study cases ----
-dt[, .(nsites = length(unique(local))), by = dataset_id][order(nsites, decreasing = TRUE)]
+dt[j = .(nsites = data.table::uniqueN(local)),
+   keyby = dataset_id][order(nsites, decreasing = TRUE)]
 
 # Ordering ----
 # data.table::setcolorder(dt, intersect(column_names_template, colnames(dt)))
@@ -102,10 +106,11 @@ unique(meta$realm)
 meta[, alpha_grain := as.numeric(alpha_grain)][,
    alpha_grain := data.table::fcase(
       alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
-      alpha_grain_unit == "km2", alpha_grain * 1000000,
+      alpha_grain_unit == "km2", alpha_grain * 10^6,
       alpha_grain_unit == "acres", alpha_grain * 4046.856422,
-      alpha_grain_unit == "ha", alpha_grain * 10000,
-      alpha_grain_unit == "cm2", alpha_grain / 10000,
+      alpha_grain_unit == "ha", alpha_grain * 10^4,
+      alpha_grain_unit == "cm2", alpha_grain / 10^4,
+      alpha_grain_unit == "mm2", alpha_grain / 10^6,
       alpha_grain_unit == "m2", alpha_grain
    )
 ][, alpha_grain_unit := NULL]
@@ -122,7 +127,7 @@ meta[, gamma_sum_grains := as.numeric(gamma_sum_grains)][,
 
 meta[, gamma_bounding_box := as.numeric(gamma_bounding_box)][,
   gamma_bounding_box := data.table::fcase(
-    gamma_bounding_box_unit == "m2", gamma_bounding_box / 1000000,
+    gamma_bounding_box_unit == "m2", gamma_bounding_box / 10^6,
     gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
     gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
     gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,

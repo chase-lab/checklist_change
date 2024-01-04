@@ -153,7 +153,7 @@ ddata[, ":="(
                 table = c("PAL", "YAP", "GUAM", "CNMI", "CHU", "POHN",
                           "KOSR", "MARS", "WAKE"))],
 
-   year = c(1800L, 2000L)[match(period, c("historical", "recent"))],
+   year = c(1521L, 2005L)[match(period, c("historical", "recent"))],
 
    value = 1L,
 

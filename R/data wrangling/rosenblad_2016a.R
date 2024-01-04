@@ -2,15 +2,15 @@
 dataset_id <- "rosenblad_2016a"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
-data.table::setnames(ddata, "Scientific name", "species")
+data.table::setnames(x = ddata, old = "Scientific name", new = "species")
 
-ddata <- data.table::melt(
+ddata <- unique(data.table::melt(
    data = ddata,
    variable.name = "local",
    measure.vars = 2:ncol(ddata),
    measure.name = "value",
    na.rm = TRUE
-)
+))
 
 ddata[, c("local", "period") := data.table::tstrsplit(local, ": ")]
 
@@ -26,7 +26,7 @@ ddata[, ":="(
                                              "Pitcairn", "Norfolk", "Lord Howe",
                                              "Hawaii", "Christmas", "Cocos", "Easter"))],
 
-   year = c(1500L, 2000L)[match(period, c("present initially", "present currently"))],
+   year = c(1500L, 2016L)[match(period, c("present initially", "present currently"))],
    period = NULL
 )]
 
@@ -75,7 +75,6 @@ meta[, ":="(
       no = "archipelago"),
    alpha_grain_comment = "area of the sampled islands and for archipelagos: sum of the areas of the islands",
 
-   # gamma_bounding_box = sum(106460000L, 70560000L, 165250000L), # Atlantic, Indian, Pacific ocean areas
    gamma_sum_grains = sum(c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636,
                             14.55, 1049.3, 2040, 21, 268021, 34.6,
                             sum(4, 9.55,33.73, 388.39), 4.6, 2511, 108, 121, 3030,
@@ -88,7 +87,8 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from Rosenblad et al 2016 Supplementary (10.5061/dryad.c9s61). Effort is unknown. Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence.
+   comment = "Extracted from Rosenblad, Kyle C.; Sax, Dov F. (2016). Data from: A new framework for investigating biotic homogenization and exploring future trajectories: oceanic island plant and bird assemblages as a case study [Dataset]. Dryad. https://doi.org/10.5061/dryad.c9s61.
+Sampling 'year' is not provided by the authors and historical times are considered to be before human influence and recent period after human influence.
 Regional is global, local are islands or archipelagos.",
    comment_standardisation = "none needed",
    doi = "https://doi.org/10.5061/dryad.c9s61 | https://doi.org/10.1111/ecog.02652"

@@ -28,7 +28,7 @@ env[coordinates != "", c("latitude", "longitude") := parzer::parse_llstr(coordin
 ddata[, grep(" IS.", colnames(ddata), ignore.case = TRUE) := NULL]
 
 ## melting sites
-ddata <- data.table::melt(ddata,
+ddata <- data.table::melt(data = ddata,
                           id.var = c("period", "species"),
                           variable.name = "local",
                           na.rm = TRUE
@@ -38,10 +38,10 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Solomon Islands",
 
-   year = c(1568L, 2000L)[match(period, c("historical", "recent"))],
+   year = c(1568L, 2013L)[match(period, c("historical", "recent"))],
 
 
-   species = gsub("*", "", species, fixed = TRUE),
+   species = sub("*", "", species, fixed = TRUE),
    period = NULL
 )]
 
@@ -65,7 +65,7 @@ meta[, ":="(
    gamma_sum_grains_type = "archipelago",
    gamma_sum_grains_comment = "sum of the area of the islands",
 
-   gamma_bounding_box = geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 1000000,
+   gamma_bounding_box = geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6,
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
