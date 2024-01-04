@@ -1,0 +1,6 @@
+backup/
+data/
+.Rhistory
+.DS_Store
+R/gis_computation.r
+R/gis_computation_2.r

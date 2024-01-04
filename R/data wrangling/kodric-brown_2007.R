@@ -57,7 +57,7 @@ meta[, ":="(
 
    gamma_bounding_box = 72L,
    gamma_bounding_box_unit = "km2",
-   gamma_bounding_box_type = "ecosystem",
+   gamma_bounding_box_type = "functional",
    gamma_bounding_box_comment = "area covered by the Dalhousie Springs, given by the authors",
 
    comment = "Extracted from kodric-brown_2007 table 1 (Kodric-Brown, A., Wilcox, C., Bragg, J.G. and Brown, J.H. (2007), Dynamics of fish in Australian desert springs: role of large-mammal disturbance. Diversity and Distributions, 13: 789-798. https://doi.org/10.1111/j.1472-4642.2007.00395.x) (table extraction from pdf). The authors sampled fish in 30 ponds of a nature park in 1991 and resurveyed in 2003. years correspond to a first survey and a resurvey. Effort to get these checklists varies a lot in time and in space. During the resurvey, no seine nets were used and special effort was made to found species that were originally present in 1991. BUT 'We used essentially identical methods to sample intensively for the presence of each fish species.'

@@ -1,6 +1,6 @@
-## baiser_2011
+## baiser_2017
 
-dataset_id <- "baiser_2011"
+dataset_id <- "baiser_2017"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
 data.table::setnames(
@@ -9,7 +9,7 @@ data.table::setnames(
 )
 ## GIS data ----
 gift <- base::readRDS("./data/GIS data/giftdata.rds")
-env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/baiser_2011_gift.csv"),
+env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/baiser_2017_gift.csv"),
   na.strings = c("", "NA"),
   skip = 1L
 )
@@ -32,7 +32,7 @@ ddata[, ":="(
   dataset_id = dataset_id,
   regional = data.table::fifelse(is.na(regional), local, regional),
 
-  year = c(1500L, 2000L)[match(period, c("old", "current"))],
+  year = c(1500L, 2017L)[match(period, c("old", "current"))],
   period = NULL,
   Ocean = NULL
 )]
@@ -63,7 +63,7 @@ Where needed, coordinates were extracted from the gift database: Weigelt, P., KÃ
 Past is considered to be pre-colonisation times and recent checklists were made after the 1990s.
 regional is an archipelago, local is an island",
   comment_standardisation = "none needed",
-  doi = 'https://doi.org/10.5061/dryad.rs714',
+  doi = "https://doi.org/10.5061/dryad.rs714 | https://doi.org/10.1111/ecog.02738",
 
   match_island_GIFT_ID = NULL,
   area_source = NULL,

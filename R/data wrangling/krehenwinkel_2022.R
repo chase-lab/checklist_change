@@ -40,7 +40,8 @@ ddata <- ddata[
 
 # metadata
 
-meta <- unique(ddata[, .(dataset_id, regional, local, year, latitude, longitude)])
+meta <- unique(ddata[, .(dataset_id, regional, local, year,
+                         latitude, longitude)])
 
 meta[, ":="(
    taxon = "Invertebrates",

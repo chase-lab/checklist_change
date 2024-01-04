@@ -95,7 +95,7 @@ ddata <- data.table::melt(
 ddata[, ":="(
    dataset_id = dataset_id,
 
-   year = c(1800L, 2000L)[match(period, c("historical", "recent"))],
+   year = c(1521L, 2005L)[match(period, c("historical", "recent"))],
 
    regional = "Micronesia",
    local = c("Guam", "Palau", "Yap", "Northern Mariana Islands", "Chuuk", "Pohnpei",

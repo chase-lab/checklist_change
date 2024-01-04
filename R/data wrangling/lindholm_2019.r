@@ -54,15 +54,19 @@ env[j = c("local", "year") := data.table::tstrsplit(
 sp::coordinates(env) <- ~ longitude + latitude
 sp::proj4string(env) <- sp::CRS(SRS_string = "EPSG:5048") # ETRS-TM35FIN
 env <- sp::spTransform(env, sp::CRS(SRS_string = "EPSG:4326"))
+env <- data.table::as.data.table(env)
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-meta <- merge(meta, env[, c("local", "year", "alpha_grain")])
+meta[i = env,
+     j = ":="(
+        latitude = i.coords.x2,
+        longitude = i.coords.x1,
+        alpha_grain = i.alpha_grain),
+     on = .(local, year)]
+
 meta[, ":="(
    realm = "Freshwater",
    taxon = "Plants",
-
-   latitude = sp::coordinates(env)[match(local, env$local), "coords.x2"],
-   longitude = sp::coordinates(env)[match(local, env$local), "coords.x1"],
 
    effort = 1L,
 

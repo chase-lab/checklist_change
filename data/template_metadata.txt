@@ -6,7 +6,7 @@ local	TRUE
 latitude	TRUE
 longitude	TRUE
 effort	TRUE
-data_pooled_by_authors	TRUE
+data_pooled_by_authors	FALSE
 data_pooled_by_authors_comment	FALSE
 sampling_years	FALSE
 alpha_grain	TRUE
@@ -25,4 +25,4 @@ realm	TRUE
 taxon	TRUE
 comment	TRUE
 comment_standardisation	TRUE
-doi   TRUE
+doi	TRUE
