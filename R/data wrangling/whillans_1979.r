@@ -41,6 +41,8 @@ meta[, ":="(
                                           "Inner Bay"))],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(10.7, 29.1, 28)[match(local, c("Toronto Bay", "Burlington Bay",
                                                   "Inner Bay"))],

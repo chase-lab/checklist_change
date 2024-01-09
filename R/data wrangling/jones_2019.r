@@ -44,7 +44,8 @@ meta[, ":="(
 
    effort = 1L,
 
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review and pooled samplings by the authors",
    sampling_years = c("pre-1990", "1990-2005", "2006-2016")[data.table::chmatch(year, c("1989", "2005", "2016"))],
 
    alpha_grain = c(13000L, 14000L, 62800L, 7800L, 26000L)[data.table::chmatch(local, c("Grand", "Moreau", "Cheyenne", "Bad", "White"))],

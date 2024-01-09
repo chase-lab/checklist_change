@@ -35,7 +35,9 @@ meta[, ":="(
    latitude = c(43.645323, 43.578413, 43.480123)[match(regional, c("Carroll Creek", "Canagagigue Creek", "Laurel Creek"))],
    longitude = c(-80.459583, -80.502675, -80.586401)[match(regional, c("Carroll Creek", "Canagagigue Creek", "Laurel Creek"))],
 
-   effort = "checklist",
+   effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Past composition constructed from species status. Present composition based on samplings by the authors between 1994 and 1995",
 
    alpha_grain = 3L,
    alpha_grain_unit = "km2",

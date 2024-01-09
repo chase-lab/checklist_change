@@ -62,6 +62,8 @@ meta[, ":="(
    )],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review and checklists by the authors",
 
    alpha_grain = c(180, 1456.4, 1545.4, 673.4, 364, 1883, 115.5, 10430)[match(
       local,

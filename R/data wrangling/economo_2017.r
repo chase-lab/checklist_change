@@ -50,6 +50,8 @@ meta[, ":="(
    taxon = "Invertebrates",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(28896L, 18274L, 459L, 747L, 2831L, 308L, 122L, 1048L, 236L,
                    372L, 1590L, 12L, 142L, 148L, 31L, 28311L, 1049L, 260L,

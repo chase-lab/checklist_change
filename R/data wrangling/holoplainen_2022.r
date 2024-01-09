@@ -28,8 +28,8 @@ meta[, ":="(
    taxon = "Plants",
 
    effort = 1L,
-
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = NA,
    alpha_grain_unit = NA,

@@ -37,6 +37,8 @@ meta[, ":="(
    longitude = data.table::fifelse(grepl("L", local), "59°40'12.54 W", "51°43'59.78 W"),
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = data.table::fifelse(grepl("L", local), 1700000L, 900000L),
    alpha_grain_unit = "km2",

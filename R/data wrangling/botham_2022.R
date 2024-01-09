@@ -1,32 +1,32 @@
-dataset_id <- 'botham_2022'
+dataset_id <- "botham_2022"
 
-ddata <- base::readRDS(file = 'data/raw data/botham_2022/rdata.rds')
+ddata <- base::readRDS(file = "data/raw data/botham_2022/rdata.rds")
 
 data.table::setnames(x = ddata, new = tolower(colnames(ddata)))
 data.table::setnames(
    x = ddata,
-   old = c('site code','country','easting','northing','length'),
-   new = c('local','regional','longitude','latitude','alpha_grain'))
+   old = c("site code","country","easting","northing","length"),
+   new = c("local","regional","longitude","latitude","alpha_grain"))
 
 # Converting coordinates
 coords <- unique(ddata[, .(regional, local, alpha_grain, latitude, longitude)])
-Ireland <- sf::st_as_sf(coords[regional == 'Northern Ireland'],
-                        coords = c('longitude', 'latitude'),
+Ireland <- sf::st_as_sf(coords[regional == "Northern Ireland"],
+                        coords = c("longitude", "latitude"),
                         crs = sf::st_crs(29901))
-NotIreland <- sf::st_as_sf(coords[regional != 'Northern Ireland'],
-                           coords = c('longitude', 'latitude'),
+NotIreland <- sf::st_as_sf(coords[regional != "Northern Ireland"],
+                           coords = c("longitude", "latitude"),
                            crs = sf::st_crs(27700))
 
 coords_sf <- rbind(
-   sf::st_transform(Ireland, crs = sf::st_crs('+proj=longlat +datum=WGS84')),
-   sf::st_transform(NotIreland, crs = sf::st_crs('+proj=longlat +datum=WGS84'))
+   sf::st_transform(Ireland, crs = sf::st_crs("+proj=longlat +datum=WGS84")),
+   sf::st_transform(NotIreland, crs = sf::st_crs("+proj=longlat +datum=WGS84"))
 )
-coords_sf[, 'longitude'] <- sf::st_coordinates(coords_sf)[, 1]
-coords_sf[, 'latitude'] <- sf::st_coordinates(coords_sf)[, 2]
+coords_sf[, "longitude"] <- sf::st_coordinates(coords_sf)[, 1]
+coords_sf[, "latitude"] <- sf::st_coordinates(coords_sf)[, 2]
 data.table::setDT(coords_sf)
 
 # Communities ----
-ddata[, ':='(
+ddata[, ":="(
    dataset_id = dataset_id,
 
    value = 1L,
@@ -39,27 +39,28 @@ ddata[, ':='(
 
 # Metadata ----
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-meta <- meta[coords_sf[, geometry := NULL], on = c('regional', 'local')]
+meta <- meta[coords_sf[, geometry := NULL], on = c("regional", "local")]
 
 meta[, ":="(
    taxon = "Invertebrates",
    realm = "Terrestrial",
 
    data_pooled_by_authors = TRUE,
-   data_pooled_by_authors_comment = "checklist",
+   data_pooled_by_authors_comment = "several samplings a year pooled by year",
+   sampling_years = year,
 
    effort = 26L,
 
    alpha_grain = alpha_grain * 5L,
-   alpha_grain_type = 'plot',
-   alpha_grain_unit = 'm2',
-   alpha_grain_comment = 'area of the belt transects. Length varies between sites',
+   alpha_grain_type = "plot",
+   alpha_grain_unit = "m2",
+   alpha_grain_comment = "area of the belt transects. Length varies between localities",
 
    gamma_sum_grains_unit = "m2",
    gamma_sum_grains_type = "transect",
    gamma_sum_grains_comment = "sum of the sampled transects",
 
-   # gamma_bounding_box = c(130279L, 20779L, 77933L, 14130L, 572L, 198L)[data.table::chmatch(regional, c('England', 'Wales', 'Scotland', 'Northern Ireland','Isle of Man', 'Channel Islands'))],
+   # gamma_bounding_box = c(130279L, 20779L, 77933L, 14130L, 572L, 198L)[data.table::chmatch(regional, c("England", "Wales", "Scotland", "Northern Ireland","Isle of Man", "Channel Islands"))],
    # gamma_bounding_box_unit = "km2",
    # gamma_bounding_box_type = "administrative",
    # gamma_bounding_box_comment = "area of the country",

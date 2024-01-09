@@ -61,6 +61,8 @@ meta[, ":="(
    )],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(1456.4, 1545.4, 673.4, 364, 1883, 10430)[match(
       local,

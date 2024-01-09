@@ -40,6 +40,7 @@ meta[, ":="(
    longitude = "10°30′E",
 
    effort = 1L,
+   data_pooled_by_authors = FALSE,
 
    alpha_grain = 2.6,
    alpha_grain_unit = "ha",

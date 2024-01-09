@@ -41,7 +41,7 @@ env <- data.table::as.data.table(
    readxl::read_xlsx(paste0("data/raw data/", dataset_id, "/pone.0238767.s002.xlsx"),
                      sheet = 1L)[, 1:2]
 )
-data.table::setnames(env, c("local", "alpha_grain"))
+data.table::setnames(env, new = c("local", "alpha_grain"))
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta <- merge(meta, env)
@@ -54,6 +54,8 @@ meta[, ":="(
    longitude = -70L,
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain_unit = "km2",
    alpha_grain_type = "watershed",

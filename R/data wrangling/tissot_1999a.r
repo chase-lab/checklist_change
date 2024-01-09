@@ -44,7 +44,8 @@ meta[, ":="(
 
    effort = c(1000L, 5400L)[data.table::chmatch(year, c("1976", "1996"))],
 
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Several plots or transects pooled per year",
 
    alpha_grain = c(1000L, 5400L)[data.table::chmatch(year, c("1976", "1996"))],
    alpha_grain_unit = "m2",

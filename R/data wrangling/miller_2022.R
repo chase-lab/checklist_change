@@ -34,7 +34,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "several plots and several surveys pooled together in historical data",
    sampling_years = c("2000-2003", "2014")[match(year, c(2003L, 2014L))],
 
    alpha_grain = 50L*10L,
@@ -52,7 +53,7 @@ meta[, ":="(
    gamma_bounding_box_comment = "coordinates provided by the authors in figshare repo 1_Location_Topography.csv",
 
    comment = "Extracted from dataset Miller, Jesse E. D., Stella Copeland, Kendi Davies, Brian Anacker, Hugh Safford, and Susan Harrison. 2022. 'Plant Community Data from a Statewide Survey of Paired Serpentine and Non-Serpentine Soils in California, USA.'Ecology 103(6): e3644. https:// doi.org/10.1002/ecy.3644 with data archived on FigShare at https://doi.org/10.6084/m9.figshare.17009027.
-METHODS: 'In 2000–2003, serpentine plant communities were sampled at 107 locations representing the full range of occurrence of serpentine in California, USA, spanning large gradients in climate.[...] At each serpentine or nonserpentine location, a north- and a south-facing 50 * 10 m plot were sampled. This design produced 97 “sites” each consisting of four “plots” (north-south exposure, serpentine-nonserpentine soil). All plots were initially visited three or more times over two years to record plant diversity and cover, and a subset were revisited in 2014 to examine community change after a drought.'
+METHODS: 'In 2000–2003, serpentine plant communities were sampled at 107 locations representing the full range of occurrence of serpentine in California, USA, spanning large gradients in climate.[...] At each serpentine or nonserpentine location, a north- and a south-facing 50 * 10 m plot were sampled. This design produced 97 'sites' each consisting of four 'plots' (north-south exposure, serpentine-nonserpentine soil). All plots were initially visited three or more times over two years to record plant diversity and cover, and a subset were revisited in 2014 to examine community change after a drought.'
 Regional is the whole Serpentine habitat, local are plots.",
    comment_standardisation = "only serpentine sites sampled twice were kept",
    doi = "https://doi.org/10.1002/ecy.3644"

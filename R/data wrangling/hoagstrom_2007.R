@@ -99,6 +99,8 @@ meta[, ":="(
    realm = "Freshwater",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    latitude = env$latitude[match(local, env$local)],
    longitude = env$longitude[match(local, env$local)],

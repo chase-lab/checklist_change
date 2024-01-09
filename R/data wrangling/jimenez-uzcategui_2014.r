@@ -52,7 +52,9 @@ meta[, ":="(
    latitude = latitudes[data.table::chmatch(local, island_names)],
    longitude = longitudes[data.table::chmatch(local, island_names)],
 
-   effort = "checklist",
+   effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(4640, 60, 1, 558, 642, 173, 14, 986, 60, 130, 585, 18, 24, 1.3)[data.table::chmatch(local, island_names)],
    alpha_grain_unit = "km2",

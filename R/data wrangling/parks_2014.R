@@ -65,6 +65,8 @@ meta[, ":="(
    longitude = longitudes[match(local, c("Des Moines", "Iowa", "Cedar", "Wapsipinicon", "Maquoketa"))],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(37141.9, 32429.9, 20050.5, 6479.6, 4808.6)[match(local, c("Des Moines", "Iowa", "Cedar", "Wapsipinicon", "Maquoketa"))],
    alpha_grain_unit = "km2",

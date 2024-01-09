@@ -49,6 +49,7 @@ meta[, ":="(
    longitude = 135.494492,
 
    effort = 1L,
+   data_pooled_by_authors = FALSE,
 
    alpha_grain = 9600L,
    alpha_grain_unit = "m2",

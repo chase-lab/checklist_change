@@ -61,6 +61,8 @@ meta[, ":="(
    taxon = "Birds",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "samples pooled",
 
    alpha_grain = c(104000L, 28084L, 10527L)[data.table::chmatch(local,
                                                                 c("Bocaina", "Itatiaia", "Órgãos"))],

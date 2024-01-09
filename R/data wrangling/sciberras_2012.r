@@ -62,6 +62,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review for the historical communities, checklist for the recent communities",
 
    alpha_grain_unit = "m2",
    alpha_grain_type = "island",

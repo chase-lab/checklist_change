@@ -118,6 +118,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain_unit = "km2",
    alpha_grain_type = "island",

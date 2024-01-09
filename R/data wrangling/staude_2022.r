@@ -18,7 +18,6 @@ ddata <- data.table::melt(
    na.rm = TRUE)
 data.table::setnames(x = ddata,
                      new = c("regional","local","species","deleteMe","year"))
-ddata <- ddata[regional == "Summit"]
 
 # Community data ----
 ddata[, ":="(
@@ -42,6 +41,8 @@ meta[, ":="(
    longitude = 13L,
 
    effort = 8L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Eight plots per summit pooled",
 
    alpha_grain = 0.25,
    alpha_grain_unit = "ha",

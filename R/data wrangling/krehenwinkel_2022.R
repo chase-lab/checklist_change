@@ -48,9 +48,11 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "several trees per site",
 
    alpha_grain = 100L,
-   alpha_grain_unit = "mm2",
+   alpha_grain_unit = "m2",
    alpha_grain_type = "sample",
    alpha_grain_comment = "estimated area of the crown of a tree",
 
