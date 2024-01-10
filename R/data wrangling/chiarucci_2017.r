@@ -39,7 +39,7 @@ ddata[, ":="(
    period = NULL
 )]
 
-env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/env.csv"),
+env <- data.table::fread(paste0("data/raw data/", dataset_id, "/env.csv"),
                          skip = 1, sep = "\t")
 data.table::setnames(env, c("local", "latitude", "longitude", "area"))
 

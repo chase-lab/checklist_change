@@ -3,7 +3,7 @@ dataset_id <- "cazelles_2019"
 
 # GIS
 # Ontario boundaries
-load("./data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/sf_bsm_ahi.rda")
+load("data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/sf_bsm_ahi.rda")
 bsm <- sf::as_Spatial(sf_bsm_ahi)
 
 ddata <- data.table::as.data.table(sf_bsm_ahi)
@@ -18,7 +18,7 @@ ddata <- data.table::melt(
 ddata <- ddata[value > 0, .(local, species, value)]
 
 # species names
-load("./data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/df_species_info.rda")
+load("data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/df_species_info.rda")
 
 ddata[, ":="(
    dataset_id = dataset_id,

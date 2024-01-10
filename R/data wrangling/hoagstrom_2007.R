@@ -63,12 +63,12 @@ ddata[, ":="(
 
 ## GIS for grain computation
 # done once,
-# if (!file.exists("./data/cache/hydrologic_units_WBDHU8_sd_3896517_01/hydrologic_units/wbdhu8_a_sd.prj")) unzip(zipfile = path.expand("./data/GIS data/hydrologic_units_WBDHU8_sd_3896517_01.zip"),
-#       exdir = "./data/cache/hydrologic_units_WBDHU8_sd_3896517_01"
+# if (!file.exists("data/cache/hydrologic_units_WBDHU8_sd_3896517_01/hydrologic_units/wbdhu8_a_sd.prj")) unzip(zipfile = path.expand("data/GIS data/hydrologic_units_WBDHU8_sd_3896517_01.zip"),
+#       exdir = "data/cache/hydrologic_units_WBDHU8_sd_3896517_01"
 #       )
-# watersheds <- rgdal::readOGR("./data/cache/hydrologic_units_WBDHU8_sd_3896517_01/hydrologic_units",
+# watersheds <- rgdal::readOGR("data/cache/hydrologic_units_WBDHU8_sd_3896517_01/hydrologic_units",
 #                layer = "wbdhu8_a_sd")
-# unz(path.expand("./data/GIS data/hydrologic_units_WBDHU8_sd_3896517_01.zip"), filename = "/hydrologic_units/wbdhu8_a_sd.shp")
+# unz(path.expand("data/GIS data/hydrologic_units_WBDHU8_sd_3896517_01.zip"), filename = "/hydrologic_units/wbdhu8_a_sd.shp")
 
 
 # Metadata

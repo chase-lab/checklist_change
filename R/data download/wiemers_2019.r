@@ -1,8 +1,8 @@
 # wiemers_2019
 
-if (!file.exists("./data/raw data/wiemers_2019/ddata.rds")) {
+if (!file.exists("data/raw data/wiemers_2019/ddata.rds")) {
   # downloading supplementary files
-  path_to_S1 <- "./data/cache/wiemers_2019_zookeys-081-009-s001.xlsx"
+  path_to_S1 <- "data/cache/wiemers_2019_zookeys-081-009-s001.xlsx"
   if (!file.exists(path_to_S1)) {
     download.file(
       url = "https://zookeys.pensoft.net/article/28712/download/suppl/31/",
@@ -11,7 +11,7 @@ if (!file.exists("./data/raw data/wiemers_2019/ddata.rds")) {
     )
   }
 
-  path_to_S2 <- "./data/cache/wiemers_2019_zookeys-081-009-s002.xls"
+  path_to_S2 <- "data/cache/wiemers_2019_zookeys-081-009-s002.xls"
   if (!file.exists(path_to_S2)) {
     download.file(
       url = "https://zookeys.pensoft.net/article/28712/download/suppl/32/",
@@ -52,6 +52,6 @@ if (!file.exists("./data/raw data/wiemers_2019/ddata.rds")) {
   ddata <- ddata[!DistributionStatus %in% c("Absent", "Migrant", "Uncertain")]
 
 
-  dir.create("./data/raw data/wiemers_2019", showWarnings = FALSE)
-  base::saveRDS(ddata, "./data/raw data/wiemers_2019/ddata.rds")
+  dir.create("data/raw data/wiemers_2019", showWarnings = FALSE)
+  base::saveRDS(ddata, "data/raw data/wiemers_2019/ddata.rds")
 }

@@ -100,8 +100,8 @@ if (file.exists("data/requests to taxonomy databases/continental-us_2020 synonym
    # Tephrosia angustissima - 1 - urn:lsid:ipni.org:names:520382-1
    synpow <- data.table::rbindlist(synpow, idcol = TRUE, use.names = TRUE)
 
-   # save(synitis, file = './data/requests to taxonomy databases/continental-us_2020 synonym itis request')
-   save(synpow, file = "./data/requests to taxonomy databases/continental-us_2020 synonym pow request")
+   # save(synitis, file = 'data/requests to taxonomy databases/continental-us_2020 synonym itis request')
+   save(synpow, file = "data/requests to taxonomy databases/continental-us_2020 synonym pow request")
 }
 
 synpow[, ":="(

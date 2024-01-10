@@ -3,7 +3,7 @@
 dataset_id <- "pyle_2017"
 
 ddata <- data.table::fread(
-   file = paste0("./data/raw data/", dataset_id, "/rdata.csv"),
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
    header = TRUE, skip = 1, sep = ",")
 data.table::setnames(ddata, "COMMON NAME", "species")
 

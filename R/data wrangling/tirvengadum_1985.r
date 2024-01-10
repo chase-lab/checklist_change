@@ -3,7 +3,7 @@
 dataset_id <- "tirvengadum_1985"
 
 ddata <- data.table::fread(
-   file = paste0("./data/raw data/", dataset_id, "/rdata.csv"),
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
    skip = 1, encoding = "Latin-1", header = TRUE, sep = ",")
 
 # Deleting marine turtles and snake species

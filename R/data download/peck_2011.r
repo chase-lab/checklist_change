@@ -3,7 +3,7 @@ dataset_id <- "peck_2011"
 
 if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   # extracting text
-  txt <- pdftools::pdf_text(paste0("./data/raw data/", dataset_id, "/peck_2011 - CDF_Checklist cockroaches, mantids.pdf"))
+  txt <- pdftools::pdf_text(paste0("data/raw data/", dataset_id, "/peck_2011 - CDF_Checklist cockroaches, mantids.pdf"))
   txt <- txt[2:6]
   txt <- lapply(txt, gsub, pattern = "\\(|\\)", replacement = "")
 
@@ -13,7 +13,7 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
     pattern = " [A-Z].*$|ined.", replacement = ""
   )
   status <- stringi::stri_extract_all_regex(txt, "(?<=\r\n {1,15}Origin: ).*(?=.\r\n)")
-  txtEOL <- lapply(tabulizer::extract_text(paste0("./data/raw data/", dataset_id, "/peck_2011 - CDF_Checklist cockroaches, mantids.pdf"), pages = 2:6, encoding = "UTF-8"),
+  txtEOL <- lapply(tabulizer::extract_text(paste0("data/raw data/", dataset_id, "/peck_2011 - CDF_Checklist cockroaches, mantids.pdf"), pages = 2:6, encoding = "UTF-8"),
     gsub,
     pattern = "\r\n", replacement = "_"
   )

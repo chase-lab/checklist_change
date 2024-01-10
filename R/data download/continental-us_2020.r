@@ -2,7 +2,7 @@
 
 dataset_id <- "continental-us_2020"
 
-if (!file.exists(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds"))) {
+if (!file.exists(paste0("data/raw data/", dataset_id, "/ddata_extinction.rds"))) {
   ## Native species
   ### PLANTS database request
   #### PLANTS Floristic Area: L48 + Alaska
@@ -18,32 +18,32 @@ if (!file.exists(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds")
   ## Exotic species GLONAF
   ### downloading
   # using suppdata to download from he journal would be better(?) but the archive is in rar format and implementing a trans-platform solution to decompress it is too much of a hassle.
-  dir.create(paste0("./data/downloaded data/", dataset_id), showWarnings = FALSE)
-  if (!file.exists(paste0("./data/cache/", dataset_id, "/continental-us_2020_exotics.zip"))) {
+  dir.create(paste0("data/downloaded data/", dataset_id), showWarnings = FALSE)
+  if (!file.exists(paste0("data/cache/", dataset_id, "/continental-us_2020_exotics.zip"))) {
     download.file(
       "https://idata.idiv.de/ddm/Data/DownloadZip/257",
-      paste0("./data/cache/", dataset_id, "continental-us_2020_exotics.zip"),
+      paste0("data/cache/", dataset_id, "continental-us_2020_exotics.zip"),
       method = "curl"
     )
   }
 
   ### unziping and deleting
-  if (!file.exists(paste0("./data/cache/", dataset_id, "glonaf/glonaf/GLONAF/Region_GloNAF_vanKleunenetal2018Ecology.csv"))) {
-    utils::unzip("./data/cache/continental-us_2020/continental-us_2020_exotics.zip", exdir = "./data/cache/continental-us_2020/glonaf")
-    utils::unzip("./data/cache/continental-us_2020/glonaf/257_2_GLONAF.zip", exdir = "./data/cache/continental-us_2020/glonaf/glonaf")
-    file.remove(paste0("./data/cache/", dataset_id, "/glonaf/257_2_GloNAF.zip"))
-    file.remove(paste0("./data/cache/", dataset_id, "/glonaf/257_2_GloNAF_Shapefile.zip"))
+  if (!file.exists(paste0("data/cache/", dataset_id, "glonaf/glonaf/GLONAF/Region_GloNAF_vanKleunenetal2018Ecology.csv"))) {
+    utils::unzip("data/cache/continental-us_2020/continental-us_2020_exotics.zip", exdir = "data/cache/continental-us_2020/glonaf")
+    utils::unzip("data/cache/continental-us_2020/glonaf/257_2_GLONAF.zip", exdir = "data/cache/continental-us_2020/glonaf/glonaf")
+    file.remove(paste0("data/cache/", dataset_id, "/glonaf/257_2_GloNAF.zip"))
+    file.remove(paste0("data/cache/", dataset_id, "/glonaf/257_2_GloNAF_Shapefile.zip"))
   }
 
 
 
 
   ## extinctions
-  if (!file.exists("./data/cache/continental-US_2020_extincions.pdf")) download.file("https://conbio.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/cobi.13621?download=true", "./data/cache/continental-US_2020_extincions.pdf", method = "curl", mode = "wb")
+  if (!file.exists("data/cache/continental-US_2020_extincions.pdf")) download.file("https://conbio.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/cobi.13621?download=true", "data/cache/continental-US_2020_extincions.pdf", method = "curl", mode = "wb")
 
   page46 <- data.table::rbindlist(
     lapply(
-      tabulizer::extract_tables(paste("./data/raw data", dataset_id, "extinctions-cobi.13621.pdf", sep = "/"),
+      tabulizer::extract_tables(paste("data/raw data", dataset_id, "extinctions-cobi.13621.pdf", sep = "/"),
         pages = c(4, 6),
         method = "stream"
       ),
@@ -87,5 +87,5 @@ if (!file.exists(paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds")
   ))
 
   ddata_extinction <- data.table::rbindlist(l = list(page5, page46), use.names = FALSE)
-  base::saveRDS(ddata_extinction, file = paste0("./data/raw data/", dataset_id, "/ddata_extinction.rds"))
+  base::saveRDS(ddata_extinction, file = paste0("data/raw data/", dataset_id, "/ddata_extinction.rds"))
 }

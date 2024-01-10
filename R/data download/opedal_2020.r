@@ -4,15 +4,15 @@ dataset_id <- "opedal_2020"
 if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   download.file(
     url = "https://zenodo.org/record/3712825/files/oysteiop/ArchipelagoPlants-1.0.zip?download=1",
-    destfile = "./data/cache/opedal_2020_zenodo_repository_ArchipelagoPlants-1.0.zip",
+    destfile = "data/cache/opedal_2020_zenodo_repository_ArchipelagoPlants-1.0.zip",
     mode = "wb"
   )
-  unzip(zipfile = "./data/cache/opedal_2020_zenodo_repository_ArchipelagoPlants-1.0.zip", exdir = paste0("data/cache/", dataset_id))
+  unzip(zipfile = "data/cache/opedal_2020_zenodo_repository_ArchipelagoPlants-1.0.zip", exdir = paste0("data/cache/", dataset_id))
 
   # 3 Using the table with colonisation and extinction columns
   ddata <- data.table::data.table(
-    data.table::fread(file = paste0("./data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/Y.csv")),
-    local = data.table::fread(file = paste0("./data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/dfPi.csv"), select = 1L)
+    data.table::fread(file = paste0("data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/Y.csv")),
+    local = data.table::fread(file = paste0("data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/dfPi.csv"), select = 1L)
   )
 
   base::saveRDS(ddata, file = paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))
@@ -25,26 +25,26 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
 
   coords <- sp::SpatialPoints(
     sp::coordinates(
-      read.csv(paste0("./data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/xy.csv"))
+      read.csv(paste0("data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/xy.csv"))
     ),
     proj4string = crs
   )
 
   env <- data.table::data.table(
-    data.table::fread(paste0("./data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/dfPi.csv"), select = 1L),
+    data.table::fread(paste0("data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/dfPi.csv"), select = 1L),
     data.table::as.data.table(sp::spTransform(coords, CRSobj = sp::CRS("+proj=longlat +datum=WGS84"))),
-    exp(data.table::fread(paste0("./data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/X.csv"), select = "area"))
+    exp(data.table::fread(paste0("data/cache/", dataset_id, "/oysteiop-ArchipelagoPlants-ec4b1e9/colext_nospace/X.csv"), select = "area"))
   )
   base::saveRDS(env, file = paste("data/raw data", dataset_id, "env.rds", sep = "/"))
 
   if (FALSE) {
     # 1 Historical occurrences
-    ddata_hist <- data.table::fread(paste0("./data/raw data/", dataset_id, "/histocc/Y.csv"))
+    ddata_hist <- data.table::fread(paste0("data/raw data/", dataset_id, "/histocc/Y.csv"))
 
     # 2 historical and modern occurrences together
-    ddata_hm <- data.table::fread(paste0("./data/raw data/", dataset_id, "/colext_nospace/oldnewY.csv"))
+    ddata_hm <- data.table::fread(paste0("data/raw data/", dataset_id, "/colext_nospace/oldnewY.csv"))
     ddata_hm[, ":="(
-      local = rep(data.table::fread(paste0("./data/raw data/", dataset_id, "/colext_nospace/dfPi.csv"))$V1, 2),
+      local = rep(data.table::fread(paste0("data/raw data/", dataset_id, "/colext_nospace/dfPi.csv"))$V1, 2),
       period = rep(c("historical", "modern"), each = 471)
     )]
 

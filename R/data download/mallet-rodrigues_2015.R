@@ -1,18 +1,18 @@
 # mallet-rodrigues_2015
 
-if (!file.exists("./data/raw data/mallet-rodrigues_2015/rdata.rds")) {
+if (!file.exists("data/raw data/mallet-rodrigues_2015/rdata.rds")) {
   pdf_extraction <- lapply(
     tabulizer::extract_tables(
-      file = "./data/cache/mallet-rodrigues_2015 AO188_39.pdf",
+      file = "data/cache/mallet-rodrigues_2015 AO188_39.pdf",
       pages = 8L:18L, method = "stream" # output = "data.frame" messes with colnames
     ),
     as.data.frame
   )
 
-  dir.create("./data/raw data/mallet-rodrigues_2015", showWarnings = FALSE)
-  base::saveRDS(pdf_extraction, "./data/raw data/mallet-rodrigues_2015/rdata.rds")
+  dir.create("data/raw data/mallet-rodrigues_2015", showWarnings = FALSE)
+  base::saveRDS(pdf_extraction, "data/raw data/mallet-rodrigues_2015/rdata.rds")
 } else {
-  pdf_extraction <- base::readRDS("./data/raw data/mallet-rodrigues_2015/rdata.rds")
+  pdf_extraction <- base::readRDS("data/raw data/mallet-rodrigues_2015/rdata.rds")
 }
 
 for (i in seq_along(pdf_extraction)) {
@@ -39,4 +39,4 @@ ddata <- rbind(
   )
 )
 
-base::saveRDS(ddata, "./data/raw data/mallet-rodrigues_2015/ddata.rds")
+base::saveRDS(ddata, "data/raw data/mallet-rodrigues_2015/ddata.rds")

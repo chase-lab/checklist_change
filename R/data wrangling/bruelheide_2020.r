@@ -2,7 +2,7 @@
 
 dataset_id <- "bruelheide_2020"
 
-ddata <- base::readRDS(file = "./data/raw data/bruelheide_2020/rdata.rds")
+ddata <- base::readRDS(file = "data/raw data/bruelheide_2020/rdata.rds")
 data.table::setnames(ddata, c("Site_ID", "Species"), c("local", "species"))
 
 # recoding, splitting and melting period
@@ -41,7 +41,7 @@ ddata[, ":="(
 env <- data.table::as.data.table(
    docxtractr::docx_extract_tbl(
       docx = docxtractr::read_docx(
-         paste0("./data/raw data/", dataset_id, "/ddi13184-sup-0001-appendixs1-s4.docx")
+         paste0("data/raw data/", dataset_id, "/ddi13184-sup-0001-appendixs1-s4.docx")
       ),
       tbl_number = 1
    )

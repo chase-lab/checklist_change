@@ -1,9 +1,9 @@
 ## whillans_1979
 dataset_id <- "whillans_1979"
 
-if (!file.exists(paste("./data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
+if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   ex <- tabulizer::extract_tables(
-    file = "./data/cache/Whillans 1979 (data in various tables for 3 bays).pdf",
+    file = "data/cache/Whillans 1979 (data in various tables for 3 bays).pdf",
     pages = 10:11,
     method = "stream"
   )
@@ -31,6 +31,6 @@ if (!file.exists(paste("./data/raw data", dataset_id, "ddata.rds", sep = "/"))) 
 
   colnames(ddata) <- c("local", "historical", "all", "contemporary")
 
-  dir.create(paste("./data/raw data", dataset_id, sep = "/"), showWarnings = FALSE)
-  base::saveRDS(ddata, file = paste("./data/raw data", dataset_id, "ddata.rds", sep = "/"))
+  dir.create(paste("data/raw data", dataset_id, sep = "/"), showWarnings = FALSE)
+  base::saveRDS(ddata, file = paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))
 }

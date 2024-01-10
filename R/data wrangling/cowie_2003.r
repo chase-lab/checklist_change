@@ -2,7 +2,7 @@
 
 dataset_id <- "cowie_2003"
 
-ddata <- base::readRDS(paste0("./data/raw data/", dataset_id, "/ddata.rds"))
+ddata <- base::readRDS(paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
 data.table::setnames(ddata, c("V1", "V4", "V5"), c("species", "1965", "1994"))
 
