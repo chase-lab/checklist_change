@@ -15,7 +15,7 @@ selected_columns <- c(
 
 ddata[, (species_list) := lapply(.SD, as.integer), .SDcols = species_list]
 
-dir.create(path = "./data/raw data/ogan_2022/", showWarnings = FALSE)
+dir.create(path = "data/raw data/ogan_2022/", showWarnings = FALSE)
 base::saveRDS(object = ddata[, ..selected_columns],
-              file = "./data/raw data/ogan_2022/rdata.rds"
+              file = "data/raw data/ogan_2022/rdata.rds"
 )

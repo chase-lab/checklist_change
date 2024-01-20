@@ -6,7 +6,7 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   # extraction with tabulizer
   lst <- lapply(
     tabulizer::extract_tables(
-      file = "./data/cache/tissot_1999 - Tissot_Pelekane_Bay_1999 (data in appendix).pdf",
+      file = "data/cache/tissot_1999 - Tissot_Pelekane_Bay_1999 (data in appendix).pdf",
       pages = 19:21,
       output = "data.frame",
       header = FALSE

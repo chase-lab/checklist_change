@@ -176,7 +176,7 @@ unique(meta[effort == "unknown" | is.na(effort), .(dataset_id, effort)])
 
 ## checking data_pooled_by_authors ----
 meta[is.na(data_pooled_by_authors), data_pooled_by_authors := FALSE]
-if (any(meta[(data_pooled_by_authors), is.na(sampling_years)])) warning("Missing sampling_years values")
+# if (any(meta[(data_pooled_by_authors), is.na(sampling_years)])) warning("Missing sampling_years values")
 if (any(meta[(data_pooled_by_authors), is.na(data_pooled_by_authors_comment)])) warning(paste("Missing data_pooled_by_authors_comment values in", meta[(data_pooled_by_authors) & is.na(data_pooled_by_authors_comment), paste(unique(dataset_id), collapse = ", ")]))
 
 
@@ -210,9 +210,10 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 # Saving data products ----
 ## Saving dt ----
 data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "value"))
-data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
-if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
-   path_to_homogenisation_dropbox_folder <- base::readRDS(file = "./data/references/homogenisation_dropbox_folder_path.rds")
+# data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
+base::saveRDS(object = dt, file = "data/communities.rds")
+if (file.exists("data/references/homogenisation_dropbox_folder_path.rds")) {
+   path_to_homogenisation_dropbox_folder <- base::readRDS(file = "data/references/homogenisation_dropbox_folder_path.rds")
    data.table::fwrite(dt, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"), row.names = FALSE)
 }
 
@@ -220,7 +221,7 @@ if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds")) {
 data.table::setcolorder(meta, "alpha_grain_m2", before = "alpha_grain_type")
 data.table::setcolorder(meta, "gamma_sum_grains_km2", before = "gamma_sum_grains_type")
 data.table::setcolorder(meta, "gamma_bounding_box_km2", before = "gamma_bounding_box_type")
-data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
-if (file.exists("./data/references/homogenisation_dropbox_folder_path.rds"))
+# data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
+base::saveRDS(object = meta, file = "data/metadata.rds")
+if (file.exists("data/references/homogenisation_dropbox_folder_path.rds"))
    data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
-

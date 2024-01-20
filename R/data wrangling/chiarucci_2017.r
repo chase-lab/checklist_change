@@ -39,7 +39,7 @@ ddata[, ":="(
    period = NULL
 )]
 
-env <- data.table::fread(paste0("./data/raw data/", dataset_id, "/env.csv"),
+env <- data.table::fread(paste0("data/raw data/", dataset_id, "/env.csv"),
                          skip = 1, sep = "\t")
 data.table::setnames(env, c("local", "latitude", "longitude", "area"))
 
@@ -65,7 +65,6 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
-
    data_pooled_by_authors = TRUE,
    data_pooled_by_authors_comment = "'All available published papers and some unpublished sources (such as masters’ theses and doctoral dissertations and technical reports) dealing with the plants of the Tuscan archipelago were searched and compiled by the botanical team of the University of Florence'",
    sampling_years = c("1830-1950", "1951-2015")[match(year, c(1950L, 2015L))],

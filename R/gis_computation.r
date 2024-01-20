@@ -9,7 +9,7 @@ areaPolygon(vertices) / 1000000
 
 
 # roman-palacios_2020
-roman <- readxl::read_xlsx("./data/raw data/roman-palacios_2020/pnas.1913007117.sd02.xlsx", 2)
+roman <- readxl::read_xlsx("data/raw data/roman-palacios_2020/pnas.1913007117.sd02.xlsx", 2)
 
 areas <- c()
 names(areas) <- unique(roman$Study)
@@ -25,32 +25,32 @@ sd(areas)
 
 ## Eros_2020
 ## GIS computation of the area of the watersheds
-unzip("./data/GIS data/hydrosheds-8966d4509a0958e7559f.zip",
+unzip("data/GIS data/hydrosheds-8966d4509a0958e7559f.zip",
   overwrite = FALSE,
-  exdir = "./data/cache/hydroSHEDS"
+  exdir = "data/cache/hydroSHEDS"
 )
 lapply(
-  list.files("./data/cache/hydroSHEDS", full.names = TRUE),
+  list.files("data/cache/hydroSHEDS", full.names = TRUE),
   function(zipped) {
-    unzip(zipped, overwrite = FALSE, exdir = "./data/cache/hydroSHEDS")
+    unzip(zipped, overwrite = FALSE, exdir = "data/cache/hydroSHEDS")
     file.remove(zipped)
   }
 )
 
-aus <- rgdal::readOGR(dsn = "./data/cache/hydroSHEDS", layer = "au_bas_15s_beta", GDAL1_integer64_policy = TRUE)
-ca <- rgdal::readOGR(dsn = "./data/cache/hydroSHEDS", layer = "ca_bas_15s_beta", integer64 = "no.loss")
+aus <- rgdal::readOGR(dsn = "data/cache/hydroSHEDS", layer = "au_bas_15s_beta", GDAL1_integer64_policy = TRUE)
+ca <- rgdal::readOGR(dsn = "data/cache/hydroSHEDS", layer = "ca_bas_15s_beta", integer64 = "no.loss")
 lapply(slot(aus, "polygons"), slot, "area")
 slot(ca, "data")$BASIN_ID
-tst <- foreign::read.dbf("./data/cache/hydroSHEDS/ca_bas_15s_beta.dbf", as.is = TRUE)
+tst <- foreign::read.dbf("data/cache/hydroSHEDS/ca_bas_15s_beta.dbf", as.is = TRUE)
 
 
 
-tst <- data.table::as.data.table(foreign::read.dbf("./data/GIS data/hydroBASINS/hybas_au_lev00_v1c/hybas_au_lev00_v1c.dbf", as.is = F))
+tst <- data.table::as.data.table(foreign::read.dbf("data/GIS data/hydroBASINS/hybas_au_lev00_v1c/hybas_au_lev00_v1c.dbf", as.is = F))
 tst[, HYBAS_ID := as.character(HYBAS_ID)]
 
 dt <- data.table::rbindlist(
   lapply(
-    list.files("./data/GIS data/hydroBASINS/hybas_au_lev01-06_v1c", pattern = ".dbf$", recursive = TRUE, full.names = TRUE),
+    list.files("data/GIS data/hydroBASINS/hybas_au_lev01-06_v1c", pattern = ".dbf$", recursive = TRUE, full.names = TRUE),
     function(dbfFile) data.table::as.data.table(foreign::read.dbf(dbfFile, as.is = TRUE))
   )
 )

@@ -3,7 +3,7 @@
 dataset_id <- "pyle_2017"
 
 ddata <- data.table::fread(
-   file = paste0("./data/raw data/", dataset_id, "/rdata.csv"),
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
    header = TRUE, skip = 1, sep = ",")
 data.table::setnames(ddata, "COMMON NAME", "species")
 
@@ -61,6 +61,8 @@ meta[, ":="(
    )],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(1456.4, 1545.4, 673.4, 364, 1883, 10430)[match(
       local,

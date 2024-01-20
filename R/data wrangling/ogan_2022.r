@@ -37,8 +37,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
-
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "2-3 surveys a year pooled together",
 
    alpha_grain_unit = "km2",
    alpha_grain_type = "plot",

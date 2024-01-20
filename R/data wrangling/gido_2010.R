@@ -56,6 +56,9 @@ meta[, ":="(
    latitude = c("39.3 N", "38 N", "39.25 N")[match(local, c("Smoky Hill", "Arkansas Basin", "Lower Kansas River Basin"))],
    longitude = c("100 W", "100 W", "96 W")[match(local, c("Smoky Hill", "Arkansas Basin", "Lower Kansas River Basin"))],
 
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
+
    alpha_grain = c(53416L, 59752L, 22352L)[match(local, c("Smoky Hill", "Arkansas Basin", "Lower Kansas River Basin"))],
    alpha_grain_unit = "km2",
    alpha_grain_type = "watershed",
@@ -78,9 +81,9 @@ Regional is Kansas, local are whole river basins (within Kansas state borders)",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1899/09-116.1'
 )]
+data.table::setnames(meta, old = "period", new = "sampling_years")
 
 ddata[, period := NULL]
-meta[, period := NULL]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
 data.table::fwrite(

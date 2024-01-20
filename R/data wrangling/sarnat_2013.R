@@ -54,6 +54,8 @@ meta[, ":="(
    longitude = env$longitude[match(local, env$local)],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = env$alpha_grain[match(local, env$local)],
    alpha_grain_unit = "km2",

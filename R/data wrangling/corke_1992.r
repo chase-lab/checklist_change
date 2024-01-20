@@ -18,17 +18,22 @@ ddata[
    j = period := data.table::fifelse(
       period %in% c("-", "- -", ".", ". ."), "",
       data.table::fifelse(
-         period %in% c("*", ":~", "~", "~:", "+", "t"), "historical+present",
-         data.table::fifelse(grepl("\\[|\\{", period), "historical", "present")
+         test = period %in% c("*", ":~", "~", "~:", "+", "t"),
+         yes = "historical+present",
+         no = data.table::fifelse(
+            test = grepl("\\[|\\{", period),
+            yes = "historical",
+            no = "present")
       )
    )]
 
 # melting historical and present values
 ddata[, c("period1", "period2") := data.table::tstrsplit(period, "\\+")]
-ddata <- data.table::melt(ddata,
-                          id.vars = c("local", "species"),
-                          measure.vars = c("period1", "period2"),
-                          value.name = "period"
+ddata <- data.table::melt(
+   ddata,
+   id.vars = c("local", "species"),
+   measure.vars = c("period1", "period2"),
+   value.name = "period"
 )
 ddata <- ddata[!is.na(period)]
 
@@ -42,7 +47,6 @@ ddata[, ":="(
    variable = NULL,
    period = NULL
 )]
-
 
 ddata[, species := species |> sub(pattern = " {2,}", replacement = "_") |>
          sub(pattern = " {1}", replacement = "") |>
@@ -75,6 +79,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain_unit = "km2",
    alpha_grain_type = "island",
@@ -90,7 +96,7 @@ meta[, ":="(
 
 
    comment = "Extracted from the article 'The status and conservation needs of the terrestrial herpetofauna of the windward islands (West Indies)' with tabulizer and hand copy.
-Freshwater, Terrestrial and marine amphibian and resptile species sampled. The authors made a review of the literature to assess the historical compositions.
+Freshwater, terrestrial and marine amphibian and reptile species sampled. The authors made a review of the literature to assess the historical compositions.
 METHODS 'The status summaries for St Lucia, St Vincent and some of the Grenadines are based on my own field observations carried out during 1989 with previous visits to St Lucia and satellites in 1983 and 1986.[...]The current checklist for the West Indian herpetofauna is Schwartz and Henderson (1988).' Species that were noted as extinct in the main island but still present in islets were considered extinct for this study.
 Regional is the archipelago, local are islands",
    comment_standardisation = "none needed",

@@ -1,11 +1,11 @@
 dataset_id <- "wiles_2005b"
 
-mammals_raw <- base::readRDS(paste0("./data/raw data/wiles_2005/mammals_raw.rds"))
+mammals_raw <- base::readRDS(paste0("data/raw data/wiles_2005/mammals_raw.rds"))
 
 # Environment ----
 gift <- base::readRDS("data/GIS data/giftdata.rds")
 env <- data.table::fread(
-   file = paste0("./data/raw data/wiles_2005/wiles_2005_gift.csv"),
+   file = paste0("data/raw data/wiles_2005/wiles_2005_gift.csv"),
    sep = "\t", header = TRUE, na.strings = c("", "NA"),
    skip = 1, encoding = "Latin-1"
 )
@@ -118,6 +118,8 @@ meta[, ":="(
    realm = "Terrestrial",
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain_unit = "km2",
    alpha_grain_type = "island",

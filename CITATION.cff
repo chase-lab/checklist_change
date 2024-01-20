@@ -1,18 +1,18 @@
 cff-version: 1.2.0
 message: "If you use these data, please cite it as below."
 authors:
-  - family-names: Alban
-    given-names: Sagouis
+  - family-names: Sagouis
+    given-names: Alban
     orcid: https://orcid.org/0000-0002-3827-1063
-  - family-names: Shane
-    given-names: Blowes
+  - family-names: Blowes
+    given-names: Shane
     orcid: https://orcid.org/0000-0001-6310-3670
-  - family-names: Jonathan
-    given-names: Chase
+  - family-names: Chase
+    given-names: Jonathan
     orcid: https://orcid.org/0000-0001-5580-4303
-  - family-names: Wubing
-    given-names: Xu
+  - family-names: Xu
+    given-names: Wubing
     orcid: https://orcid.org/0000-0002-6566-4452
-title: "chase-lab/checklist_change - Checklist Change data for 'Synthesis reveals approximately balanced biotic differentiation and homogenization"
-version: v2.0
-date-released: 2024-01-01
+title: "chase-lab/checklist_change - Checklist Change data for 'Synthesis reveals approximately balanced biotic differentiation and homogenization'"
+version: v1.2
+date-released: 2024-01-20

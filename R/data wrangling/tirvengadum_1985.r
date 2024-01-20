@@ -3,7 +3,7 @@
 dataset_id <- "tirvengadum_1985"
 
 ddata <- data.table::fread(
-   file = paste0("./data/raw data/", dataset_id, "/rdata.csv"),
+   file = paste0("data/raw data/", dataset_id, "/rdata.csv"),
    skip = 1, encoding = "Latin-1", header = TRUE, sep = ",")
 
 # Deleting marine turtles and snake species
@@ -66,6 +66,8 @@ meta[, ":="(
                                          "Rodrigues", "Round Island"))],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review for Mauritius and Reunion and checklist by the authors for Rodrigues and Round Island",
 
    alpha_grain = c(2511, 2040, 108, 1.69)[match(local, c("La Réunion", "Mauritius",
                                                          "Rodrigues", "Round Island"))],

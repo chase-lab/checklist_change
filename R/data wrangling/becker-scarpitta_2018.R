@@ -47,8 +47,10 @@ meta[, ":="(
 
    latitude = latitudes[match(local, c("Forillon", "Mont-Megantic", "Gatineau"))],
    longitude = longitudes[match(local, c("Forillon", "Mont-Megantic", "Gatineau"))],
+
    effort = c(49L, 48L, 28L)[match(local, c("Forillon", "Mont-Megantic", "Gatineau"))],
-   data_pooled_by_authors = FALSE,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Several (see effort) plots pooled per sites",
 
    alpha_grain = c(245L, 55L, 361L)[match(local, c("Forillon", "Mont-Megantic", "Gatineau"))],
    alpha_grain_unit = "km2",

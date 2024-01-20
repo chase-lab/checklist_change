@@ -61,6 +61,8 @@ meta[, ":="(
    longitude = longitudes[match(local, local_names)],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = c(88, 966, 135, 14, 236.7, 163.6, 18274, 7880, 540, 16636, 14.55,
                    1049.3, 2040, 21, 268021, 34.6, sum(4, 9.55, 33.73, 388.39),4.6,

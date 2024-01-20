@@ -64,11 +64,10 @@ meta[, ":="(
    latitude = "43.00N",
    longitude = "76.00W",
 
-   data_pooled_by_authors = TRUE,
-   data_pooled_by_authors_comment = "checklist",
-   sampling_years = c("pre-1940","1941-1987","1988-2004")[match(year, c(1940L, 1987L, 2004L))],
-
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
+   sampling_years = c("pre-1940","1941-1987","1988-2004")[match(year, c(1940L, 1987L, 2004L))],
 
    gamma_sum_grains = sum(1920, 1740, 4520, 2390, 2280, 2373, 2460, 5070, 1920,
                           1590, 1253, (5600 - (1590 + 1253)) / 2,

@@ -1,17 +1,13 @@
 ## cazelles_2019
-
 dataset_id <- "cazelles_2019"
 
 # GIS
 # Ontario boundaries
-load("./data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/sf_bsm_ahi.rda")
+load("data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/sf_bsm_ahi.rda")
 bsm <- sf::as_Spatial(sf_bsm_ahi)
 
 ddata <- data.table::as.data.table(sf_bsm_ahi)
-data.table::setnames(
-   ddata, c("idLake"),
-   c("local")
-)
+data.table::setnames(x = ddata, old = "idLake", new = "local")
 
 ddata <- data.table::melt(
    data = ddata,
@@ -22,7 +18,7 @@ ddata <- data.table::melt(
 ddata <- ddata[value > 0, .(local, species, value)]
 
 # species names
-load("./data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/df_species_info.rda")
+load("data/raw data/cazelles_2019/McCannLab-HomogenFishOntario-b08469d/data/df_species_info.rda")
 
 ddata[, ":="(
    dataset_id = dataset_id,
@@ -48,6 +44,7 @@ meta[, ":="(
    effort = 1L,
 
    data_pooled_by_authors = FALSE,
+   data_pooled_by_authors_comment = "Each lake was sampled once per period but exact sampling year is unknown",
    sampling_years = c("1965-1982", "2008-2012")[match(year, c(1982L, 2012L))],
 
    alpha_grain = bsm$Area_km2_[match(local, bsm$idLake)], # lake area given by the authors

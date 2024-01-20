@@ -3,7 +3,7 @@ dataset_id <- "vernon_2013"
 
 if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   # extracting text
-  txt <- pdftools::pdf_text("./data/cache/vernon_2013_raw_data.pdf")
+  txt <- pdftools::pdf_text("data/cache/vernon_2013_raw_data.pdf")
   txt <- txt[32:50]
 
   # extracting strings of interest

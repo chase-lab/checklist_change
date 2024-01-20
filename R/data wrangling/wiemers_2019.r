@@ -65,6 +65,8 @@ meta[, ":="(
    longitude = coordinates$longitude[match(local, coordinates$country)],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = areas$`Total area (km2)`[match(local, areas$State)],
    alpha_grain_unit = "km2",

@@ -3,9 +3,9 @@ dataset_id <- "jimenez-uzcategui_2013"
 
 if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   # extracting text
-  txt <- pdftools::pdf_text(paste0("./data/raw data/", dataset_id, "/jimenez-uzcategui_2013 - CDF_Checklist_of_Galapagos_Reptiles (data buried in descriptions).pdf")) # all text extraction should be based on tabulizer
+  txt <- pdftools::pdf_text(paste0("data/raw data/", dataset_id, "/jimenez-uzcategui_2013 - CDF_Checklist_of_Galapagos_Reptiles (data buried in descriptions).pdf")) # all text extraction should be based on tabulizer
   txt <- txt[2:15]
-  # txt <- tabulizer::extract_text(paste0('./data/raw data/', dataset_id, '/jimenez-uzcategui_2013 - CDF_Checklist_of_Galapagos_Reptiles (data buried in descriptions).pdf'), pages = 1:26, encoding = 'UTF-8')
+  # txt <- tabulizer::extract_text(paste0('data/raw data/', dataset_id, '/jimenez-uzcategui_2013 - CDF_Checklist_of_Galapagos_Reptiles (data buried in descriptions).pdf'), pages = 1:26, encoding = 'UTF-8')
   txt <- lapply(txt, gsub, pattern = "\\(|\\)", replacement = "")
 
   # extracting strings of interest

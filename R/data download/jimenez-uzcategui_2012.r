@@ -3,9 +3,9 @@ dataset_id <- "jimenez-uzcategui_2012"
 
 if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   # extracting text
-  txt <- pdftools::pdf_text(paste0("./data/raw data/", dataset_id, "/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf")) # all text extraction should be based on tabulizer
+  txt <- pdftools::pdf_text(paste0("data/raw data/", dataset_id, "/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf")) # all text extraction should be based on tabulizer
   txt <- txt[1:26]
-  # txt <- tabulizer::extract_text(paste0('./data/raw data/', dataset_id, '/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf'), pages = 1:26, encoding = 'UTF-8')
+  # txt <- tabulizer::extract_text(paste0('data/raw data/', dataset_id, '/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf'), pages = 1:26, encoding = 'UTF-8')
   txt <- lapply(txt, gsub, pattern = "\\(|\\)", replacement = "")
 
   # extracting strings of interest
@@ -15,7 +15,7 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
     function(x) trimws(gsub("[A-Za-z]+$", "", x))
   ) # should match one name with a capial name and then only names without capital letter
   status <- stringi::stri_extract_all_regex(txt, "(?<=\r\n {1,15}Origin: ).*(?=, [A-Za-z]*\\.\r\n)")
-  txtEOL <- lapply(tabulizer::extract_text(paste0("./data/raw data/", dataset_id, "/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf"), pages = 1:26, encoding = "UTF-8"),
+  txtEOL <- lapply(tabulizer::extract_text(paste0("data/raw data/", dataset_id, "/jimenez-uzcategui_2012_CDF_Checklist_of_Galapagos_Bird (data buried in descriptions).pdf"), pages = 1:26, encoding = "UTF-8"),
     gsub,
     pattern = "\r\n", replacement = "_"
   )

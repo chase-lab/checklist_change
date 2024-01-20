@@ -1,7 +1,7 @@
 # thorn_2022
 dataset_id <- "thorn_2022"
 
-ddata <- base::readRDS(file = "./data/raw data/thorn_2022/rdata.rds")
+ddata <- base::readRDS(file = "data/raw data/thorn_2022/rdata.rds")
 
 # Melting species ----
 ## replace all 0 values by NA
@@ -40,6 +40,7 @@ meta[, ":="(
    longitude = "10°30′E",
 
    effort = 1L,
+   data_pooled_by_authors = FALSE,
 
    alpha_grain = 2.6,
    alpha_grain_unit = "ha",

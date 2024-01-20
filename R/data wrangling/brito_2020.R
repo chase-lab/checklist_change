@@ -15,7 +15,10 @@ ddata <- data.table::melt(ddata,
 )
 
 # recoding, splitting and melting status
-ddata[, status := c("historical&recent", "historical", "recent", "recent")[match(status, c("N", "NE", "NNT", "NNE"))]][, c("status", "status2") := data.table::tstrsplit(status, "&")]
+ddata[, status := c("historical&recent", "historical",
+                    "recent", "recent")[match(status, c("N", "NE",
+                                                        "NNT", "NNE"))]][
+   j = c("status", "status2") := data.table::tstrsplit(status, "&")]
 ddata <- data.table::melt(
    data = ddata,
    id.vars = c("species", "local"),
@@ -71,6 +74,8 @@ meta[, ":="(
    longitude = env$longitude[match(local, c("Region I", "Region II", "Region III", "Region IV"))],
 
    effort = 1L,
+   data_pooled_by_authors = TRUE,
+   data_pooled_by_authors_comment = "Literature review",
 
    alpha_grain = env$alpha_grain[match(local, c("Region I", "Region II", "Region III", "Region IV"))],
    alpha_grain_unit = "km2",
