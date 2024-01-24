@@ -62,7 +62,7 @@ meta[, ":="(
    gamma_bounding_box_comment = "Could be a box comprising all islets and covering islands of Carnac and Rottnest",
 
    gamma_sum_grains_unit = "m2",
-   gamma_sum_grains_type = "island",
+   gamma_sum_grains_type = "archipelago",
    gamma_sum_grains_comment = "islet areas provided by the authors",
 
    comment = "Extracted from Abbott & Black 1980, Appendix 1 and 2. The authors sampled the vegetation of islets around an island 18 km off the coast of Perth, Australia. The sampling surveys happened in 1956, 1959, 1975, 1076, 1977, 1978.
