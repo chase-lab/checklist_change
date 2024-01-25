@@ -53,7 +53,7 @@ meta[, ":="(
    data_pooled_by_authors = FALSE,
 
    alpha_grain_unit = "m2",
-   alpha_grain_type = "ecosystem",
+   alpha_grain_type = "functional",
    alpha_grain_comment = "islet area given by the authors",
 
    gamma_bounding_box = NA,

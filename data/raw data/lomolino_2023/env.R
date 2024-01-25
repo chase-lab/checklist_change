@@ -1,3 +1,11 @@
+# This table aggregates data from Wikipedia.
+# For islands in the Pacific or in the Caribbean, the past year was the year of
+# first landing by Europeans. In some cases, "end of 15th century" was turned
+# to 1500. For islands in the Mediterranean, contacts with far reaching civilisations
+# potentially introducing exotic species is not recorded.
+# For the Galapagos islands, 1832 was used similarly to the Jimenez-Uzcategui studies.
+# For Santa Rosae we consider the first European contact on Santa Rosa with Juan Rodríguez
+# Cabrillo's crew contact in 1542 or 1543.
 env <- data.table::data.table(
    local = rep(c(
       # Wallacea
@@ -26,9 +34,9 @@ env <- data.table::data.table(
       # Macronesia
       1340, 2023, 1300, 2023, 1464, 2023,
       # Pacific Isolates
+      1832, 2023, 1832, 2023, NA, 2023,
       NA, 2023, NA, 2023, NA, 2023,
-      NA, 2023, NA, 2023, NA, 2023,
-      NA, 2023,
+      1543, 2023,
       # Mediterranean
       NA, 2023, NA, 2023, NA, 2023, NA, 2023,
       NA, 2023, NA, 2023, NA, 2023, NA, 2023,

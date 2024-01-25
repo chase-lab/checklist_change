@@ -2,14 +2,14 @@
 
 # Merging ----
 listfiles <- list.files("data/wrangled data",
-  pattern = "[[:digit:]](a|b)?\\.csv",
-  full.names = TRUE, recursive = TRUE
+                        pattern = "[[:digit:]](a|b)?\\.csv",
+                        full.names = TRUE, recursive = TRUE
 )
 listfiles_metadata <- list.files("data/wrangled data",
-  pattern = "_metadata.csv",
-  full.names = TRUE, recursive = TRUE
+                                 pattern = "_metadata.csv",
+                                 full.names = TRUE, recursive = TRUE
 )
-if (length(listfiles) != length(listfiles_metadata)) warning()
+if (length(listfiles) != length(listfiles_metadata)) stop()
 template <- utils::read.csv("data/template_communities.txt", header = TRUE, sep = "\t")
 column_names_template <- template[, 1]
 
@@ -27,14 +27,14 @@ meta <- data.table::rbindlist(lst_metadata, fill = TRUE)
 
 # Checking data ----
 check_indispensable_variables <- function(dt, indispensable_variables) {
-  na_variables <- apply(dt[, ..indispensable_variables], 2, function(variable) any(is.na(variable)))
-  if (any(na_variables)) {
-    na_variables_names <- indispensable_variables[na_variables]
+   na_variables <- apply(dt[, ..indispensable_variables], 2, function(variable) any(is.na(variable)))
+   if (any(na_variables)) {
+      na_variables_names <- indispensable_variables[na_variables]
 
-    for (na_variable in na_variables_names) {
-      warning(paste0("The variable -", na_variable, "- has missing values in the following datasets: ", paste(unique(dt[c(is.na(dt[, ..na_variable])), "dataset_id"]), collapse = ", ")))
-    }
-  }
+      for (na_variable in na_variables_names) {
+         warning(paste0("The variable -", na_variable, "- has missing values in the following datasets: ", paste(unique(dt[c(is.na(dt[, ..na_variable])), "dataset_id"]), collapse = ", ")))
+      }
+   }
 }
 
 # check_indispensable_variables(dt, column_names_template[as.logical(template[, 2])])
@@ -78,14 +78,16 @@ for (i in seq_along(lst)) if (is.character(lst[[i]]$species)) if (any(!unique(En
 
 ### adding GBIF matched names by Dr. Wubing Xu ----
 corrected_species_names <- data.table::fread(
-   file = "data/requests to taxonomy databases/manual_community_species_filled_20221003.csv",
-   select = c("dataset_id","species","species.new")
-)
-
-dt <- merge(dt, corrected_species_names, by = c("dataset_id", "species"), all.x = TRUE)
-data.table::setnames(dt, c("species", "species.new"), c("species_original", "species"))
+   file = "data/requests to taxonomy databases/manual_checklist_change_species_filled_20240104.csv",
+   select = c("dataset_id", "species", "species_new"),
+   header = TRUE, sep = ",")
+dt[i = corrected_species_names,
+   j = ":="(
+      species = i.species_new,
+      species_original = species
+   ),
+   on = .(dataset_id, species)]
 dt[is.na(species), species := species_original]
-
 
 
 # Metadata ----
@@ -104,35 +106,35 @@ unique(meta$realm)
 
 # Converting alpha grain and gamma extent units ----
 meta[, alpha_grain := as.numeric(alpha_grain)][,
-   alpha_grain := data.table::fcase(
-      alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
-      alpha_grain_unit == "km2", alpha_grain * 10^6,
-      alpha_grain_unit == "acres", alpha_grain * 4046.856422,
-      alpha_grain_unit == "ha", alpha_grain * 10^4,
-      alpha_grain_unit == "cm2", alpha_grain / 10^4,
-      alpha_grain_unit == "mm2", alpha_grain / 10^6,
-      alpha_grain_unit == "m2", alpha_grain
-   )
+                                               alpha_grain := data.table::fcase(
+                                                  alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
+                                                  alpha_grain_unit == "km2", alpha_grain * 10^6,
+                                                  alpha_grain_unit == "acres", alpha_grain * 4046.856422,
+                                                  alpha_grain_unit == "ha", alpha_grain * 10^4,
+                                                  alpha_grain_unit == "cm2", alpha_grain / 10^4,
+                                                  alpha_grain_unit == "mm2", alpha_grain / 10^6,
+                                                  alpha_grain_unit == "m2", alpha_grain
+                                               )
 ][, alpha_grain_unit := NULL]
 
 meta[, gamma_sum_grains := as.numeric(gamma_sum_grains)][,
-  gamma_sum_grains := data.table::fcase(
-    gamma_sum_grains_unit == "m2", gamma_sum_grains / 10^6,
-    gamma_sum_grains_unit == "mile2", gamma_sum_grains * 2.589988,
-    gamma_sum_grains_unit == "ha", gamma_sum_grains / 100,
-    gamma_sum_grains_unit == "acres", gamma_sum_grains * 0.004046856422,
-    gamma_sum_grains_unit == "km2", gamma_sum_grains
-  )
+                                                         gamma_sum_grains := data.table::fcase(
+                                                            gamma_sum_grains_unit == "m2", gamma_sum_grains / 10^6,
+                                                            gamma_sum_grains_unit == "mile2", gamma_sum_grains * 2.589988,
+                                                            gamma_sum_grains_unit == "ha", gamma_sum_grains / 100,
+                                                            gamma_sum_grains_unit == "acres", gamma_sum_grains * 0.004046856422,
+                                                            gamma_sum_grains_unit == "km2", gamma_sum_grains
+                                                         )
 ][, gamma_sum_grains_unit := NULL]
 
 meta[, gamma_bounding_box := as.numeric(gamma_bounding_box)][,
-  gamma_bounding_box := data.table::fcase(
-    gamma_bounding_box_unit == "m2", gamma_bounding_box / 10^6,
-    gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
-    gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
-    gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,
-    gamma_bounding_box_unit == "km2", gamma_bounding_box
-        )
+                                                             gamma_bounding_box := data.table::fcase(
+                                                                gamma_bounding_box_unit == "m2", gamma_bounding_box / 10^6,
+                                                                gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
+                                                                gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
+                                                                gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,
+                                                                gamma_bounding_box_unit == "km2", gamma_bounding_box
+                                                             )
 ][, gamma_bounding_box_unit := NULL]
 
 data.table::setnames(meta, c("alpha_grain", "gamma_bounding_box", "gamma_sum_grains"), c("alpha_grain_m2", "gamma_bounding_box_km2", "gamma_sum_grains_km2"))
@@ -143,8 +145,8 @@ meta[is.na(gamma_sum_grains_km2) & is.na(gamma_bounding_box_km2), unique(dataset
 # Converting coordinates into a common format with parzer ----
 unique_coordinates <- unique(meta[, .(latitude, longitude)])
 unique_coordinates[, ":="(
-  lat = parzer::parse_lat(latitude),
-  lon = parzer::parse_lon(longitude)
+   lat = parzer::parse_lat(latitude),
+   lon = parzer::parse_lon(longitude)
 )]
 unique_coordinates[is.na(lat) | is.na(lon)]
 meta <- merge(meta, unique_coordinates, by = c("latitude", "longitude"))

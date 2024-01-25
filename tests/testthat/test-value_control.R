@@ -23,7 +23,7 @@ testthat::test_that(desc = "data quality check - community data", code = {
       X <-  data.table::fread(file = i, sep = ",", dec = ".",
                               header = TRUE, stringsAsFactors = TRUE)
       testthat::expect_true(
-         all(data.table::between(X$year, 1500L, 2023L)),
+         all(data.table::between(X$year, 1300L, 2023L)),
          info = paste("Year range", i))
       testthat::expect_true(
          all(X$value) == 1L, info = paste("Positive values", i))
@@ -37,7 +37,7 @@ testthat::test_that(desc = "data quality check - metadata data", code = {
       X <- data.table::fread(file = i, sep = ",", dec = ".",
                              header = TRUE, stringsAsFactors = TRUE)
       testthat::expect_true(
-         all(data.table::between(X$year, 1500L, 2023L)),
+         all(data.table::between(X$year, 1300L, 2023L)),
          info = paste("Year range", i))
       testthat::expect_equal(nlevels(X$dataset_id), 1L)
       testthat::expect_equal(nlevels(X$taxon), 1L)
