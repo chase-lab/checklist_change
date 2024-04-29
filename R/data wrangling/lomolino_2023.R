@@ -41,6 +41,7 @@ ddata <- data.table::melt(
    value.name = "period",
    na.rm = TRUE
 )
+
 ## Turning periods into years
 source(file = "data/raw data/lomolino_2023/env.R")
 ddata[i = env,
@@ -89,7 +90,7 @@ meta[, ":="(
    gamma_sum_grains_comment = "sum of island areas",
 
    comment = "Data were extracted from Appendix 1, tables extracted with package tabulizer. The authors listed mammal species from 37 islands in 5 groups. The status of each species can be one of:' b = species extinct before hominids (‘natural extinctions’); ae = species extinct after early hominid arrival; as = species extinct after Homo sapiens arrival; p = native species present today; i = introduced species.'. We considered that past communities date from before European contact and recent communities date from 2023 the year of publishing. Introduced species are present only in recent communities.",
-   comment_standardisation = "Data from Isabela and Santa Cruz islands from the Galapagos archipelago were removed as they are already included in Jimenez-Uzcategui 2014. Madagascar was not included as it is the only island from the Indian Ocean. In Porto Rico and Hispaniola, the species Isolobodon portoricensis was considered `as` and `p` at the same time. Since it is considered as `as` by IUCN, we removed the `p` rows.",
+   comment_standardisation = "Data from Isabela and Santa Cruz islands from the Galapagos archipelago were removed as they are already included in Jimenez-Uzcategui 2014. Madagascar was not included as it is the only island from the Indian Ocean. In Puerto Rico and Hispaniola, the species Isolobodon portoricensis was considered `as` and `p` at the same time. Since it is considered as `as` by IUCN, we removed the `p` rows.",
    doi = "https://doi.org/10.21425/F5FBG59967"
 )][, gamma_sum_grains := sum(alpha_grain), by = .(year)]
 

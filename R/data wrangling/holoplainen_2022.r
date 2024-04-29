@@ -1,11 +1,12 @@
 dataset_id <- "holoplainen_2022"
 ddata <- base::readRDS(file = "data/raw data/holoplainen_2022/rdata.rds")
 
-data.table::setnames(ddata, c("year", "date", "latitude", "longitude",
+data.table::setnames(x = ddata,
+                     new = c("year", "date", "latitude", "longitude",
                               "local", "species"))
 
 # Data selection ----
-## keeping only sites sampled at least 10 years appart ----
+## keeping only sites sampled at least 10 years apart ----
 ddata <- ddata[
    i = !ddata[j = diff(range(year)), by = local][V1 < 9L],
    on = "local"]
@@ -45,7 +46,7 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
    gamma_bounding_box_comment = "coordinates provided by the authors",
 
-   comment = "Extracted from the NCEI NOAA repository related to the article Holopainen, Jari, Helama, Samuli, and Väre, Henry. 2023. Plant Phenological Dataset Collated by the Finnish Society of Sciences and Letters. Ecology 104( 2): e3962. METHODS: 'Here we provide a unique dataset of plant phenological observations made in boreal Europe between 1750 and 1965 from locations situated across historical and modern Finland, mostly between 70° and 60°N and 30° and 20°E. This dataset was generated initially by the efforts of several generations of volunteers representing naturalists whose field observations and notes had initially made the continuous collection of the data possible [...] Species names given originally either in Latin, Finnish, German, and/or Swedish were transformed into scientific species names. Moreover, outdated taxonomic names were updated as appropriate.'",
+   comment = "Extracted from the NCEI NOAA repository related to the article Holopainen, Jari, Helama, Samuli, and Väre, Henry. 2023. Plant Phenological Dataset Collated by the Finnish Society of Sciences and Letters. Ecology 104( 2): e3962. METHODS: 'Here we provide a unique dataset of plant phenological observations made in boreal Europe between 1750 and 1965 from locations situated across historical and modern Finland, mostly between 70° and 60°N and 30° and 20°E. This dataset was generated initially by the efforts of several generations of volunteers representing naturalists whose field observations and notes had initially made the continuous collection of the data possible [...] Species names given originally either in Latin, Finnish, German, and/or Swedish were transformed into scientific species names. Moreover, outdated taxonomic names were updated as appropriate.' Number of observation per site per year goes from 1 to 153. Number of years with observations in a given site goes from 1 to 103.",
    comment_standardisation = "none needed",
    doi = "https://doi.org/10.1002/ecy.3962 | https://doi.org/10.25921/26xz-kw70"
 )][, gamma_bounding_box := geosphere::areaPolygon(x = data.frame(longitude, latitude)[grDevices::chull(x = longitude, y = latitude), ]) / 10^6]

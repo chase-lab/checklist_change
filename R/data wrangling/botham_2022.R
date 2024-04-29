@@ -13,13 +13,13 @@ coords <- unique(ddata[, .(regional, local, alpha_grain, latitude, longitude)])
 Ireland <- sf::st_as_sf(coords[regional == "Northern Ireland"],
                         coords = c("longitude", "latitude"),
                         crs = sf::st_crs(29901))
-NotIreland <- sf::st_as_sf(coords[regional != "Northern Ireland"],
+GreatBritain <- sf::st_as_sf(coords[regional != "Northern Ireland"],
                            coords = c("longitude", "latitude"),
                            crs = sf::st_crs(27700))
 
 coords_sf <- rbind(
    sf::st_transform(Ireland, crs = sf::st_crs("+proj=longlat +datum=WGS84")),
-   sf::st_transform(NotIreland, crs = sf::st_crs("+proj=longlat +datum=WGS84"))
+   sf::st_transform(GreatBritain, crs = sf::st_crs("+proj=longlat +datum=WGS84"))
 )
 coords_sf[, "longitude"] <- sf::st_coordinates(coords_sf)[, 1]
 coords_sf[, "latitude"] <- sf::st_coordinates(coords_sf)[, 2]
@@ -36,10 +36,9 @@ ddata[, ":="(
    alpha_grain = NULL
 )]
 
-
 # Metadata ----
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-meta <- meta[coords_sf[, geometry := NULL], on = c("regional", "local")]
+meta <- meta[i = coords_sf[, geometry := NULL], on = c("regional", "local")]
 
 meta[, ":="(
    taxon = "Invertebrates",
@@ -76,8 +75,8 @@ Spatial reference systems
 OSGB 1936 / British National Grid
 OSNI 1952 / Irish National Grid
 Regional is one of: Channel Islands, England, Isle of Man, Northern Ireland, Scotland, Wales and local are transects",
-   comment_standardisation = "none needed",
-   doi = 'https://doi.org/10.5285/1286b858-34a7-4ff2-84a1-a55e48d63e86 | https://doi.org/10.5285/1cfdcd20-afb8-4b58-9ab2-604b90f5242d'
+comment_standardisation = "none needed",
+doi = 'https://doi.org/10.5285/1286b858-34a7-4ff2-84a1-a55e48d63e86 | https://doi.org/10.5285/1cfdcd20-afb8-4b58-9ab2-604b90f5242d'
 )][, ':='(
    gamma_sum_grains = sum(alpha_grain, na.rm = TRUE),
    gamma_bounding_box = geosphere::areaPolygon(x = data.frame(longitude, latitude)[grDevices::chull(x = longitude, y = latitude), ]) / 10^6
