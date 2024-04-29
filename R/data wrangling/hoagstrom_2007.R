@@ -45,7 +45,7 @@ env <- unique(env[i = !grepl("T", block),
 )])[, ":="(
    latitude = parzer::parse_lat(latitude),
    longitude = parzer::parse_lon(longitude)
-)]
+)][, longitude := -abs(longitude)]
 env[, gamma_sum_grains := geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6]
 
 # community data
