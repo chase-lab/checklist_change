@@ -13,16 +13,35 @@ if (length(listfiles) != length(listfiles_metadata)) stop()
 template <- utils::read.csv("data/template_communities.txt", header = TRUE, sep = "\t")
 column_names_template <- template[, 1]
 
-lst <- lapply(listfiles, data.table::fread, integer64 = "character", encoding = "UTF-8")
+lst <- lapply(listfiles, data.table::fread,
+              integer64 = "character",
+              encoding = "UTF-8",
+              colClasses = c(dataset_id = "factor",
+                             regional = "factor",
+                             local = "factor"))
 dt <- data.table::rbindlist(lst, fill = TRUE)
 
 template_metadata <- utils::read.csv("data/template_metadata.txt", header = TRUE, sep = "\t")
 column_names_template_metadata <- template_metadata[, 1L]
 
-lst_metadata <- lapply(listfiles_metadata,
-                       data.table::fread,
+lst_metadata <- lapply(X = listfiles_metadata,
+                       FUN = data.table::fread,
                        integer64 = "character",
-                       encoding = "UTF-8", sep = ",")
+                       encoding = "UTF-8", sep = ",",
+                       colClasses = c(dataset_id = "factor",
+                                      regional = "factor",
+                                      local = "factor",
+                                      taxon = "factor",
+                                      realm = "factor",
+                                      alpha_grain_type = "factor",
+                                      alpha_grain_comment = "factor",
+                                      gamma_bounding_box_type = "factor",
+                                      gamma_bounding_box_comment = "factor",
+                                      gamma_sum_grains_type = "factor",
+                                      gamma_sum_grains_comment = "factor",
+                                      comment = "factor",
+                                      comment_standardisation = "factor",
+                                      doi = "factor"))
 meta <- data.table::rbindlist(lst_metadata, fill = TRUE)
 
 # Checking data ----
@@ -137,7 +156,10 @@ meta[, gamma_bounding_box := as.numeric(gamma_bounding_box)][,
                                                              )
 ][, gamma_bounding_box_unit := NULL]
 
-data.table::setnames(meta, c("alpha_grain", "gamma_bounding_box", "gamma_sum_grains"), c("alpha_grain_m2", "gamma_bounding_box_km2", "gamma_sum_grains_km2"))
+data.table::setnames(
+   x = meta,
+   old = c("alpha_grain", "gamma_bounding_box", "gamma_sum_grains"),
+   new = c("alpha_grain_m2", "gamma_bounding_box_km2", "gamma_sum_grains_km2"))
 
 meta[is.na(alpha_grain_m2), unique(dataset_id)]
 meta[is.na(gamma_sum_grains_km2) & is.na(gamma_bounding_box_km2), unique(dataset_id)]
@@ -200,7 +222,10 @@ if (any(!na.omit(unique(meta$gamma_bounding_box_type)) %in% c("administrative", 
 
 # Ordering metadata ----
 data.table::setorder(meta, dataset_id, regional, local, year)
-data.table::setcolorder(meta, base::intersect(column_names_template_metadata, colnames(meta)))
+data.table::setcolorder(
+   meta,
+   base::intersect(column_names_template_metadata, colnames(meta))
+)
 
 
 
@@ -216,7 +241,12 @@ data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "specie
 base::saveRDS(object = dt, file = "data/communities.rds")
 if (file.exists("data/references/homogenisation_dropbox_folder_path.rds")) {
    path_to_homogenisation_dropbox_folder <- base::readRDS(file = "data/references/homogenisation_dropbox_folder_path.rds")
-   data.table::fwrite(dt, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"), row.names = FALSE)
+   data.table::fwrite(
+      x = dt,
+      file = paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_communities.csv"),
+      row.names = FALSE,
+      sep = ",",
+      encoding = "UTF-8")
 }
 
 ## Saving meta ----
@@ -226,4 +256,10 @@ data.table::setcolorder(meta, "gamma_bounding_box_km2", before = "gamma_bounding
 # data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 base::saveRDS(object = meta, file = "data/metadata.rds")
 if (file.exists("data/references/homogenisation_dropbox_folder_path.rds"))
-   data.table::fwrite(meta, paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"), sep = ",", row.names = FALSE)
+   data.table::fwrite(
+      x = meta,
+      file = paste0(path_to_homogenisation_dropbox_folder, "/_data_extraction/checklist_change_metadata.csv"),
+      sep = ",",
+      row.names = FALSE,
+      encoding = "UTF-8")
+
