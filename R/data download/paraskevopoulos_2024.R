@@ -14,6 +14,7 @@ if (!file.exists("data/raw data/paraskevopoulos_2024/rdata.rds")) {
          file = "data/cache/paraskevopoulos_2024_Gregory_Canyon_Ant_Data.csv",
          drop = c("Project","Date","DOY","Time","Aspect Initials","Aspect","Timeframe",
                   "Elevation (m)", "Air Temp.","Surface Temp.","Collection method",
-                  "Surface Forager?", "Genus","Sp.","Occurrence")),
+                  "Surface Forager?", "Genus","Sp.","Occurrence"),
+         colClasses = c(`Sampling Site` = "factor", `Current Species` = "factor")),
       file = "data/raw data/paraskevopoulos_2024/rdata.rds")
 }

@@ -11,12 +11,14 @@ data.table::setnames(
 # Raw data ----
 ddata[, ":="(latitude = mean(latitude), longitude = mean(longitude)),
       by = local]
-ddata <- unique(ddata)
+ddata <- unique(ddata)[!is.na(species)]
 
 ## Community data ----
 ddata[, ":="(
    dataset_id = dataset_id,
-   regional = "Gregory Canyon"
+   regional = "Gregory Canyon",
+
+   value = 1L
 )]
 
 ## metadata ----
