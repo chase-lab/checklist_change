@@ -13,28 +13,29 @@ ddata <- data.table::melt(data = ddata,
 )
 
 # recoding and melting 123 values
-ddata[, c("1991", "2003") := data.table::tstrsplit(
-   base::ifelse(
-      value == "+",
-      paste("1", "1"),
-      data.table::fifelse(
-         value == "E",
-         paste("1", ""),
-         paste("", "1")
-      )
-   ), split = " "
-)]
+ddata[j = c("1991", "2003") := data.table::tstrsplit(
+   data.table::fcase(
+      value == "+", paste("1", "1"),
+      value == "E", paste("1", ""),
+      value == "C", paste("", "1"),
+      default = NA),
+   split = " ")
+][j = c("1991", "2003") := lapply(.SD, function(x) base::replace(
+   x = x,
+   list = stringi::stri_isempty(x),
+   values = NA)),
+  .SDcols = c("1991", "2003")]
+
 ddata <- data.table::melt(data = ddata,
                           id.vars = c("local", "species"),
                           measure.vars = c("1991", "2003"),
                           value.name = "value",
-                          variable.name = "year"
-)
-ddata <- ddata[!is.na(value) & value != ""]
-
+                          variable.name = "year",
+                          na.rm = TRUE)
 
 ddata[, ":="(
    dataset_id = dataset_id,
+
    local = sub("\\*", "", local),
    regional = "Dalhousie Springs"
 )]
