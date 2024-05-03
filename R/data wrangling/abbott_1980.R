@@ -2,6 +2,7 @@
 dataset_id <- "abbott_1980"
 
 ddata <- base::readRDS(file = "data/raw data/abbott_1980/rdata.rds")
+env <- base::readRDS(file = "data/raw data/abbott_1980/env.rds")
 
 # Melting sites
 ddata <- data.table::melt(
