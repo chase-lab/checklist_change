@@ -127,7 +127,7 @@ ddata <- data.table::melt(data = ddata,
 
 # Recoding, splitting and melting values into periods
 ddata[, period_raw := c("historical+recent", "historical", "historical",
-                        "recent", "historical+recent", NA, NA,
+                        "recent", NA, NA, NA,
                         NA, NA)[match(x = substr(value, 1L, 1L),
                                       table = c("R", "X", "C", "I", "M", "S",
                                                 "P", "V", "H"))]
@@ -186,7 +186,7 @@ meta[, ":="(
    comment = "Extracted from Wiles, G. J. (2005). A checklist of the birds and mammals of Micronesia. MICRONESICA-AGANA-, 38(1), 141.
 For Birds, the authors compiled and updated the existing inventories of 8 islands or groups of islands of the Micronesian Archipelago. local is an island or a group of islands. Historical and recent compositions were reconstructed by considering that extinct species were only present in historical times and invasive species were only present in recent times.
 Regional is Micronesia, local are archipelagos",
-   comment_standardisation = "pelagic, occasional, vagrant and hypothetical species excluded"
+   comment_standardisation = "Non-breeding species, ie species with status S, P, V, H or M species excluded"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)
