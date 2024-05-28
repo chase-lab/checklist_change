@@ -26,7 +26,7 @@ testthat::test_that(desc = "data quality check - community data", code = {
          all(data.table::between(X$year, 1300L, 2023L)),
          info = paste("Year range", i))
       # testthat::expect_true(
-         # all(X$value) == 1L, info = paste("Positive values", i))
+      # all(X$value) == 1L, info = paste("Positive values", i))
       testthat::expect_equal(nlevels(X$dataset_id), 1L)
    }
 })
@@ -92,4 +92,25 @@ testthat::test_that(desc = "data quality check - metadata data", code = {
                      "shore", "lake_pond"),
          info = paste("gamma_bounding_box_type is correct", i), null.ok = TRUE)
    }
+})
+
+# Testing ID uniqueness
+testthat::test_that("ID is unique for each dataset_id/region combinaison", {
+   meta <- data.table::fread(file = paste0(absolute_path, "/data/metadata.csv"),
+                             header = TRUE, sep = ",", encoding = "UTF-8",
+                             select = c("dataset_id","regional","ID"))
+   testthat::expect_true(meta[
+      j = data.table::uniqueN(ID),
+      by = .(dataset_id, regional)
+   ][j = all(V1)])
+})
+
+# Testing ID consistency
+testthat::test_that("ID is consistent over time", {
+meta <- data.table::fread(file = paste0(absolute_path, "/data/metadata.csv"),
+                          header = TRUE, sep = ",", encoding = "UTF-8",
+                          select = c("dataset_id","regional","ID"))
+testthat::expect_equal(meta[
+   i = dataset_id == "baiser_2017" & regional == "Antartic",
+   j = unique(ID)], expected = 2L)
 })

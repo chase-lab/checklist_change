@@ -225,6 +225,10 @@ data.table::setcolorder(
    base::intersect(column_names_template_metadata, colnames(meta))
 )
 
+# Adding a unique ID ----
+source(file = "R/functions/assign_id.R")
+meta[, ID := assign_id(dataset_id, regional)]
+dt[, ID := assign_id(dataset_id, regional)]
 
 
 # Checking that all data sets have both community and metadata data ----
