@@ -100,12 +100,10 @@ corrected_species_names <- data.table::fread(
    file = "data/requests to taxonomy databases/manual_checklist_change_species_filled_20240104.csv",
    select = c("dataset_id", "species", "species_new"),
    header = TRUE, sep = ",")
-dt[i = corrected_species_names,
-   j = ":="(
-      species = i.species_new,
-      species_original = species
-   ),
-   on = .(dataset_id, species)]
+dt[j = species_original := species
+][i = corrected_species_names,
+  j = species := i.species_new,
+  on = .(dataset_id, species)]
 dt[is.na(species), species := species_original]
 
 
