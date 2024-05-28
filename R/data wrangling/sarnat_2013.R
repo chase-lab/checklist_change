@@ -40,9 +40,9 @@ ddata[, ":="(
 
    year = c(1568L, 2013L)[match(period, c("historical", "recent"))],
 
-
    species = sub("*", "", species, fixed = TRUE),
-   period = NULL
+   period = NULL,
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

@@ -32,8 +32,9 @@ ddata[, ":="(
       c(2015L, 2012L, 2016L)[match(local, c("Forillon", "Mont-Megantic", "Gatineau"))]
    ),
 
-   value = 1L,
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 # Metadata ----

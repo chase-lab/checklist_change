@@ -42,7 +42,7 @@ ddata[, ":="(
    regional = "Windward Islands",
    year = c(1900L, 1992L)[match(period, c("historical", "present"))],
 
-   value = 1L,
+   
 
    variable = NULL,
    period = NULL

@@ -44,8 +44,8 @@ ddata[, ":="(
 
    year = c(1922L, 2009L)[data.table::chmatch(period, c("historic", "modern"))],
 
-   value = 1L,
-   period = NULL
+   period = NULL,
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year, effort)])

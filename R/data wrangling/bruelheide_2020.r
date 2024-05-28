@@ -26,7 +26,7 @@ ddata[, ":="(
    regional = "Black Forest",
    year = c(1972L, 2017L)[data.table::chmatch(period, c("historical", "present"))],
 
-   value = 1L,
+   
 
    period = NULL,
    periodraw = NULL,

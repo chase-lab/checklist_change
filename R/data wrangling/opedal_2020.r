@@ -36,8 +36,9 @@ ddata[, ":="(
    species = base::enc2utf8(species),
 
    year = c(1946L, 2017L)[match(period, c("historical", "modern"))],
-   period = NULL
 
+   period = NULL,
+   value = NULL
 )]
 
 env <- base::readRDS(

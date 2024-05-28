@@ -4,4 +4,3 @@ year	TRUE
 regional	TRUE
 local	TRUE
 species	TRUE
-value	TRUE

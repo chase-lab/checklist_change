@@ -5,8 +5,8 @@ ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds")
 
 data.table::setnames(
    ddata,
-   old = c("island", "Archipelago", "presence"),
-   new = c("local", "regional", "value")
+   old = c("island", "Archipelago"),
+   new = c("local", "regional")
 )
 
 ## GIS data ----
@@ -35,7 +35,8 @@ ddata[, ":="(
 
    year = c(1500L, 2017L)[match(period, c("old", "current"))],
    period = NULL,
-   Ocean = NULL
+   Ocean = NULL,
+   presence = NULL
 )]
 
 ddata <- unique(ddata)

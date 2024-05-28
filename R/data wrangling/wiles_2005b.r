@@ -105,10 +105,11 @@ ddata[, ":="(
                           "POHN", "KOSR", "MARS", "WAKE")
              )],
 
-   value = 1L,
+
 
    period = NULL,
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

@@ -67,7 +67,7 @@ if (any(is.na(meta$year))) warning(paste("missing _year_ value in ", unique(meta
 if (any(dt[, .(is.na(regional) | regional == "")])) warning(paste("missing _regional_ value in ", unique(dt[is.na(regional) | regional == "", dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(local) | local == "")])) warning(paste("missing _local_ value in ", unique(dt[is.na(local) | local == "", dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(species) | species == "")])) warning(paste("missing _species_  value in ", unique(dt[is.na(species) | species == "", dataset_id]), collapse = ", "))
-if (any(dt[, .(is.na(value) | value == "" | value <= 0)])) warning(paste("missing _value_  value in ", unique(dt[is.na(value) | value == "" | value <= 0, dataset_id]), collapse = ", "))
+# if (any(dt[, .(is.na(value) | value == "" | value <= 0)])) warning(paste("missing _value_  value in ", unique(dt[is.na(value) | value == "" | value <= 0, dataset_id]), collapse = ", "))
 
 ## Counting the study cases ----
 dt[j = .(nsites = data.table::uniqueN(local)),
@@ -87,7 +87,7 @@ data.table::setorder(dt, dataset_id, regional, local, year, species)
 
 # Checks
 ## checking values ----
-if (dt[, any(value != 1L)]) warning(paste("Non integer values in", paste(dt[value != 1L, unique(dataset_id)], collapse = ", ")))
+# if (dt[, any(value != 1L)]) warning(paste("Non integer values in", paste(dt[value != 1L, unique(dataset_id)], collapse = ", ")))
 
 ## checking timepoints ----
 # if (!all(dt[, (check = which.max(year) == which.max(timepoints)), by = .(dataset_id, regional, local)]$check)) warning('dt timepoints order has to be checked')
@@ -236,7 +236,7 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 
 # Saving data products ----
 ## Saving dt ----
-data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original", "value"))
+data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original"))
 # data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
 base::saveRDS(object = dt, file = "data/communities.rds")
 if (file.exists("data/references/homogenisation_dropbox_folder_path.rds")) {

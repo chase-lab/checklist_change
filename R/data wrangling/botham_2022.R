@@ -29,7 +29,7 @@ data.table::setDT(coords_sf)
 ddata[, ":="(
    dataset_id = dataset_id,
 
-   value = 1L,
+   
 
    latitude = NULL,
    longitude = NULL,

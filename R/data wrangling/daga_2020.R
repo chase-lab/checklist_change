@@ -26,9 +26,10 @@ ddata[, ":="(
    year = c(1900L, 2007L)[match(period, c("historical", "recent"))],
 
    species = gsub(" \u00A7| \u2021| \u00DE", "", species), # section, double dagger and Thorn special characters
-   value = 1L,
 
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 # metadata ----

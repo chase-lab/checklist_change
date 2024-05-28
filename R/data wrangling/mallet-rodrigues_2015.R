@@ -44,7 +44,7 @@ ddata[, ":="(
    year = c(1700L, 2011L)[match(period, c("historical", "recent"))],
 
    species = gsub("A$|E$|E, A$|I$|VS$", "", species),
-   value = 1L,
+   
 
    period = NULL,
    variable = NULL

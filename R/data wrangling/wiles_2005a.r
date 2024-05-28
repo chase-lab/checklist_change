@@ -155,10 +155,11 @@ ddata[, ":="(
 
    year = c(1521L, 2005L)[match(period, c("historical", "recent"))],
 
-   value = 1L,
+
 
    period = NULL,
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 # Metadata ----

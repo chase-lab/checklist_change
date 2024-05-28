@@ -32,7 +32,8 @@ ddata[, ":="(
 
    species = base::enc2utf8(specieslong$Species.name[match(species, specieslong$Abbreviation)]),
 
-   localyear = NULL
+   localyear = NULL,
+   value = NULL
 )]
 
 ## coordinates - loading and conversion

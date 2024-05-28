@@ -34,7 +34,7 @@ ddata[, ":="(
    year = c(1930L, 2017L)[data.table::chmatch(period, c("historical", "recent"))],
 
    species = gsub(" \\*| \u00A7| \u2051| \u2021", "", species),
-   value = 1L,
+   
 
    period = NULL,
    variable = NULL

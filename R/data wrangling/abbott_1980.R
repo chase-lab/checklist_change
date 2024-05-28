@@ -35,7 +35,7 @@ ddata[, ":="(
 
    year = c(1956L, 1959L, 1975L:1978L)[data.table::chmatch(year, LETTERS[1L:6L])],
 
-   value = 1L,
+   
    variable = NULL
 )]
 

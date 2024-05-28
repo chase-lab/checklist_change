@@ -37,7 +37,9 @@ ddata[, ":="(
    dataset_id = dataset_id,
 
    local = sub("\\*", "", local),
-   regional = "Dalhousie Springs"
+   regional = "Dalhousie Springs",
+
+   value = NULL
 )]
 
 

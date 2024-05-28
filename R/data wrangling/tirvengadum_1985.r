@@ -42,7 +42,7 @@ ddata[, ":="(
 
    species = enc2utf8(sub("\"\"", "", species)),
 
-   value = 1L,
+   
 
 
    year = c(1680L, 1980L)[match(period, c("historical", "recent"))],

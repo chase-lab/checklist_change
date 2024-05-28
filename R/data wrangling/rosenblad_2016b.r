@@ -31,10 +31,12 @@ ddata[, ":="(
    local = local_names[match(local, sort(unique(local)))],
 
    year = c(1500L, 2016L)[match(period, c("present initially", "present currently"))],
-   period = NULL,
 
    species = sub(pattern = "\"Necropsittacus\"", replacement = "Necropsittacus",
-                 x = sub(pattern = "  ", replacement = " ", x = species))
+                 x = sub(pattern = "  ", replacement = " ", x = species)),
+
+   period = NULL,
+   value = NULL
 )]
 
 

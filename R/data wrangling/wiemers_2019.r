@@ -27,7 +27,7 @@ ddata[, ":="(
 
    year = c(1700L, 2013L)[match(period, c("historical", "recent"))],
 
-   value = 1L,
+   
 
    period = NULL,
    variable = NULL,

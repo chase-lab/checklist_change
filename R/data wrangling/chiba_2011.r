@@ -51,7 +51,6 @@ ddata <- data.table::melt(
    na.rm = TRUE
 )
 ddata <- ddata[value != 0]
-ddata[, value := 1]
 
 # Community data
 ddata[, ":="(
@@ -59,7 +58,9 @@ ddata[, ":="(
    regional = archipelagos[match(local, islands)],
 
    year = c(1991L, 2009L)[match(period, c("historical", "modern"))],
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

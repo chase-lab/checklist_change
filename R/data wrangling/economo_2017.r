@@ -32,7 +32,8 @@ ddata[, ":="(
    year = c(1800L, 2015L)[match(period, c("historical", "modern"))],
 
    variable = NULL,
-   period = NULL
+   period = NULL,
+   value = NULL
 )]
 
 coords <- data.table::fread(file = "data/raw data/economo_2017/coordinates.csv",

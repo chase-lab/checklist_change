@@ -29,7 +29,7 @@ ddata[, ":="(
 
    species = trimws(species),
 
-   value = 1L,
+   
 
    year = c(1832L, 2013L)[data.table::chmatch(period, c("historical", "modern"))],
 

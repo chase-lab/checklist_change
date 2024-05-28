@@ -25,7 +25,9 @@ ddata[, ":="(
    regional = "Ontario",
    year = data.table::fifelse(grepl("AHI", species), 1982L, 2012L),
 
-   species = gsub("PA_|_AHI", "", species)
+   species = gsub("PA_|_AHI", "", species),
+
+   value = NULL
 
 )][
    i = species %in% df_species_info$idOnt,

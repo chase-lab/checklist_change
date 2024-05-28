@@ -22,8 +22,6 @@ ddata[, ":="(
    year = c(2003L, 2014L)[data.table::chmatch(visit, c("Initial sampling",
                                                        "2014 Revisit"))],
 
-   value  = 1L,
-
    visit = NULL
 )]
 

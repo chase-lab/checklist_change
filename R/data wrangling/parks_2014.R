@@ -42,11 +42,12 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Iowa",
 
-   value = 1L,
+
    year = c(1969L, 2011L)[match(period, c("H", "R"))],
 
    period = NULL,
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 # metadata table ----

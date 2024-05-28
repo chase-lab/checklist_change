@@ -54,9 +54,8 @@ ddata[, ":="(
    regional = "South Dakota",
    species = trimws(gsub(";.*|white crappie 2", "", species)),
 
-   value = 1L,
-
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 

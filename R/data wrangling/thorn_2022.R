@@ -24,10 +24,9 @@ ddata[, ":="(
    local = as.factor(stringi::stri_extract_first_regex(str = plot,
                                                        pattern = "(?<=_).*$")),
 
-   value = 1L,
-
    plot = NULL,
-   grassland = NULL
+   grassland = NULL,
+   value = NULL
 )][year == 1980L, year := 1988L]
 
 # Metadata ----

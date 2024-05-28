@@ -32,10 +32,11 @@ ddata[, ":="(
    regional = "New-York state",
    year = c(1940L, 1987L, 2004L)[match(period, c("1", "2", "3"))],
 
-   value = 1L,
+
 
    period = NULL,
-   Temp = NULL
+   Temp = NULL,
+   value = NULL
 )]
 
 env <- data.frame(

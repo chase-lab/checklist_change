@@ -33,9 +33,7 @@ ddata[, ":="(
    regional = "Hawaii Archipelago",
    local = c("Niihau", "Kauai", "Oahu", "Molokai", "Lanai", "Maui", "Kaho olawe",
              "Hawaii")[data.table::chmatch(local,
-                             c("N", "K", "O", "Mo", "L", "Ma", "Ka", "H"))],
-
-   value = 1L
+                             c("N", "K", "O", "Mo", "L", "Ma", "Ka", "H"))]
 )][, ":="(
    year = c(1900L, 2013L)[data.table::chmatch(period, c("historical", "recent"))],
    period = NULL,

@@ -25,8 +25,8 @@ testthat::test_that(desc = "data quality check - community data", code = {
       testthat::expect_true(
          all(data.table::between(X$year, 1300L, 2023L)),
          info = paste("Year range", i))
-      testthat::expect_true(
-         all(X$value) == 1L, info = paste("Positive values", i))
+      # testthat::expect_true(
+         # all(X$value) == 1L, info = paste("Positive values", i))
       testthat::expect_equal(nlevels(X$dataset_id), 1L)
    }
 })

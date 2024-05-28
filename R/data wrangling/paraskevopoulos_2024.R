@@ -16,9 +16,7 @@ ddata <- unique(ddata)[!is.na(species)]
 ## Community data ----
 ddata[, ":="(
    dataset_id = dataset_id,
-   regional = "Gregory Canyon",
-
-   value = 1L
+   regional = "Gregory Canyon"
 )]
 
 ## metadata ----
