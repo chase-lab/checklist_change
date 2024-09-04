@@ -135,7 +135,7 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "Extracted from Wiles, G. J. (2005). A checklist of the birds and mammals of Micronesia. MICRONESICA-AGANA-, 38(1), 141.
-For Mammals, the authors created the first inventory for 8 islands or groups of islands of the Micronesian Archipelago. local is an island or a group of islands. Historical and recent compositions were reconstructed by considering that extinct species were only present in historical times and invasive species were only present in recent times.
+For Mammals, the authors created the first inventory for 8 islands or groups of islands of the Micronesian Archipelago. local is an island or a group of islands. Historical and recent compositions were reconstructed by considering that extinct species were only present in historical times and invasive species were only present in recent times. 1521 is the year of first European contact in Micronesia.
 Regional is the Micronesian region, local are archipelagos",
    comment_standardisation = "Non-breeding species, ie species with status S, P, V, H or M species excluded"
 )]

@@ -83,7 +83,7 @@ meta[, ":="(
 
    comment = "Extracted from  Amanda L. Vernon and Tom A. Ranker 'Current Status of the Ferns and Lycophytes of the Hawaiian Islands,' American Fern Journal 103(2), 59-111, (1 April 2013). https://doi.org/10.1640/0002-8444-103.2.59. A checklist of ferns in Hawaii Islands Vernon and Ranker compiled existing floras and inventories of ferns and lycophytes on 8 Haawaiian islands. Historical and recent composition provided here were reconstructed by considering that extinct species were only recent in historical times and exotic species only appeared in recent times.
 Species missing status data were removed.
-The date of ontroduction of all exotic species was investigated and the oldest encountered value: 1900 for Diplazium esculentum was used as it represents a theoretically invasive-fern-free community.
+The date of introduction of all exotic species was investigated and the oldest encountered value: 1900 for Diplazium esculentum was used as it represents a theoretically invasive-fern-free community.
 Regional is the Hawaiian archipelago and local are islands.",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1640/0002-8444-103.2.59'

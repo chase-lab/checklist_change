@@ -27,8 +27,6 @@ ddata[, ":="(
 
    year = c(1700L, 2013L)[match(period, c("historical", "recent"))],
 
-   
-
    period = NULL,
    variable = NULL,
    DistributionStatus = NULL
@@ -82,6 +80,7 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "Checklist of Butterflies species per European country: An updated checklist of the European Butterflies (Lepidoptera, Papilionoidea), Wiemers et al (https://doi.org/10.3897/zookeys.811.28712). Only the European part of Russia, Turkey, Georgia... is considered. Methodology and effort is considered comparable between countries.
+We chose 1700 as the end of the historical period as it is considered the beginning of the industrialisation period.
 Regional is Europe, local are countries",
    comment_standardisation = "Migrant and Uncertain species were treated as Absent",
    doi = 'https://doi.org/10.3897/zookeys.811.28712'
