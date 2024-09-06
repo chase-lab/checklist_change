@@ -1,4 +1,5 @@
 ## merging Wrangled data.frames
+library(dplyr)
 
 # Merging ----
 listfiles <- list.files("data/wrangled data",
@@ -62,16 +63,18 @@ if (anyDuplicated(dt)) stop(paste(
    "duplicated rows in",
    paste(dt[duplicated(dt),unique(dataset_id)],
          collapse = ", ")))
-if (any(is.na(dt$year))) warning(paste("missing _year_ value in ", unique(dt[is.na(year), dataset_id]), collapse = ", "))
-if (any(is.na(meta$year))) warning(paste("missing _year_ value in ", unique(meta[is.na(year), dataset_id]), collapse = ", "))
-if (any(dt[, .(is.na(regional) | regional == "")])) warning(paste("missing _regional_ value in ", unique(dt[is.na(regional) | regional == "", dataset_id]), collapse = ", "))
+if (anyNA(dt$year)) warning(paste("missing _year_ value in ", unique(dt[is.na(year), dataset_id]), collapse = ", "))
+if (anyNA(meta$year)) warning(paste("missing _year_ value in ", unique(meta[is.na(year), dataset_id]), collapse = ", "))
+if (any(dt[j = .(is.na(regional) | regional == "")])) warning(paste("missing _regional_ value in ", unique(dt[is.na(regional) | regional == "", dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(local) | local == "")])) warning(paste("missing _local_ value in ", unique(dt[is.na(local) | local == "", dataset_id]), collapse = ", "))
 if (any(dt[, .(is.na(species) | species == "")])) warning(paste("missing _species_  value in ", unique(dt[is.na(species) | species == "", dataset_id]), collapse = ", "))
 # if (any(dt[, .(is.na(value) | value == "" | value <= 0)])) warning(paste("missing _value_  value in ", unique(dt[is.na(value) | value == "" | value <= 0, dataset_id]), collapse = ", "))
 
 ## Counting the study cases ----
-dt[j = .(nsites = data.table::uniqueN(local)),
-   keyby = dataset_id][order(nsites, decreasing = TRUE)]
+dt |>
+   group_by(dataset_id) |>
+   reframe(nsites = n_distinct(local)) |>
+   arrange(-nsites)
 
 # Ordering ----
 # data.table::setcolorder(dt, intersect(column_names_template, colnames(dt)))
@@ -98,17 +101,33 @@ for (i in seq_along(lst)) if (is.character(lst[[i]]$species)) if (any(!unique(En
 ### adding GBIF matched names by Dr. Wubing Xu ----
 corrected_species_names <- data.table::fread(
    file = "data/requests to taxonomy databases/manual_checklist_change_species_filled_20240104.csv",
-   select = c("dataset_id", "species", "species_new"),
+   colClasses = c(dataset_id = "factor",
+                  species = "character",
+                  species_new = "character",
+                  corrected = "NULL",
+                  checked = "NULL"),
    header = TRUE, sep = ",")
-dt[j = species_original := species
-][i = corrected_species_names,
-  j = species := i.species_new,
-  on = .(dataset_id, species)]
-dt[is.na(species), species := species_original]
+
+dt <- dt |>
+   dtplyr::lazy_dt(immutable = FALSE) |>
+   left_join(corrected_species_names,
+             join_by(dataset_id, species)) |>
+   mutate(species_original = species,
+          species = NULL) |>
+   rename(species = species_new) |>
+   mutate(species = if_else(
+      is.na(species),
+      species_original,
+      species)) |>
+   data.table::as.data.table()
 
 
 # Metadata ----
-meta <- merge(meta, unique(dt[, .(dataset_id, regional, local, year)]), all.x = TRUE)
+meta <- meta |>
+   left_join(dt |>
+                select(dataset_id, regional, local, year) |>
+                distinct(),
+             join_by(dataset_id, regional, local, year))
 
 # Checking metadata
 unique(meta$taxon)
@@ -122,60 +141,65 @@ unique(meta$realm)
 
 
 # Converting alpha grain and gamma extent units ----
-meta[, alpha_grain := as.numeric(alpha_grain)][,
-                                               alpha_grain := data.table::fcase(
-                                                  alpha_grain_unit == "mile2", alpha_grain / 0.00000038610,
-                                                  alpha_grain_unit == "km2", alpha_grain * 10^6,
-                                                  alpha_grain_unit == "acres", alpha_grain * 4046.856422,
-                                                  alpha_grain_unit == "ha", alpha_grain * 10^4,
-                                                  alpha_grain_unit == "cm2", alpha_grain / 10^4,
-                                                  alpha_grain_unit == "mm2", alpha_grain / 10^6,
-                                                  alpha_grain_unit == "m2", alpha_grain
-                                               )
-][, alpha_grain_unit := NULL]
-
-meta[, gamma_sum_grains := as.numeric(gamma_sum_grains)][,
-                                                         gamma_sum_grains := data.table::fcase(
-                                                            gamma_sum_grains_unit == "m2", gamma_sum_grains / 10^6,
-                                                            gamma_sum_grains_unit == "mile2", gamma_sum_grains * 2.589988,
-                                                            gamma_sum_grains_unit == "ha", gamma_sum_grains / 100,
-                                                            gamma_sum_grains_unit == "acres", gamma_sum_grains * 0.004046856422,
-                                                            gamma_sum_grains_unit == "km2", gamma_sum_grains
-                                                         )
-][, gamma_sum_grains_unit := NULL]
-
-meta[, gamma_bounding_box := as.numeric(gamma_bounding_box)][,
-                                                             gamma_bounding_box := data.table::fcase(
-                                                                gamma_bounding_box_unit == "m2", gamma_bounding_box / 10^6,
-                                                                gamma_bounding_box_unit == "mile2", gamma_bounding_box * 2.589988,
-                                                                gamma_bounding_box_unit == "ha", gamma_bounding_box / 100,
-                                                                gamma_bounding_box_unit == "acres", gamma_bounding_box * 0.004046856422,
-                                                                gamma_bounding_box_unit == "km2", gamma_bounding_box
-                                                             )
-][, gamma_bounding_box_unit := NULL]
-
-data.table::setnames(
-   x = meta,
-   old = c("alpha_grain", "gamma_bounding_box", "gamma_sum_grains"),
-   new = c("alpha_grain_m2", "gamma_bounding_box_km2", "gamma_sum_grains_km2"))
+meta <- meta |>
+   dtplyr::lazy_dt(immutable = FALSE) |>
+   mutate(alpha_grain = as.numeric(alpha_grain),
+          gamma_sum_grains = as.numeric(gamma_sum_grains),
+          gamma_bounding_box = as.numeric(gamma_bounding_box)) |>
+   mutate(
+      alpha_grain = case_match(alpha_grain_unit,
+                               "mile2" ~ alpha_grain / 0.00000038610,
+                               "km2" ~ alpha_grain * 10^6,
+                               "acres" ~ alpha_grain * 4046.856422,
+                               "ha" ~ alpha_grain * 10^4,
+                               "cm2" ~ alpha_grain / 10^4,
+                               "mm2" ~ alpha_grain / 10^6,
+                               "m2" ~ alpha_grain),
+      alpha_grain_unit = NULL) |>
+   mutate(
+      gamma_sum_grains = case_match(gamma_sum_grains_unit,
+                                    "m2" ~ gamma_sum_grains / 10^6,
+                                    "mile2" ~ gamma_sum_grains * 2.589988,
+                                    "ha" ~ gamma_sum_grains / 100,
+                                    "acres" ~ gamma_sum_grains * 0.004046856422,
+                                    "km2" ~ gamma_sum_grains),
+      gamma_sum_grains_unit = NULL) |>
+   mutate(
+      gamma_bounding_box = case_match(gamma_bounding_box_unit,
+                                      "m2" ~ gamma_bounding_box / 10^6,
+                                      "mile2" ~ gamma_bounding_box * 2.589988,
+                                      "ha" ~ gamma_bounding_box / 100,
+                                      "acres" ~ gamma_bounding_box * 0.004046856422,
+                                      "km2" ~ gamma_bounding_box),
+      gamma_bounding_box_unit = NULL) |>
+   rename(alpha_grain_m2 = alpha_grain,
+          gamma_bounding_box_km2 = gamma_bounding_box,
+          gamma_sum_grains_km2 = gamma_sum_grains) |>
+   data.table::as.data.table()
 
 meta[is.na(alpha_grain_m2), unique(dataset_id)]
 meta[is.na(gamma_sum_grains_km2) & is.na(gamma_bounding_box_km2), unique(dataset_id)]
 
 # Converting coordinates into a common format with parzer ----
-unique_coordinates <- unique(meta[, .(latitude, longitude)])
-unique_coordinates[, ":="(
-   lat = parzer::parse_lat(latitude),
-   lon = parzer::parse_lon(longitude)
-)]
-unique_coordinates[is.na(lat) | is.na(lon)]
-meta <- merge(meta, unique_coordinates, by = c("latitude", "longitude"))
-meta[, c("latitude", "longitude") := NULL]
-data.table::setnames(meta, c("lat", "lon"), c("latitude", "longitude"))
+meta <- left_join(
+   x = meta,
+   y = unique(meta[, .(latitude, longitude)]) |>
+      dtplyr::lazy_dt(immutable = FALSE) |>
+      mutate(lat = parzer::parse_lat(latitude),
+             lon = parzer::parse_lon(longitude)) |>
+      data.table::as.data.table(),
+   join_by(latitude, longitude)) |>
+   mutate(latitude = NULL,
+          longitude = NULL) |>
+   rename(latitude = lat, longitude = lon)
 
 # Coordinate scale ----
-meta[, is_coordinate_local_scale := length(unique(latitude)) != 1L && length(unique(longitude)) != 1L, by = .(dataset_id, regional)]
-# sort(meta[(!is_coordinate_local_scale) & (!checklist), unique(dataset_id)])
+meta <- meta |>
+   dtplyr::lazy_dt(immutable = FALSE) |>
+   group_by(dataset_id, regional) |>
+   mutate(is_coordinate_local_scale = n_distinct(latitude) != 1L &&
+             n_distinct(longitude) != 1L) |>
+   data.table::as.data.table()
 
 # Checks ----
 
@@ -183,7 +207,7 @@ meta[, is_coordinate_local_scale := length(unique(latitude)) != 1L && length(uni
 if (anyDuplicated(meta)) warning("Duplicated rows in metadata")
 
 ## checking taxon ----
-if (any(meta[, length(unique(taxon)), by = dataset_id]$V1 != 1L)) warning(paste0("several taxa values in ", paste(meta[, length(unique(taxon)), by = dataset_id][V1 != 1L, dataset_id], collapse = ", ")))
+if (any(meta[, n_distinct(taxon), by = dataset_id]$V1 != 1L)) warning(paste0("several taxa values in ", paste(meta[, n_distinct(taxon), by = dataset_id][V1 != 1L, dataset_id], collapse = ", ")))
 if (any(!unique(meta$taxon) %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"))) warning(paste0("Non standard taxon category in ", paste(unique(meta[!taxon %in% c("Fish", "Invertebrates", "Plants", "Multiple taxa", "Birds", "Mammals", "Herpetofauna", "Marine plants"), .(dataset_id), by = dataset_id]$dataset_id), collapse = ", ")))
 
 ## checking encoding ----
@@ -204,7 +228,7 @@ if (any(meta[(data_pooled_by_authors), is.na(data_pooled_by_authors_comment)])) 
 
 ## checking comment ----
 if (anyNA(meta$comment)) warning("Missing comment value")
-if (length(unique(meta$comment)) != length(unique(meta$dataset_id))) warning("Redundant comment values")
+if (n_distinct(meta$comment) != n_distinct(meta$dataset_id)) warning("Redundant comment values")
 
 ## checking comment_standardisation ----
 if (anyNA(meta$comment_standardisation)) warning("Missing comment_standardisation value")
@@ -227,9 +251,10 @@ data.table::setcolorder(
 
 # Adding a unique ID ----
 source(file = "R/functions/assign_id.R")
-meta[, ID := assign_id(dataset_id, regional)]
-dt[, ID := assign_id(dataset_id, regional)]
-
+meta <- meta |>
+   mutate(ID =  assign_id(dataset_id, regional))
+dt <- dt |>
+   mutate(ID =  assign_id(dataset_id, regional))
 
 # Checking that all data sets have both community and metadata data ----
 if (length(base::setdiff(unique(dt$dataset_id), unique(meta$dataset_id))) > 0L) warning("Incomplete community or metadata tables")
@@ -238,7 +263,8 @@ if (nrow(meta) != nrow(unique(dt[, .(dataset_id, regional, local, year)]))) warn
 
 # Saving data products ----
 ## Saving dt ----
-data.table::setcolorder(dt, c("dataset_id", "regional", "local", "year", "species", "species_original"))
+data.table::setcolorder(dt, c("ID", "dataset_id", "regional", "local", "year",
+                              "species", "species_original"))
 # data.table::fwrite(dt, "data/communities.csv", row.names = FALSE)
 base::saveRDS(object = dt, file = "data/communities.rds")
 if (file.exists("data/references/homogenisation_dropbox_folder_path.rds")) {
@@ -252,9 +278,13 @@ if (file.exists("data/references/homogenisation_dropbox_folder_path.rds")) {
 }
 
 ## Saving meta ----
-data.table::setcolorder(meta, "alpha_grain_m2", before = "alpha_grain_type")
-data.table::setcolorder(meta, "gamma_sum_grains_km2", before = "gamma_sum_grains_type")
-data.table::setcolorder(meta, "gamma_bounding_box_km2", before = "gamma_bounding_box_type")
+data.table::setcolorder(meta, "ID", neworder = 1L)
+data.table::setcolorder(meta, "alpha_grain_m2",
+                        before = "alpha_grain_type")
+data.table::setcolorder(meta, "gamma_sum_grains_km2",
+                        before = "gamma_sum_grains_type")
+data.table::setcolorder(meta, "gamma_bounding_box_km2",
+                        before = "gamma_bounding_box_type")
 # data.table::fwrite(meta, "data/metadata.csv", sep = ",", row.names = FALSE)
 base::saveRDS(object = meta, file = "data/metadata.rds")
 if (file.exists("data/references/homogenisation_dropbox_folder_path.rds"))
@@ -264,4 +294,3 @@ if (file.exists("data/references/homogenisation_dropbox_folder_path.rds"))
       sep = ",",
       row.names = FALSE,
       encoding = "UTF-8")
-
