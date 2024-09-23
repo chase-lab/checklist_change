@@ -122,17 +122,27 @@ meta[j = .(sum = range(gamma_sum_grains_km2, na.rm = TRUE),
 
 ### Workflow and reproducibility
 #### Environment
-To ensure reproducibility, the working environment (R version and package version) was documented and isolated using the package [`renv`](https://rstudio.github.io/renv/index.html). By running [`renv::restore()`](https://rstudio.github.io/renv/reference/restore.html), [`renv`](https://rstudio.github.io/renv/index.html) will install all missing packages at once. This function will use the renv.lock file to download the same versions of packages that we used and install them on your system.
+To ensure reproducibility, the working environment (R version and package version)
+was documented and isolated using the package [`renv`](https://rstudio.github.io/renv/index.html).
+By running [`renv::restore()`](https://rstudio.github.io/renv/reference/restore.html), [`renv`](https://rstudio.github.io/renv/index.html) will install all missing packages at once.
+This function will use the renv.lock file to download the same versions of packages
+that we used and install them on your system.
 
 #### Relative paths
-Included in the repository is a Rstudio project file: `checklist_change.Rproj` that should always be used to open the project to ensure that the working directory is set correctly. All paths in the project have the same relative root which is the `checklist_change` folder where the `.Rproj` file is located. Using `setwd()` is discouraged ([read more](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/)).
+Included in the repository is a Rstudio project file: `checklist_change.Rproj` that
+should always be used to open the project to ensure that the working directory is
+set correctly. All paths in the project have the same relative root which is the
+`checklist_change` folder where the `.Rproj` file is located. Using `setwd()` is
+discouraged ([read more](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/)).
 
 #### Workflow
-After downloading or cloning this repository, run the following scripts in order to wrangle raw data and merge all data sets together into one long table.
+After downloading or cloning this repository, run the following scripts in order
+to wrangle raw data and merge all data sets together into one long table.
 
-```
+``` r
 renv::restore()
-source("R/1.0_downloading_raw_data.r")
+# Raw data are stored in the project so that users do not need to download the data
+# source("R/1.0_downloading_raw_data.r")
 source("R/2.0_wrangling_raw_data.r")
 source("R/3.0_merging_long-format_tables")
 ```
@@ -141,7 +151,7 @@ You might need to install the 64-bit version of Java to run Tabulizer.
 
 ### Variable definitions
 #### Community data 
-##### `./data/definitions_communities.txt`
+##### `/data/definitions_communities.txt`
 | Variable name | Definition |
 | :-------------|:-----------|
 | dataset_id | Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value. |
@@ -151,7 +161,7 @@ You might need to install the 64-bit version of Java to run Tabulizer.
 | species | Species names. Whenever possible, complete (Genus + species epithet) names were included rather than codes. No missing value. UTF-8 encoding. |
 
 #### Metadata
-##### `./data/definitions_metadata.txt`
+##### `/data/definitions_metadata.txt`
 | Variable name | Definition |
 | :-------------|:-----------|
 | dataset_id | Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value. |

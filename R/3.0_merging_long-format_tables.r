@@ -85,16 +85,7 @@ data.table::setorder(dt, dataset_id, regional, local, year, species)
 #   local = iconv(local, from = "UTF-8", to = "ASCII")
 # )]
 
-# Standardisation of timepoints ----
-# dt[, timepoints := as.integer(gsub('T', '', timepoints))]
-
 # Checks
-## checking values ----
-# if (dt[, any(value != 1L)]) warning(paste("Non integer values in", paste(dt[value != 1L, unique(dataset_id)], collapse = ", ")))
-
-## checking timepoints ----
-# if (!all(dt[, (check = which.max(year) == which.max(timepoints)), by = .(dataset_id, regional, local)]$check)) warning('dt timepoints order has to be checked')
-
 ## checking species names ----
 for (i in seq_along(lst)) if (is.character(lst[[i]]$species)) if (any(!unique(Encoding(lst[[i]]$species)) %in% c("UTF-8", "unknown"))) warning(paste0("Encoding issue in ", listfiles[i]))
 
@@ -124,7 +115,7 @@ dt <- dt |>
 
 # Metadata ----
 meta <- meta |>
-   left_join(dt |>
+   left_join(y = dt |>
                 select(dataset_id, regional, local, year) |>
                 distinct(),
              join_by(dataset_id, regional, local, year))
@@ -155,16 +146,14 @@ meta <- meta |>
                                "cm2" ~ alpha_grain / 10^4,
                                "mm2" ~ alpha_grain / 10^6,
                                "m2" ~ alpha_grain),
-      alpha_grain_unit = NULL) |>
-   mutate(
+      alpha_grain_unit = NULL,
       gamma_sum_grains = case_match(gamma_sum_grains_unit,
                                     "m2" ~ gamma_sum_grains / 10^6,
                                     "mile2" ~ gamma_sum_grains * 2.589988,
                                     "ha" ~ gamma_sum_grains / 100,
                                     "acres" ~ gamma_sum_grains * 0.004046856422,
                                     "km2" ~ gamma_sum_grains),
-      gamma_sum_grains_unit = NULL) |>
-   mutate(
+      gamma_sum_grains_unit = NULL,
       gamma_bounding_box = case_match(gamma_bounding_box_unit,
                                       "m2" ~ gamma_bounding_box / 10^6,
                                       "mile2" ~ gamma_bounding_box * 2.589988,
@@ -184,10 +173,8 @@ meta[is.na(gamma_sum_grains_km2) & is.na(gamma_bounding_box_km2), unique(dataset
 meta <- left_join(
    x = meta,
    y = unique(meta[, .(latitude, longitude)]) |>
-      dtplyr::lazy_dt(immutable = FALSE) |>
       mutate(lat = parzer::parse_lat(latitude),
-             lon = parzer::parse_lon(longitude)) |>
-      data.table::as.data.table(),
+             lon = parzer::parse_lon(longitude)),
    join_by(latitude, longitude)) |>
    mutate(latitude = NULL,
           longitude = NULL) |>
