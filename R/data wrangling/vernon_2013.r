@@ -15,15 +15,16 @@ ddata[j = c("local", "status2") := data.table::tstrsplit(local, " \\(")][
 
 # assessing periods during which species are recent and melting period
 ddata[, period_temp := data.table::fcase(
-   status %in% c("E", "I") & is.na(status2), "historical+recent",
-   status %in% c("E", "I") & status2 == "ex", "historical",
+   is.element(status, c("E", "I")) & is.na(status2), "historical+recent",
+   is.element(status, c("E", "I")) & status2 == "ex", "historical",
    default = "recent"
 )]
 ddata[, c("period_temp", "period_temp2") := data.table::tstrsplit(period_temp, "\\+")]
 ddata <- data.table::melt(data = ddata,
                           id.vars = c("species", "local"),
                           measure.vars = c("period_temp", "period_temp2"),
-                          value.name = "period"
+                          value.name = "period",
+                          na.rm = TRUE
 )
 ddata <- na.omit(ddata)
 
@@ -31,12 +32,10 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Hawaii Archipelago",
    local = c("Niihau", "Kauai", "Oahu", "Molokai", "Lanai", "Maui", "Kaho olawe",
-             "Hawaii")[match(local,
-                             c("N", "K", "O", "Mo", "L", "Ma", "Ka", "H"))],
-
-   value = 1L
+             "Hawaii")[data.table::chmatch(local,
+                             c("N", "K", "O", "Mo", "L", "Ma", "Ka", "H"))]
 )][, ":="(
-   year = c(1800L, 2013L)[match(period, c("historical", "recent"))],
+   year = c(1900L, 2013L)[data.table::chmatch(period, c("historical", "recent"))],
    period = NULL,
    variable = NULL
 )]
@@ -52,11 +51,11 @@ meta[, ":="(
    realm = "Terrestrial",
    taxon = "Plants",
 
-   latitude = latitudes[match(
+   latitude = latitudes[data.table::chmatch(
       local,
       c("Niihau", "Kauai", "Oahu", "Molokai", "Lanai", "Maui", "Kaho olawe", "Hawaii")
    )],
-   longitude = longitudes[match(
+   longitude = longitudes[data.table::chmatch(
       local,
       c("Niihau", "Kauai", "Oahu", "Molokai", "Lanai", "Maui", "Kaho olawe", "Hawaii")
    )],
@@ -65,7 +64,7 @@ meta[, ":="(
    data_pooled_by_authors = TRUE,
    data_pooled_by_authors_comment = "Literature review and checklists by the authors",
 
-   alpha_grain = c(180, 1456.4, 1545.4, 673.4, 364, 1883, 115.5, 10430)[match(
+   alpha_grain = c(180, 1456.4, 1545.4, 673.4, 364, 1883, 115.5, 10430)[data.table::chmatch(
       local,
       c("Niihau", "Kauai", "Oahu", "Molokai", "Lanai", "Maui", "Kaho olawe", "Hawaii")
    )],
@@ -83,6 +82,8 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "Extracted from  Amanda L. Vernon and Tom A. Ranker 'Current Status of the Ferns and Lycophytes of the Hawaiian Islands,' American Fern Journal 103(2), 59-111, (1 April 2013). https://doi.org/10.1640/0002-8444-103.2.59. A checklist of ferns in Hawaii Islands Vernon and Ranker compiled existing floras and inventories of ferns and lycophytes on 8 Haawaiian islands. Historical and recent composition provided here were reconstructed by considering that extinct species were only recent in historical times and exotic species only appeared in recent times.
+Species missing status data were removed.
+The date of introduction of all exotic species was investigated and the oldest encountered value: 1900 for Diplazium esculentum was used as it represents a theoretically invasive-fern-free community.
 Regional is the Hawaiian archipelago and local are islands.",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1640/0002-8444-103.2.59'

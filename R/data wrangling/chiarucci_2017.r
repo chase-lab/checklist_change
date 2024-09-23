@@ -36,7 +36,9 @@ ddata[, ":="(
    regional = "Mediterranean",
    local = gsub("\\.{3}[0-9]*$", "", local),
    year = c(1950L, 2015L)[match(period, c("1830-1950", "1951-2015"))],
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 env <- data.table::fread(paste0("data/raw data/", dataset_id, "/env.csv"),

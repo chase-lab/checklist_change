@@ -24,7 +24,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Mountain summits, Europe",
 
-   value = 1L,
+   
 
    deleteMe = NULL
 )]

@@ -23,7 +23,8 @@ ddata[, ":="(
 
    year = as.integer(paste0("19", year)),
 
-   temp = NULL
+   temp = NULL,
+   value = NULL
 )]
 
 

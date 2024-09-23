@@ -36,7 +36,7 @@ ddata[, ":="(
    regional = "Samoa",
    local = c("Upolu", "Savaii")[data.table::chmatch(local, c("U", "S"))],
 
-   value = 1L,
+   
    variable = NULL
 )]
 

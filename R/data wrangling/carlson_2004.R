@@ -32,10 +32,11 @@ ddata[, ":="(
    regional = "New-York state",
    year = c(1940L, 1987L, 2004L)[match(period, c("1", "2", "3"))],
 
-   value = 1L,
+
 
    period = NULL,
-   Temp = NULL
+   Temp = NULL,
+   value = NULL
 )]
 
 env <- data.frame(
@@ -53,16 +54,19 @@ env <- data.frame(
    alpha_grain_type = "watershed",
    alpha_grain_comment = "Oswegatchie, Raquette, St. Lawrence and St. Lawrence Canada together constitute the St. Lawrence watershed as defined by NY state Department of Environment Conservation. Oswegatchie and Raquette areas found on Wikipedia. The rest of the St. Lawrence watershed (NY state DEC) is divided between St. Lawrence and St. Lawrence Canada. As a consequence, St. Lawrence grain is overestimated and St. Lawrence Canada is underestimated. See https://www.dec.ny.gov/lands/26561.html"
 )
+coordinates <- data.table::fread(file = "data/raw data/carlson_2004/coordinates.csv",
+                                 sep = ",", dec = ".", header = TRUE)
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-meta <- merge(meta, env)
+meta[i = env, on = "local"]
+meta[i = coordinates,
+     j = ":="(latitude = i.latitude,
+              longitude = i.longitude),
+     on = "local"]
 
 meta[, ":="(
    taxon = "Fish",
    realm = "Freshwater",
-
-   latitude = "43.00N",
-   longitude = "76.00W",
 
    effort = 1L,
    data_pooled_by_authors = TRUE,

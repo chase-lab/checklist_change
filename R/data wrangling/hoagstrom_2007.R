@@ -45,7 +45,7 @@ env <- unique(env[i = !grepl("T", block),
 )])[, ":="(
    latitude = parzer::parse_lat(latitude),
    longitude = parzer::parse_lon(longitude)
-)]
+)][, longitude := -abs(longitude)]
 env[, gamma_sum_grains := geosphere::areaPolygon(env[grDevices::chull(env[, c("longitude", "latitude")]), c("longitude", "latitude")]) / 10^6]
 
 # community data
@@ -54,9 +54,8 @@ ddata[, ":="(
    regional = "South Dakota",
    species = trimws(gsub(";.*|white crappie 2", "", species)),
 
-   value = 1L,
-
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 

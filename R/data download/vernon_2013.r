@@ -1,70 +1,127 @@
 ## vernon_2013
 dataset_id <- "vernon_2013"
 
-if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
-  # extracting text
-  txt <- pdftools::pdf_text("data/cache/vernon_2013_raw_data.pdf")
-  txt <- txt[32:50]
+# extracting text
+txt <- pdftools::pdf_text("data/raw data/vernon_2013/vernon_2013_raw_data.pdf")[32:50]
 
-  # extracting strings of interest
-  species_names <- lapply(stringi::stri_extract_all_regex(txt, "\r\n\ *([a-zA-Z]-?’?)+\ ([a-zA-Z]-?’?)+\ "), trimws)
-  status <- lapply(stringi::stri_extract_all_regex(txt, "\ *E\r\n\ *|\ *I\r\n\ *|\ *NZ\r\n\ *"), trimws)
-  distribution <- lapply(stringi::stri_extract_all_regex(txt, "Distribution: ([A-Z]{1}[a-z]?.?)*\ *\r\n"), gsub, replacement = "", pattern = "Distribution: |\r\n")
-  distribution <- lapply(stringi::stri_extract_all_regex(txt, "Distribution: .*\ *\r\n"), gsub, replacement = "", pattern = "Distribution: |\r\n")
+# extracting strings of interest
 
-  # Cleaning
-  species_names[[1]] <- species_names[[1]][-(1:2)]
-  status[[1]] <- status[[1]][-1]
+species_names <- stringi::stri_extract_all_regex(
+   str = txt,
+   pattern = "(?<=1\n|E\n|I\n|NZ\n) *[A-Za-z` .()&\\-,]*(?=\n)|(?<=\n) *[A-Za-z .()&\\-,]*(?=var.)|(?<=\n) *[A-Za-z .()&\\-,]*(?=subsp.)") |>
+   lapply(FUN = trimws) |>
+   lapply(FUN = function(x) ifelse(nchar(x) > 3L, x, NA_character_)) |>
+   # delete Synonyms
+   lapply(FUN = function(x) ifelse(!grepl("^Syn. ", x), x, NA_character_)) |>
+   lapply(na.omit)
+# 2 6 10 16
+species_names[[2]] <- append(x = species_names[[2]],
+                             values = "Isoëtes hawaiiensis W. C. Taylor & W. H. Wagner",
+                             after = 2L)
+species_names[[2]] <- append(x = species_names[[2]],
+                             values = "Ophioderma pendulum (L.) C. Presl",
+                             after = 9L)
+species_names[[4]] <- append(x = species_names[[4]],
+                             values = "Dicranopteris linearis (Burm. f.) Underw.",
+                             after = 7L)
+species_names[[6]] <- append(x = species_names[[6]],
+                             values = "Lindsaea repens (Bory) Thwaites",
+                             after = 2L)
+species_names[[6]] <- append(x = species_names[[6]],
+                             values = "Hypolepis hawaiiensis Brownsey",
+                             after = 5L)
+species_names[[6]] <- append(x = species_names[[6]],
+                             values = "Microlepia strigosa (Thunb.) C. Presl",
+                             after = 9L)
+species_names[[6]] <- append(x = species_names[[6]],
+                             values = "Pteridium aquilinum (L.) Kuhn",
+                             after = 11L)
+species_names[[7L]] <- c("Adiantum ‘Edwinii’", species_names[[7L]])
+species_names[[9L]] <- append(x = species_names[[9L]],
+                              values = "Asplenium contiguum Kaulf.",
+                              after = 3L)
+species_names[[10L]] <- append(x = species_names[[10L]],
+                               values = "Asplenium nidus L.",
+                               after = 5L)
+species_names[[10L]] <- append(x = species_names[[10L]],
+                               values = "Asplenium peruvianum Desv.",
+                               after = 7L)
+species_names[[10L]] <- append(x = species_names[[10L]],
+                               values = "Asplenium trichomanes L.",
+                               after = 12L)
+species_names[[11L]] <- append(x = species_names[[11L]],
+                               values = "Cyclosorus interruptus (Willd.) H. Itô",
+                               after = 5L)
+species_names[[14L]] <- append(x = species_names[[14L]],
+                               values = "Dryopteris crinalis (Hook. & Arn.) C. Chr.",
+                               after = 1L)
+species_names[[14L]] <- append(x = species_names[[14L]],
+                               values = "Dryopteris fuscoatra (Hillebr.) W. J. Rob.",
+                               after = 4L)
+species_names[[14L]] <- append(x = species_names[[14L]],
+                               values = "Dryopteris glabra (Brack.) Kuntze",
+                               after = 7L)
+species_names[[15L]] <- append(x = species_names[[15L]],
+                               values = "Dryopteris unidentata (Hook. & Arn.) C. Chr.",
+                               after = 4L)
+species_names[[16L]] <- append(x = species_names[[16L]],
+                               values = c("Nephrolepis falcata (Cav.) C. Chr. ‘Furcans’",
+                                          "Nephrolepis hirsutula (G. Forst.) C. Presl ‘Superba’"),
+                               after = 7L)
+species_names[[17L]] <- append(x = species_names[[17L]],
+                               values = "Adenophorus pinnatifidus Gaudich.",
+                               after = 6L)
+species_names[[17L]] <- append(x = species_names[[17L]],
+                               values = "Adenophorus tamariscinus (Kaulf.) Hook. & Grev.",
+                               after = 9L)
+species_names[[17L]] <- append(x = species_names[[17L]],
+                               values = "Microsorum spectrum (Kaulf.) Copel.")
+species_names[[18L]] <- append(x = species_names[[18L]],
+                               values = "Polypodium pellucidum Kaulf.",
+                               after = 10L)
 
-  species_names[[2]][c(1:4, 10)] <- c("Lycopodium venustulum venustulum", "Lycopodium venustulum verticale", "Isoetes hawaiiensis", "Selaginella arbuscula", "Ophioderma pendulum falcatum")
-  species_names[[2]] <- c(species_names[[2]], "Ophioderma pendulum pendulum")
+# Adding species names to variants and deleting species names with variants but without status
+species_names <- data.table::as.data.table(unlist(species_names))
+species_names[i = !grepl("^var.|^subsp.", x = species_names$V1),
+              j = species_name := V1][
+                 j = species_name := zoo::na.locf(species_name)
+              ]
+# For repeated species_names, paste species+var for 2nd to last (the first is species only)
+species_names[i = species_names[i = species_names[j = .N,
+                                                  by = species_name][N > 1L],
+                                on = .(species_name),
+                                j = .SD[2L:.N],
+                                .SDcols = c("V1", "species_name"),
+                                by = .(species_name)][
+                                   j = .(V1, species_name = paste(species_name, V1))
+                                ],
+              on = .(V1),
+              j = species := i.species_name]
 
-  status[[4]] <- append(status[[4]], NA, 7)
+species_names[i = species_names[j = .N,
+                                by = species_name][N == 1L],
+              on = .(species_name),
+              j = species := species_name]
 
-  species_names[[6]][c(5, 7)] <- c("Hypolepis hawaiiensis hawaiiensis", "Microlepia strigosa mauiensis")
-  species_names[[6]] <- append(species_names[[6]], "Hypolepis hawaiiensis mauiensis", 5)
-  species_names[[6]] <- append(species_names[[6]], "Microlepia strigosa strigosa", 8)
-  status[[6]] <- c(status[[6]][-5], "I", "E")
+species_names <- na.omit(species_names$species)
 
-  species_names[[7]] <- c("Adiantum ‘Edwinii’", species_names[[7]])
+status <- stringi::stri_extract_all_regex(str = txt,
+                                          pattern = "\ *E\n\ *|\ *I\n\ *|\ *NZ\n\ *") |>
+   unlist() |>
+   trimws()
+status <- status[-1L]
+# status[[1L]] <- status[[1L]][-1L]
+status <- append(status, values = NA_character_, after = 39L)
+status <- append(status, values = "I", after = 58L)
+status <- append(status, values = NA_character_, after = 108L)
 
-  species_names[[9]][4] <- "Asplenium contiguum contiguum"
-  species_names[[9]] <- append(species_names[[9]], "Asplenium contiguum hirtulum", 5)
+distribution <- stringi::stri_extract_all_regex(txt, "(?<=Distribution: ).*(?=\n)") |>
+   unlist()
 
-  status[[10]] <- append(status[[10]], NA, 6)
+ddata <- data.table::data.table(
+   status = status,
+   species = species_names,
+   distribution = distribution)
 
-  species_names[[14]][c(2:4)] <- c("Dryopteris crinalis crinalis", "Dryopteris fuscoatra fuscoatra", "Dryopteris glabra alboviridis")
-  species_names[[14]] <- append(species_names[[14]], "Dryopteris crinalis podorosa", 2)
-  species_names[[14]] <- append(species_names[[14]], "Dryopteris fuscoatra lamoureuxii", 5)
-  species_names[[14]] <- append(species_names[[14]], c("Dryopteris glabra flynii", "Dryopteris glabra glabra", "Dryopteris glabra hobdyana", "Dryopteris glabra nuda", "Dryopteris glabra pusilla", "Dryopteris glabra soripes"), 6)
-
-  species_names[[15]][5] <- "Dryopteris unidentata palaecea"
-  species_names[[15]] <- append(species_names[[15]], "Dryopteris unidentata unidentata", 5)
-
-  species_names[[16]] <- species_names[[16]][-1]
-
-  species_names[[17]][7:8] <- c("Adenophorus pinnatifidus pinnatifidus", "Adenophorus tamariscinus montanus")
-  species_names[[17]] <- append(species_names[[17]], "Adenophorus pinnatifidus rockii", 7)
-  species_names[[17]] <- append(species_names[[17]], "Adenophorus tamariscinus tamariscinus", 9)
-  species_names[[17]] <- species_names[[17]][-length(species_names[[17]])]
-
-  species_names[[18]] <- species_names[[18]][-4]
-  species_names[[18]] <- c("Microsorum spectrum pentadactylum", "Microsorum spectrum spectrum", species_names[[18]])
-  species_names[[18]][length(species_names[[18]])] <- "Polypodium pellucidum acuminatum"
-  species_names[[19]] <- c("Polypodium pellucidum pellucidum", "Polypodium pellucidum vulcanicum", species_names[[19]])
-
-  # data.frame(species = sapply(species_names, length), status = sapply(status, length), distribution = sapply(species_names, length))
-  # apply(data.frame(species = sapply(species_names, length), status = sapply(status, length), distribution = sapply(distribution, length)), 2, sum)
-
-  ddata <- data.table::data.table(status = unlist(status), species = unlist(species_names), distribution = unlist(distribution))
-
-  dir.create(paste0("data/raw data/", dataset_id), showWarnings = FALSE)
-  base::saveRDS(ddata, file = paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))
-
-  turn_into_subsp <- function(x, species, subsp) {
-    species_position <- which(x == species)
-    x[species_position] <- paste(species, subsp[1])
-    for (i in 2:length(subsp)) x <- append(x, paste(species, subsp[i]), species_position)
-    return(x)
-  }
-}
+dir.create(paste0("data/raw data/", dataset_id), showWarnings = FALSE)
+base::saveRDS(ddata, file = paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))

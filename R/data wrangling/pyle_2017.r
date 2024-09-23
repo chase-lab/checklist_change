@@ -35,7 +35,7 @@ ddata[, ":="(
    regional = "Hawaii archipelago",
    year = c("1900", "2017")[match(period, c("historical", "present"))],
 
-   value = 1L,
+   
 
    period = NULL,
    variable = NULL

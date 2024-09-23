@@ -16,7 +16,7 @@ ddata <- data.table::melt(ddata,
 
 # recoding, splitting and melting status
 ddata[, status := c("historical&recent", "historical",
-                    "recent", "recent")[match(status, c("N", "NE",
+                    "recent", "recent")[data.table::chmatch(status, c("N", "NE",
                                                         "NNT", "NNE"))]][
    j = c("status", "status2") := data.table::tstrsplit(status, "&")]
 ddata <- data.table::melt(
@@ -31,10 +31,10 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Semiarid Brazil",
 
-   year = c(1948L, 2017L)[match(period, c("historical", "recent"))],
+   year = c(1930L, 2017L)[data.table::chmatch(period, c("historical", "recent"))],
 
    species = gsub(" \\*| \u00A7| \u2051| \u2021", "", species),
-   value = 1L,
+   
 
    period = NULL,
    variable = NULL
@@ -70,14 +70,17 @@ meta[, ":="(
    taxon = "Fish",
    realm = "Freshwater",
 
-   latitude = env$latitude[match(local, c("Region I", "Region II", "Region III", "Region IV"))],
-   longitude = env$longitude[match(local, c("Region I", "Region II", "Region III", "Region IV"))],
+   latitude = env$latitude[match(local, c("Region I", "Region II",
+                                                        "Region III", "Region IV"))],
+   longitude = env$longitude[match(local, c("Region I", "Region II",
+                                                          "Region III", "Region IV"))],
 
    effort = 1L,
    data_pooled_by_authors = TRUE,
    data_pooled_by_authors_comment = "Literature review",
 
-   alpha_grain = env$alpha_grain[match(local, c("Region I", "Region II", "Region III", "Region IV"))],
+   alpha_grain = env$alpha_grain[match(local, c("Region I", "Region II",
+                                                              "Region III", "Region IV"))],
    alpha_grain_unit = "km2",
    alpha_grain_type = "administrative",
    alpha_grain_comment = "area of the administrative state",
@@ -95,6 +98,7 @@ meta[, ":="(
 
    comment = "Data were extracted by hand from Supp 1 (Brito, M.F.G., Daga, V.S. & Vitule, J.R.S. Fisheries and biotic homogenization of freshwater fish in the Brazilian semiarid region. Hydrobiologia 847, 3877–3895 (2020). https://doi.org/10.1007/s10750-020-04236-8) to a csv file. Areas and coordinates were retrieved from Wikipedia.
 METHODS: 'We evaluated species records and fisheries through the technical reports compiled for 108 dams, spatially separated into four regions according to Brazilian states boundaries, following the DNOCS protocol, based on their location in the Brazilian states: Region I (Paui state), Region II (Ceara state), Region III (Rio Grande do Norte, Parai´ba, Pernambuco and Alagoas states), and Region IV (Bahia, Sergipe and Minas Gerais states)[...]Fish assemblages were sampled monthly at each dam, using gillnets, cast nets, and fish hooks. This represents a 64-year time period at the Inter-region scale (considering dams in all regions) (Table 1), and a 49-year time period at the Intra-region scale (considering dams within each region), except for Regions I and IV, which were only represented by 47-year and 31-year time periods, respectively (Table 1).'
+The date 1930 was chosen as it is the year of the first reported introduction. Pre-1930 is thus theoretically invasive-fish-species-free. We assume no extinction appeared between 1930 and 1948.
 Regional is 'Semiarid Brazil' and local are regions determined by the authors.",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1007/s10750-020-04236-8'

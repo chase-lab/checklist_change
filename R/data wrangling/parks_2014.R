@@ -42,11 +42,12 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Iowa",
 
-   value = 1L,
+
    year = c(1969L, 2011L)[match(period, c("H", "R"))],
 
    period = NULL,
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 # metadata table ----
@@ -82,7 +83,7 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from pdf article Timothy P Parks 'Historical Changes in Fish Assemblage Structure in Midwestern Nonwadeable Rivers', The American Midland Naturalist 171(1), 27-53, (1 January 2014). https://doi.org/10.1674/0003-0031-171.1.27. Authors aggregated historical (1884-1969) and recent (1990-2011) data from literature and databases: Fish data from 1884–2011 were gathered from a variety of sources and databases Historical and recent data were acquired from the Iowa GAP (IAGAP) database (Loan- Wilsey et al., 2005), which is the most comprehensive source of historical fish specie distribution data for Iowa’s streams and rivers. Additional fish occurrence data were acquired from Wilton (2004), Gelwicks (2006), Neebling and Quist (2010), and additional sampling completed by the authors during the summers of 2010 and 2011.",
+   comment = "Extracted from pdf article Timothy P Parks 'Historical Changes in Fish Assemblage Structure in Midwestern Nonwadeable Rivers', The American Midland Naturalist 171(1), 27-53, (1 January 2014). https://doi.org/10.1674/0003-0031-171.1.27. Authors aggregated historical (1884-1969) and recent (1990-2011) data from literature and databases: Fish data from 1884–2011 were gathered from a variety of sources and databases Historical and recent data were acquired from the Iowa GAP (IAGAP) database (Loan-Wilsey et al., 2005), which is the most comprehensive source of historical fish specie distribution data for Iowa’s streams and rivers. Additional fish occurrence data were acquired from Wilton (2004), Gelwicks (2006), Neebling and Quist (2010), and additional sampling completed by the authors during the summers of 2010 and 2011.",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1674/0003-0031-171.1.27'
 )]

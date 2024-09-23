@@ -4,16 +4,16 @@ dataset_id <- "peck_2011"
 ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds"))
 
 # splitting and melting island names
-ddata[, paste0("tmp", 1:12) := data.table::tstrsplit(distribution, ", ")]
+ddata[, paste0("tmp", 1:11) := data.table::tstrsplit(distribution, ", ")]
 ddata <- data.table::melt(ddata,
                           id.vars = c("species", "status"),
                           value.name = "local",
-                          measure.vars = paste0("tmp", 1:12),
+                          measure.vars = paste0("tmp", 1:11),
                           na.rm = TRUE
 )
 
 # recoding, splitting and melting status into period
-ddata[, status := c("historical+recent", "recent", "recent", NA_character_)[match(status, c("Native, Endemic", "Introduced, Accidental", "Introduced, Questionable Native", "No Data"))]]
+ddata[, status := c("historical+recent", "recent", "recent")[data.table::chmatch(status, c("Native, Endemic", "Introduced, Accidental", "Introduced, Questionable Native"))]]
 ddata[, paste0("tmp", 1:2) := data.table::tstrsplit(status, "\\+")]
 ddata <- data.table::melt(ddata,
                           id.vars = c("species", "local"),
@@ -26,7 +26,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Galapagos",
 
-   value = 1L,
+   
    year = c(1535L, 2011L)[match(period, c("historical", "recent"))],
 
    period = NULL,
@@ -69,11 +69,9 @@ meta[, ":="(
    gamma_bounding_box_unit = "km2",
    gamma_bounding_box_type = "convex-hull",
 
-   comment = "Extracted from Peck & Herrera CDF Checklist of Galapagos Cockroaches, Mantids and Termites. Species inventories of 14 islands and islets of the Galapagos archipelago. No known extinctions. Missing data on origin so distribution might be wider for some species. The accidental cockroach introductions could date as far as 1535 which is why this date is used for historical composition. Full reference: Peck, S. B., Herrera, H. W. (2011). CDF Checklist of Galapagos Cockroaches, Mantids and Termites - FCD Lista de especies de
-Cucarachas, mantidos y termitas de Galápagos. In: Bungartz, F., Herrera, H., Jaramillo, P., Tirado, N., Jímenez-Uzcategui, G., Ruiz, D.,
-Guézou, A. Ziemmeck, F. (eds.). Charles Darwin Foundation Galapagos Species Checklist - Lista de Especies de Galápagos de la
-Fundación Charles Darwin. Charles Darwin Foundation / Fundación Charles Darwin, Puerto Ayora, Galapagos:
-http://www.darwinfoundation.org/datazone/checklists/terrestrial-invertebrates/dictyoptera/ Regional is the Galapagos archipelago, local are islands",
+   comment = "Extracted from Peck & Herrera CDF Checklist of Galapagos Cockroaches, Mantids and Termites. Species inventories of 14 islands and islets of the Galapagos archipelago. No known extinctions. There are missing data for origin so distributions might be wider for some species and some islands might have more species than noted. The accidental cockroach introductions could date as far as 1535 which is why this date is used for historical composition.
+Full reference: Peck, S. B., Herrera, H. W. (2011). CDF Checklist of Galapagos Cockroaches, Mantids and Termites - FCD Lista de especies de Cucarachas, mantidos y termitas de Galápagos. In: Bungartz, F., Herrera, H., Jaramillo, P., Tirado, N., Jímenez-Uzcategui, G., Ruiz, D., Guézou, A. Ziemmeck, F. (eds.). Charles Darwin Foundation Galapagos Species Checklist - Lista de Especies de Galápagos de la Fundación Charles Darwin. Charles Darwin Foundation / Fundación Charles Darwin, Puerto Ayora, Galapagos: http://www.darwinfoundation.org/datazone/checklists/terrestrial-invertebrates/dictyoptera/
+Regional is the Galapagos archipelago, local are islands",
    comment_standardisation = "none needed"
 )]
 

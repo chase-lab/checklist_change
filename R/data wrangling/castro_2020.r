@@ -25,7 +25,6 @@ ddata <- data.table::melt(ddata,
 ddata <- ddata[value == "1"]
 
 # data
-
 ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Chile",
@@ -33,7 +32,8 @@ ddata[, ":="(
 
    year = c(1535L, 2017L)[match(period, c("historical", "current"))],
 
-   period = NULL
+   period = NULL,
+   value = NULL
 )]
 
 # metadata
@@ -43,15 +43,20 @@ env <- data.table::as.data.table(
 )
 data.table::setnames(env, new = c("local", "alpha_grain"))
 
+coordinates <- data.table::fread(file = "data/raw data/castro_2020/coordinates.csv",
+                                 header = TRUE, sep = ",", dec = ".")
+
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
-meta <- merge(meta, env)
+meta[i = env, on = "local"]
+meta[i = coordinates,
+     j = ":="(latitude = i.latitude,
+              longitude = i.longitude),
+     on = "local"]
+
 
 meta[, ":="(
    taxon = "Fish",
    realm = "Freshwater",
-
-   latitude = -30L,
-   longitude = -70L,
 
    effort = 1L,
    data_pooled_by_authors = TRUE,

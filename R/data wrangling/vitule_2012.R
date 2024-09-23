@@ -25,7 +25,7 @@ ddata[, ":="(
    local = data.table::fifelse(grepl("L", local), "Lower Parana", "Upper Parana"),
    year = data.table::fifelse(grepl("B", local), 1982L, 2009L),
 
-   value = 1L
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

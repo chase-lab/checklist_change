@@ -40,9 +40,9 @@ ddata <- ddata[!is.na(period)]
 ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Windward Islands",
-   year = c(1900L, 1992L)[match(period, c("historical", "present"))],
+   year = c(1498L, 1992L)[match(period, c("historical", "present"))],
 
-   value = 1L,
+
 
    variable = NULL,
    period = NULL
@@ -98,6 +98,7 @@ meta[, ":="(
    comment = "Extracted from the article 'The status and conservation needs of the terrestrial herpetofauna of the windward islands (West Indies)' with tabulizer and hand copy.
 Freshwater, terrestrial and marine amphibian and reptile species sampled. The authors made a review of the literature to assess the historical compositions.
 METHODS 'The status summaries for St Lucia, St Vincent and some of the Grenadines are based on my own field observations carried out during 1989 with previous visits to St Lucia and satellites in 1983 and 1986.[...]The current checklist for the West Indian herpetofauna is Schwartz and Henderson (1988).' Species that were noted as extinct in the main island but still present in islets were considered extinct for this study.
+1498 is considered to be the end of the pre-European contact in the area as this is the year Christopher Columbus landed on Trinidad y Tobago
 Regional is the archipelago, local are islands",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.1016/0006-3207(92)91151-H'

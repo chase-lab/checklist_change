@@ -44,7 +44,7 @@ ddata[, ":="(
       no = NA_integer_)
 )]
 
-ddata <- ddata[!is.na(value) & value > 0]
+ddata <- ddata[!is.na(value) & value > 0][, value := NULL]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, period, year)])
 meta <- merge(meta, effort, by = c("local", "period"))

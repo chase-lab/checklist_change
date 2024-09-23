@@ -5,8 +5,8 @@ ddata <- base::readRDS(file = paste0("data/raw data/", dataset_id, "/ddata.rds")
 
 data.table::setnames(
    ddata,
-   old = c("island", "Archipelago", "presence"),
-   new = c("local", "regional", "value")
+   old = c("island", "Archipelago"),
+   new = c("local", "regional")
 )
 
 ## GIS data ----
@@ -35,7 +35,8 @@ ddata[, ":="(
 
    year = c(1500L, 2017L)[match(period, c("old", "current"))],
    period = NULL,
-   Ocean = NULL
+   Ocean = NULL,
+   presence = NULL
 )]
 
 ddata <- unique(ddata)
@@ -62,7 +63,7 @@ meta[, ":="(
 
    comment = "Extracted from Dryad repo Baiser, Benjamin; Valle, Dennis; Zelazny, Zoe; Burleigh, J. Gordon (2017). Data from: Non-random patterns of invasion and extinction reduce phylogenetic diversity in island bird assemblages [Dataset]. Dryad. https://doi.org/10.5061/dryad.rs714. The authors 'extracted presence/absence data from a database of bird species on 152 oceanic islands compiled by Blackburn et al. (2004) and Cassey et al. (2007) from species lists, field guides, and literature'.
 Where needed, coordinates were extracted from the gift database: Weigelt, P., König, C. & Kreft, H. (2020) GIFT – A Global Inventory of Floras and Traits for macroecology and biogeography. Journal of Biogeography, 47, 16-43. doi: 10.1111/jbi.13623
-Past is considered to be pre-colonisation times and recent checklists were made after the 1990s.
+Past is considered to be pre-colonisation times, hence the 1500 threshold, and recent checklists were made after the 1990s.
 regional is an archipelago, local is an island",
    comment_standardisation = "none needed",
    doi = "https://doi.org/10.5061/dryad.rs714 | https://doi.org/10.1111/ecog.02738",

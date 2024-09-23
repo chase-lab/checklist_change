@@ -27,7 +27,9 @@ ddata[, ":="(
                                              "Hawaii", "Christmas", "Cocos", "Easter"))],
 
    year = c(1500L, 2016L)[match(period, c("present initially", "present currently"))],
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 

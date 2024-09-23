@@ -10,30 +10,148 @@ The specificity of this data set is that it aggregates data from studies varying
 ### Data
 Raw and aggregated data tables are provided.
 Raw data are stored for each data set individually in the data/raw data/ folder in compressed .rds files
-Aggregated data are in `./data/communities.csv` and `./data/metadata.csv` and column definitions are given in `./data/definitions_communities.txt` and `./data/definitions_metadata.txt`, and reproduced at the bottom of this readme.
+Aggregated data are in `data/communities.csv` and `data/metadata.csv` and column definitions are given in `data/definitions_communities.txt` and `data/definitions_metadata.txt`, and reproduced at the bottom of this readme.
+
+Here are commands exploring the data set:
+``` r
+dt <- data.table::fread(file = "data/communities.csv",
+                        select = c("dataset_id","regional","local","year","species"),
+                        stringsAsFactors = TRUE) |> 
+   unique()
+
+meta <- data.table::fread(file = "data/metadata.csv",
+                          select = c("dataset_id","regional","local","taxon","realm",
+                                     "year", "latitude","longitude",
+                                     "gamma_bounding_box_km2", "gamma_sum_grains_km2"),
+                          stringsAsFactors = TRUE,
+                          colClasses = c(latitude = "numeric",
+                                         longitude = "numeric")) [
+                             j = year := as.integer(as.character(year))
+                          ] |> 
+   unique()
+
+dt[i = meta,
+   j = ":="(
+      taxon = i.taxon,
+      realm = i.realm
+   ),
+   on = .(dataset_id, regional, local)
+][
+   j = data.table::uniqueN(species),
+   by = taxon
+][
+   order(-V1)
+]
+
+# How many dataset_ids
+base::nlevels(meta$dataset_id)
+
+# How many dataset_ids/regions
+data.table::uniqueN(meta[, .(dataset_id, regional)])
+
+# How many dataset_ids/regions/sites?
+data.table::uniqueN(meta[, .(dataset_id, regional, local)])
+
+# How many sites per regions on average?
+meta[j = data.table::uniqueN(local), keyby = .(dataset_id, regional) ][
+   j = mean(V1)]
+
+# How many dataset_ids/regions/sites with unique coordinates?
+data.table::uniqueN(meta[i = meta[j = data.table::uniqueN(.SD),
+                                  .SDcols = c("latitude", "longitude"),
+                                  keyby = .(dataset_id, regional, local)][V1 == 1L],
+                         on = .(dataset_id, regional, local)])
+
+# How many samples?
+data.table::uniqueN(meta[, .(dataset_id, regional, local, year)])
+
+# What is the mean year range?
+unique(meta[, .(dataset_id, regional, local, year)])[j = mean(diff(range(year)))]
+
+# How many localities with 2 samples?
+# How many localities with at least 4, 5, 10 samples?
+meta[j = data.table::uniqueN(year),
+     by = .(dataset_id, regional, local)][j = .(y2 = sum(V1 == 2L),
+                                                y4 = sum(V1 >= 4L),
+                                                y5 = sum(V1 >= 5L),
+                                                y10 = sum(V1 >= 10L))]
+# How many regions with 2 samples?
+# How many regions with at least 4, 5, 10 samples?
+meta[j = data.table::uniqueN(year),
+     by = .(dataset_id, regional)][j = .(y2 = sum(V1 == 2L),
+                                         y4 = sum(V1 >= 4L),
+                                         y5 = sum(V1 >= 5L),
+                                         y10 = sum(V1 >= 10L))]
+# Beginning year range
+meta[j = min(year), by = .(dataset_id, regional)][j = range(V1)]
+
+# End year range
+meta[j = max(year), by = .(dataset_id, regional)][j = range(V1)]
+
+# How many regions were first sampled before 1800?
+meta[j = min(year) <= 1800L, by = .(dataset_id, regional)][j = sum(V1)]
+
+# What is the maximum number of samples in a site?
+meta[j = data.table::uniqueN(year), by = .(dataset_id, regional, local) ][
+   j = max(V1)]
+
+# How many samples per taxon groups?
+meta[j = data.table::uniqueN(.SD),
+     .SDcols = c("dataset_id", "regional", "local", "year"),
+     by = "taxon"][order(-V1)]
+
+# How many regions per realm groups?
+meta[j = data.table::uniqueN(.SD),
+     .SDcols = c("dataset_id", "regional"),
+     by = "realm"][order(-V1)]
+
+# How many samples per realm groups?
+meta[j = data.table::uniqueN(.SD),
+     .SDcols = c("dataset_id", "regional", "local", "year"),
+     by = "realm"][order(-V1)]
+
+# Mean richness per sample?
+dt[j = data.table::uniqueN(species), 
+   by = .(dataset_id, regional, local, year)][j = mean(V1)]
+
+# gamma_extent range
+meta[j = .(sum = range(gamma_sum_grains_km2, na.rm = TRUE),
+           box = range(gamma_bounding_box_km2, na.rm = TRUE))]
+
+```
 
 ### Workflow and reproducibility
 #### Environment
-To ensure reproducibility, the working environment (R version and package version) was documented and isolated using the package [`renv`](https://rstudio.github.io/renv/index.html). By running [`renv::restore()`](https://rstudio.github.io/renv/reference/restore.html), [`renv`](https://rstudio.github.io/renv/index.html) will install all missing packages at once. This function will use the renv.lock file to download the same versions of packages that we used and install them on your system.
+To ensure reproducibility, the working environment (R version and package version)
+was documented and isolated using the package [`renv`](https://rstudio.github.io/renv/index.html).
+By running [`renv::restore()`](https://rstudio.github.io/renv/reference/restore.html), [`renv`](https://rstudio.github.io/renv/index.html) will install all missing packages at once.
+This function will use the renv.lock file to download the same versions of packages
+that we used and install them on your system.
 
 #### Relative paths
-Included in the repository is a Rstudio project file: `./checklist_change.Rproj` that should always be used to open the project to ensure that the working directory is set correctly. All paths in the project have the same relative root which is the `checklist_change` folder where the `.Rproj` file is located. Using `setwd()` is discouraged ([read more](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/)).
+Included in the repository is a Rstudio project file: `checklist_change.Rproj` that
+should always be used to open the project to ensure that the working directory is
+set correctly. All paths in the project have the same relative root which is the
+`checklist_change` folder where the `.Rproj` file is located. Using `setwd()` is
+discouraged ([read more](https://www.r-bloggers.com/2020/01/rstudio-projects-and-working-directories-a-beginners-guide/)).
 
 #### Workflow
-After downloading or cloning this repository, run the following scripts in order to wrangle raw data and merge all data sets together into one long table.
+After downloading or cloning this repository, run the following scripts in order
+to wrangle raw data and merge all data sets together into one long table.
 
-```
+``` r
 renv::restore()
-source("./R/1.0_downloading_raw_data.r")
-source("./R/2.0_wrangling_raw_data.r")
-source("./R/3.0_merging_long-format_tables")
+# Raw data are stored in the project so that users do not need to download the data
+# source("R/1.0_downloading_raw_data.r")
+source("R/2.0_wrangling_raw_data.r")
+source("R/3.0_merging_long-format_tables")
 ```
 #### Additional installations
 You might need to install the 64-bit version of Java to run Tabulizer.
 
 ### Variable definitions
 #### Community data 
-##### `./data/definitions_communities.txt`
+##### `/data/definitions_communities.txt`
 | Variable name | Definition |
 | :-------------|:-----------|
 | dataset_id | Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value. |
@@ -41,10 +159,9 @@ You might need to install the 64-bit version of Java to run Tabulizer.
 | regional | Region name, contains at least two localities. Can be a national park, a state or a forest name for example but smaller scales are also included where the region is an experimental sites. A data set can have several regions. No missing value. UTF-8 encoding. |
 | local | Name or code of the sampled locality or experimental sample. For example, it can correspond to the name of an island, a lake or forest. No missing value. UTF-8 encoding. |
 | species | Species names. Whenever possible, complete (Genus + species epithet) names were included rather than codes. No missing value. UTF-8 encoding. |
-| value | Presence (1) of a species in a given location and a given year. No zero, no missing value. |
 
 #### Metadata
-##### `./data/definitions_metadata.txt`
+##### `/data/definitions_metadata.txt`
 | Variable name | Definition |
 | :-------------|:-----------|
 | dataset_id | Unique ID linked to a publication (article or data set). If the data set was split because different taxa group are provided, a letter is added at the end. No missing value. |

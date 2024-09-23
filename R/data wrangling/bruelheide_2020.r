@@ -24,9 +24,9 @@ ddata <- data.table::melt(ddata,
 ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Black Forest",
-   year = c(1972L, 2017L)[match(period, c("historical", "present"))],
+   year = c(1972L, 2017L)[data.table::chmatch(period, c("historical", "present"))],
 
-   value = 1L,
+   
 
    period = NULL,
    periodraw = NULL,
@@ -77,6 +77,7 @@ meta[, ":="(
    gamma_sum_grains_comment = "sum of the areas of the sampled ecosystems",
 
    comment = "Extracted from Bruelheide et al 2020 dryad repository. We considered two time periods: an early one (1972-1980) and a late one (2017-2020). Any species that has 'first appearance' in early time period would be 'present initially'.  Any species that has first appearance only in the second time period would be 'new' (occupancy change column 1) and any species that has last appearance before 2017-220 (occupancy change column -1) as a local extinction.
+The plants included are not an exhaustive list of the plants of the region but they represent a functional group.
 Regional is the Black Forest and local are sites.",
    comment_standardisation = "none needed",
    doi = 'https://doi.org/10.5061/dryad.mw6m905vj | https://doi.org/10.1111/ddi.13184'

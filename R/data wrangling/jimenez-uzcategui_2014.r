@@ -26,7 +26,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Galapagos",
 
-   value = 1L,
+   
 
    year = c(1832L, 2014L)[data.table::chmatch(period, c("historical", "recent"))],
 

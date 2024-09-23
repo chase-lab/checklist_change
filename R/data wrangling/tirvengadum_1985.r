@@ -42,7 +42,7 @@ ddata[, ":="(
 
    species = enc2utf8(sub("\"\"", "", species)),
 
-   value = 1L,
+
 
 
    year = c(1680L, 1980L)[match(period, c("historical", "recent"))],
@@ -88,7 +88,7 @@ meta[, ":="(
 Realm: even though realm is considered Terrestrial, freshwater frogs are included. Marine turtles and snakes were excluded.
 METHODS: 'Reports from various sources in Mauritius and Reunion and a survey carried out by the authors in Rodrigues and in Round Island in 1980.'
 Regional is the Mascarene Archipelago, local are 4 large islands. 'year' is inferred from the paper, written in 1980 and stating: 'Over the past three centuries with the advent of man followed by large settlement, the reptile populations of these islands [...] have suffered considerably'.
-Full reference: Tirvengadum, DD. and Bour, R., Checklist of the herpetofauna of the Mascarane Islands, 1985, Atoll Research Bulletin 292: 49-60
+Full reference: Tirvengadum, DD. and Bour, R., Checklist of the herpetofauna of the Mascarene Islands, 1985, Atoll Research Bulletin 292: 49-60
 ",
    comment_standardisation = "Deleting marine turtles and snake species"
 )]

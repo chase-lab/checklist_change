@@ -20,7 +20,7 @@ ddata[, ":="(
    regional = "Great Lakes",
    local = c("Toronto Bay", "Burlington Bay", "Inner Bay")[match(local, c(1:3))],
 
-   value = 1L,
+   
 
    year = c(1800L, 1975L)[match(period, c("historical", "contemporary"))],
    period = NULL

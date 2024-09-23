@@ -79,7 +79,7 @@ ddata <- data.table::melt(
 
 # Recoding, splitting and melting values into periods
 ddata[, period_raw := c("historical+recent", "historical", "historical", "recent",
-                        "historical+recent", NA, NA,
+                        NA, NA, NA,
                         NA, NA)[match(
                            x = substr(value, 1, 1),
                            table = c("R", "X", "C", "I", "M", "S", "P", "V", "H"))]]
@@ -95,7 +95,7 @@ ddata <- data.table::melt(
 ddata[, ":="(
    dataset_id = dataset_id,
 
-   year = c(1521L, 2005L)[match(period, c("historical", "recent"))],
+   year = c(1521L, 2005L)[data.table::chmatch(period, c("historical", "recent"))],
 
    regional = "Micronesia",
    local = c("Guam", "Palau", "Yap", "Northern Mariana Islands", "Chuuk", "Pohnpei",
@@ -105,10 +105,11 @@ ddata[, ":="(
                           "POHN", "KOSR", "MARS", "WAKE")
              )],
 
-   value = 1L,
+
 
    period = NULL,
-   variable = NULL
+   variable = NULL,
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
@@ -134,9 +135,9 @@ meta[, ":="(
    gamma_bounding_box_type = "convex-hull",
 
    comment = "Extracted from Wiles, G. J. (2005). A checklist of the birds and mammals of Micronesia. MICRONESICA-AGANA-, 38(1), 141.
-For Mammals, the authors created the first inventory for 8 islands or groups of islands of the Micronesian Archipelago. local is an island or a group of islands. Historical and recent compositions were reconstructed by considering that extinct species were only present in historical times and invasive species were only present in recent times.
+For Mammals, the authors created the first inventory for 8 islands or groups of islands of the Micronesian Archipelago. local is an island or a group of islands. Historical and recent compositions were reconstructed by considering that extinct species were only present in historical times and invasive species were only present in recent times. 1521 is the year of first European contact in Micronesia.
 Regional is the Micronesian region, local are archipelagos",
-   comment_standardisation = "pelagic, occasional, vagrant and hypothetical species excluded"
+   comment_standardisation = "Non-breeding species, ie species with status S, P, V, H or M species excluded"
 )]
 
 dir.create(paste0("data/wrangled data/", dataset_id), showWarnings = FALSE)

@@ -1,7 +1,6 @@
 ## baiser_2017
 
 dataset_id <- "baiser_2017"
-if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
 
   # community data ----
   islands <- read.table(
@@ -15,9 +14,9 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
 
   islands[, ":="(
     Archipelago = gsub("(?<=[a-z])([A-Z])", " \\1", Archipelago, perl = TRUE),
-    `Island Name` = gsub(".|_",
+    `Island.Name` = gsub(".|_",
       " ",
-      gsub("(?<=[a-z])([A-Z])", " \\1", `Island Name`, perl = TRUE),
+      gsub("(?<=[a-z])([A-Z])", " \\1", `Island.Name`, perl = TRUE),
       fixed = TRUE
     )
   )]
@@ -41,7 +40,7 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   data.table::setDT(current)
 
 
-  data.table::setnames(islands, old = "Island Name", new = "island")
+  data.table::setnames(islands, old = "Island.Name", new = "island")
   data.table::setnames(old, c("island", "presence", "species"))
   data.table::setnames(current, c("island", "presence", "species"))
 
@@ -52,7 +51,6 @@ if (!file.exists(paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))) {
   current[, period := "current"]
 
   ddata <- rbind(old, current)
-  ddata[, V1 := NULL]
 
   base::saveRDS(ddata, file = paste("data/raw data", dataset_id, "ddata.rds", sep = "/"))
-}
+

@@ -47,7 +47,9 @@ ddata[, ":="(
    regional = basin_2456$regional[match(local, basin_2456$local)],
 
    year = c(1700L, 2018L)[match(period, c("historical", "recent"))],
-   period = NULL
+
+   period = NULL,
+   value = NULL
 )]
 
 

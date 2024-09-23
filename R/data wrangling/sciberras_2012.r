@@ -35,7 +35,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = c(rep("Malta", 9), rep("Comino", 6), rep("Gozo", 8))[match(local, c(LETTERS[1:9], LETTERS[10:15], LETTERS[16:23]))],
 
-   value = 1L,
+   
 
    year = c(1930L, 1990L)[match(period, c("historical", "recent"))],
    period = NULL,

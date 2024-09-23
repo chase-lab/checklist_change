@@ -31,7 +31,7 @@ ddata[, ":="(
    dataset_id = dataset_id,
    regional = "Pelekane Bay",
 
-   value = 1L
+   value = NULL
 )]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])

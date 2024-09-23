@@ -44,7 +44,7 @@ ddata[, ":="(
    year = c(1700L, 2011L)[match(period, c("historical", "recent"))],
 
    species = gsub("A$|E$|E, A$|I$|VS$", "", species),
-   value = 1L,
+
 
    period = NULL,
    variable = NULL
@@ -81,6 +81,7 @@ meta[, ":="(
    gamma_sum_grains_comment = "sum of the area of the 3 national parks",
 
    comment = "Extracted from Article Mallet-Rodrigues et al 2015, Data in table 1. Historical community was constructed by considering only native species from recent lists.
+1700 was chosen as the end of the historical period as it was the beginning of the industrialisation period.
 Regional is State of Rio de Janeiro, local are national parks.
 FULL REFERENCE: Mallet-Rodrigues, F., Parrini, R. & Rennó, B. (2015). Bird species richness and composition along three elevational gradients in southeastern Brazil. Atualidades Ornitológicas, 188, 39–58.",
    comment_standardisation = "none needed",

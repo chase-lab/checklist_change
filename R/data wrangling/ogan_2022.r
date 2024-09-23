@@ -26,7 +26,9 @@ data.table::setnames(x = ddata,
 # community ----
 ddata[, ":="(
    dataset_id = factor(dataset_id),
-   regional = factor("Rhineland-Palatinate")
+   regional = factor("Rhineland-Palatinate"),
+
+   value = NULL
 )]
 
 # metadata ----

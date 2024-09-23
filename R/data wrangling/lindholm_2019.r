@@ -32,7 +32,8 @@ ddata[, ":="(
 
    species = base::enc2utf8(specieslong$Species.name[match(species, specieslong$Abbreviation)]),
 
-   localyear = NULL
+   localyear = NULL,
+   value = NULL
 )]
 
 ## coordinates - loading and conversion
@@ -51,16 +52,24 @@ env[j = c("local", "year") := data.table::tstrsplit(
             no = paste0("20", year)),
          table = c("1940","1970","1990","2000","2010"))]
    ]
-sp::coordinates(env) <- ~ longitude + latitude
-sp::proj4string(env) <- sp::CRS(SRS_string = "EPSG:5048") # ETRS-TM35FIN
-env <- sp::spTransform(env, sp::CRS(SRS_string = "EPSG:4326"))
-env <- data.table::as.data.table(env)
+
+env <- sf::st_as_sf(x = env,
+             coords = c("longitude", "latitude"),
+             crs = "EPSG:5048") |>
+   sf::st_transform(crs = sf::st_crs("+proj=longlat +datum=WGS84"))
+
+data.table::setDT(env)
+env[j = ":="(
+   longitude = sf::st_coordinates(geometry)[, "X"],
+   latitude = sf::st_coordinates(geometry)[, "Y"],
+   geometry = NULL
+)]
 
 meta <- unique(ddata[, .(dataset_id, regional, local, year)])
 meta[i = env,
      j = ":="(
-        latitude = i.coords.x2,
-        longitude = i.coords.x1,
+        latitude = i.latitude,
+        longitude = i.longitude,
         alpha_grain = i.alpha_grain),
      on = .(local, year)]
 
